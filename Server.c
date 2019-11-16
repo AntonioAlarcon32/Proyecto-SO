@@ -23,6 +23,8 @@ typedef struct
 MYSQL *conn;
 ListaConectados ListaConect;							//Definimos las variables globales (Lista de conectados y la conexion SQL)
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;		// Estructura para la exclusion mutua
+int i;
+int sockets[10];
 
 void InicializarLista( ListaConectados *lista)			//Funcion para borrar la lista
 {
@@ -348,26 +350,29 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		if (codigo == 0)
 		{
 			conectado = 0;
+			pthread_mutex_lock(&mutex);
 			int error = EliminarUsuario(&ListaConect,mensaje);
+			pthread_mutex_unlock(&mutex);
 			printf("Un usuario se ha desconectado\n");
 		}
 		
 		if (codigo ==1) //Piden Registro
 		{
-			pthread_mutex_lock(&mutex);
 			int respuesta = Registro(mensaje,nick);
+			pthread_mutex_lock(&mutex);
 			int add = AddUsuario(&ListaConect,mensaje,sock_conn);
-			sprintf(salida,"%d",respuesta);
 			pthread_mutex_unlock(&mutex);
+			sprintf(salida,"1:%d",respuesta);
 			
 		}
 		if (codigo ==2) //Piden Acceso
 		{
-			pthread_mutex_lock(&mutex);
 			int respuesta = Acceso(mensaje,nick);
+			pthread_mutex_lock(&mutex);
 			int add = AddUsuario(&ListaConect,mensaje,sock_conn);
-			sprintf(salida,"%d",respuesta);
 			pthread_mutex_unlock(&mutex);
+			sprintf(salida,"2:%d",respuesta);
+
 		}
 		if (codigo ==3) //Consulta 1
 		{
@@ -376,11 +381,11 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			int salidafuncion = Consulta1(mensaje,maxturnos);
 			if (salidafuncion == 1)
 			{
-				strcpy(salida,"NoEncontrado");
+				sprintf(salida,"3:NoEncontrado");
 			}
 			if (salidafuncion == 0)
 			{
-				strcpy(salida,maxturnos);
+				sprintf(salida,"3:%s",maxturnos);
 			}
 		}
 		if (codigo == 4)
@@ -389,11 +394,11 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			int salidafuncion = Consulta2(mensaje,listapartida);
 			if (salidafuncion == 1)
 			{
-				strcpy(salida,"NoEncontrado");
+				sprintf(salida,"4:NoEncontrado");
 			}
 			if (salidafuncion == 0)
 			{
-				strcpy(salida,listapartida);
+				sprintf(salida,"4:%s",listapartida);
 			}
 		}
 		
@@ -403,22 +408,29 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			int salidafuncion = Consulta3(mensaje,numeropartidas);
 			if (salidafuncion == 1)
 			{
-				strcpy(salida,"NoEncontrado");
+				sprintf(salida,"5:NoEncontrado");
 			}
 			if (salidafuncion == 0)
 			{
-				strcpy(salida,numeropartidas);
+				sprintf(salida,"5:%s",numeropartidas);
 			}
-		}
-		if (codigo == 6)
-		{
-			char listaconexiones[200];
-			int respuesta = DarListaConectados(&ListaConect,listaconexiones);
-			strcpy(salida,listaconexiones);
 		}
 		if (codigo != 0)
 		{
 			write (sock_conn,salida, strlen(salida));
+		}
+		if ((codigo == 0) || (codigo == 1) || (codigo ==2))
+		{
+			int j;
+			char list[200];
+			int listAact = DarListaConectados(&ListaConect,list);
+			char notificacion[200];
+			sprintf(notificacion,"6:%s",list);
+			for (j=0; j<i;j++)
+			{
+				write (sockets[j],notificacion, strlen(notificacion));
+				printf("Notificacion enviada");
+			}
 		}
 	}
 	close(sock_conn);
@@ -427,12 +439,11 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConect);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9094);
-	int sock_conn, ret, i;
+	int sock_listen = ConexionSocket(9095);
+	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
 	pthread_t thread[10];
-	int sockets[10];
 	
 	for(i = 0;;i++){
 		printf ("Escuchando\n");

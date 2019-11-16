@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 
 
 namespace ProyectoSO2
@@ -16,14 +17,133 @@ namespace ProyectoSO2
     public partial class Inicio : Form
     {
         Socket server;
+        Thread Atender;
         string ip = "192.168.56.104";
-        int puerto = 9094;
+        int puerto = 9095;
         public Inicio()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
+        private void AtenderServidor()
+        {
+            while (true)
+            {
+                byte[] msg2 = new byte[80];
+                server.Receive(msg2);
+                string[] mensaje = Encoding.ASCII.GetString(msg2).Split(':');
+                int codigo = Convert.ToInt32(mensaje[0]);
+                string contenido = mensaje[1].Split('\0')[0];
+                switch (codigo)
+                {
+                    case 1:
+                        if (contenido == "0")
+                        {
+                            Mensaje.Enabled = true;
+                            Enviar.Enabled = true;
+                            Desconexion.Enabled = true;
+                            
+                            MessageBox.Show("Sesion Iniciada");
+                            InicioSesion.Enabled = false;
+                            RegistroBoton.Enabled = false;
+                            User.Enabled = false;
+                            Password.Enabled = false;
 
+                        }
+                        else
+                        {
+                            string mensaje2 = "0/" + User.Text;
+                            byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
+                            server.Send(msg3);
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                            MessageBox.Show("El nombre ya está registrado");
+                            Atender.Abort();
+                        }
+                        break;
+                    case 2:
+                        if (contenido == "0")
+                        {
+                            Mensaje.Enabled = true;
+                            Enviar.Enabled = true;
+                            Desconexion.Enabled = true;
+                            MessageBox.Show("Sesion Iniciada");
+                            InicioSesion.Enabled = false;
+                            RegistroBoton.Enabled = false;
+                            User.Enabled = false;
+                            Password.Enabled = false;
+                        }
+                        else
+                        {
+                            string mensaje2 = "0/" + User.Text;
+                            byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
+                            server.Send(msg3);
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                            MessageBox.Show("El nombre o la contraseña son incorrectos");
+                            Atender.Abort();
+                        }
+                        break;
+                    case 3:
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado el jugador");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Número de turnos:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 4:
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado la partida");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Jugadores:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 5:
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado la partida");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Número de turnos:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 6:
+                        string[] str = contenido.Split('/');
+                        int i = Convert.ToInt32(str[0]);
+                        string usuarios = str[1];
+                        string[] Users = usuarios.Split(',');
+                        dataGridView1.ColumnCount = 1;
+                        dataGridView1.RowCount = Users.Length;
+                        i = 0;
+                        foreach (string User in Users)
+                        {
+                            dataGridView1[0, i].Value = Users[i];
+                            i = i + 1;
+                        }
+                        break;
+                }
+            }
+        }
 
         private void Registro_Click(object sender, EventArgs e)
         {
@@ -45,32 +165,9 @@ namespace ProyectoSO2
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                if (mensaje == "0")
-                {
-                    Mensaje.Enabled = true;
-                    Enviar.Enabled = true;
-                    Desconexion.Enabled = true;
-                    ListaConectados.Enabled = true;
-                    MessageBox.Show("Sesion Iniciada");
-                    InicioSesion.Enabled = false;
-                    RegistroBoton.Enabled = false;
-                    User.Enabled = false;
-                    Password.Enabled = false;
-                    
-                }
-                else
-                {
-                    string mensaje2 = "0/" + User.Text;
-                    byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
-                    server.Send(msg3);
-                    server.Shutdown(SocketShutdown.Both);
-                    server.Close();
-                    MessageBox.Show("El nombre ya está registrado");
-                }
+                ThreadStart ts = delegate { AtenderServidor(); };
+                Atender = new Thread(ts);
+                Atender.Start();
 
             }
         }
@@ -95,32 +192,9 @@ namespace ProyectoSO2
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                if (mensaje == "0")
-                {
-                    Mensaje.Enabled = true;
-                    Enviar.Enabled = true;
-                    Desconexion.Enabled = true;
-                    ListaConectados.Enabled = true;
-                    MessageBox.Show("Sesion Iniciada");
-                    InicioSesion.Enabled = false;
-                    RegistroBoton.Enabled = false;
-                    User.Enabled = false;
-                    Password.Enabled = false;
-                }
-                else
-                {
-                    string mensaje2 = "0/" + User.Text;
-                    byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
-                    server.Send(msg3);
-                    server.Shutdown(SocketShutdown.Both);
-                    server.Close();
-                    MessageBox.Show("El nombre o la contraseña son incorrectos");
-                }
+                ThreadStart ts = delegate { AtenderServidor(); };
+                Atender = new Thread(ts);
+                Atender.Start();
             }
         }
 
@@ -142,25 +216,6 @@ namespace ProyectoSO2
                         // Enviamos al servidor el nombre tecleado
                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                         server.Send(msg);
-
-                        //Recibimos la respuesta del servidor
-                        byte[] msg2 = new byte[80];
-                        server.Receive(msg2);
-                        mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                        if (mensaje == "NoEncontrado")
-                        {
-                            MessageBox.Show("No se ha encontrado el jugador");
-                        }
-                        else if (mensaje != "")
-                        {
-                            MessageBox.Show("Número de turnos:" + mensaje);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error");
-                        }
-                        
                     }
 
                     if (Consulta2.Checked)
@@ -172,56 +227,25 @@ namespace ProyectoSO2
 
                         else
                         {
-
-
                             string mensaje = "4/" + Mensaje.Text;
-
                             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                             server.Send(msg);
-
-                            //Recibimos la respuesta del servidor
-                            byte[] msg2 = new byte[80];
-                            server.Receive(msg2);
-                            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                            if (mensaje == "NoEncontrado")
-                            {
-                                MessageBox.Show("No se ha encontrado la partida");
-                            }
-                            else if (mensaje != "")
-                            {
-                                MessageBox.Show("Jugadores:" + mensaje);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error");
-                            }
                         }
                     }
 
                     if (Consulta3.Checked)
                     {
-                        string mensaje = "5/" + Mensaje.Text;
-                        // Enviamos al servidor el nombre tecleado
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                        server.Send(msg);
-
-                        //Recibimos la respuesta del servidor
-                        byte[] msg2 = new byte[80];
-                        server.Receive(msg2);
-                        mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                        if (mensaje == "NoEncontrado")
+                        if (Mensaje.Text == "")
                         {
-                            MessageBox.Show("No se ha encontrado la partida");
+                            MessageBox.Show("No hay datos introducidos");
                         }
-                        else if (mensaje != "")
-                        {
-                            MessageBox.Show("Número de turnos:" + mensaje);
-                        }
+
                         else
                         {
-                            MessageBox.Show("Error");
+                            string mensaje = "5/" + Mensaje.Text;
+                            // Enviamos al servidor el nombre tecleado
+                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                            server.Send(msg);
                         }
                     }
                 }
@@ -230,6 +254,7 @@ namespace ProyectoSO2
 
         private void Desconexion_Click(object sender, EventArgs e)
         {
+            Atender.Abort();
             string mensaje = "0/" + User.Text;
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -239,28 +264,15 @@ namespace ProyectoSO2
             Mensaje.Enabled = false;
             Enviar.Enabled = false;
             Desconexion.Enabled = false;
-            ListaConectados.Enabled = false;
             MessageBox.Show("Te has desconectado");
             InicioSesion.Enabled = true;
             RegistroBoton.Enabled = true;
             User.Enabled = true;
             Password.Enabled = true;
-        }
+            dataGridView1.DataSource = null;
+            dataGridView1.Refresh();
 
-        private void ListaConectados_Click(object sender, EventArgs e)
-        {
-            string mensaje = "6/" + User.Text;
-            // Enviamos al servidor el nombre tecleado
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
 
-            //Recibimos la respuesta del servidor
-            byte[] msg2 = new byte[80];
-            server.Receive(msg2);
-            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-            ListaConectados FormConectados = new ListaConectados();
-            FormConectados.GetStringConectados(mensaje);
-            FormConectados.Show();
         }
     }
 }

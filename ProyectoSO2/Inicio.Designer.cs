@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.User = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,7 +42,8 @@
             this.Desconexion = new System.Windows.Forms.Button();
             this.Mensaje = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.ListaConectados = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // User
@@ -168,23 +170,26 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Mensaje al Servidor";
             // 
-            // ListaConectados
+            // dataGridView1
             // 
-            this.ListaConectados.Enabled = false;
-            this.ListaConectados.Location = new System.Drawing.Point(657, 471);
-            this.ListaConectados.Name = "ListaConectados";
-            this.ListaConectados.Size = new System.Drawing.Size(235, 62);
-            this.ListaConectados.TabIndex = 13;
-            this.ListaConectados.Text = "Lista Conectados";
-            this.ListaConectados.UseVisualStyleBackColor = true;
-            this.ListaConectados.Click += new System.EventHandler(this.ListaConectados_Click);
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(974, 35);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 82;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1.RowTemplate.Height = 33;
+            this.dataGridView1.Size = new System.Drawing.Size(298, 450);
+            this.dataGridView1.TabIndex = 14;
             // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 561);
-            this.Controls.Add(this.ListaConectados);
+            this.ClientSize = new System.Drawing.Size(1349, 526);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Mensaje);
             this.Controls.Add(this.Desconexion);
@@ -200,6 +205,7 @@
             this.Controls.Add(this.User);
             this.Name = "Inicio";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,7 +226,7 @@
         private System.Windows.Forms.Button Desconexion;
         private System.Windows.Forms.TextBox Mensaje;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button ListaConectados;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

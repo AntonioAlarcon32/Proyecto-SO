@@ -25,7 +25,6 @@ C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Properties.
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.GenerateResource.cache
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.exe
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.pdb
-C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.ListaConectados.resources
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\bin\Debug\ProyectoSO2.exe.config
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\bin\Debug\ProyectoSO2.exe
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\bin\Debug\ProyectoSO2.pdb
