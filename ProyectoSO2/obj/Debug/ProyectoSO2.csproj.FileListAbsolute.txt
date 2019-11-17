@@ -35,3 +35,12 @@ C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\obj\Debug\ProyectoSO2.Propert
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.GenerateResource.cache
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\obj\Debug\ProyectoSO2.exe
 C:\Users\anton\Desktop\ProyectoSO2 (4)\ProyectoSO2\obj\Debug\ProyectoSO2.pdb
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\bin\Debug\ProyectoSO2.exe.config
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\bin\Debug\ProyectoSO2.exe
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\bin\Debug\ProyectoSO2.pdb
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.csprojAssemblyReference.cache
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.Inicio.resources
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.Properties.Resources.resources
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.GenerateResource.cache
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.exe
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.pdb

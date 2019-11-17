@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
+#include <my_global.h>
 
 typedef struct
 {
@@ -125,7 +126,7 @@ MYSQL *ConexionBaseDatos() 			//Funcion para abrir la conexion de la base de dat
 				mysql_errno(conn), mysql_error(conn));
 		exit (1);
 	}
-	conn = mysql_real_connect (conn, "localhost","root", "mysql", "BaseDatos",0, NULL, 0);
+	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "TG3Pokemon",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n", 
 				mysql_errno(conn), mysql_error(conn));
@@ -439,7 +440,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConect);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9095);
+	int sock_listen = ConexionSocket(50057);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];

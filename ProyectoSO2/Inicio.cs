@@ -18,8 +18,8 @@ namespace ProyectoSO2
     {
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.104";
-        int puerto = 9095;
+        string ip = "147.83.117.22";
+        int puerto = 50057;
         public Inicio()
         {
             InitializeComponent();
