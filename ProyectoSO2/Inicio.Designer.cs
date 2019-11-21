@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.User = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,6 +43,10 @@
             this.Mensaje = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Invite = new System.Windows.Forms.Button();
+            this.Invitacion = new System.Windows.Forms.Label();
+            this.AceptarInvitacion = new System.Windows.Forms.Button();
+            this.RechazarInvitacion = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,7 +105,7 @@
             // Enviar
             // 
             this.Enviar.Enabled = false;
-            this.Enviar.Location = new System.Drawing.Point(657, 299);
+            this.Enviar.Location = new System.Drawing.Point(700, 299);
             this.Enviar.Name = "Enviar";
             this.Enviar.Size = new System.Drawing.Size(235, 59);
             this.Enviar.TabIndex = 6;
@@ -145,7 +149,7 @@
             // Desconexion
             // 
             this.Desconexion.Enabled = false;
-            this.Desconexion.Location = new System.Drawing.Point(657, 383);
+            this.Desconexion.Location = new System.Drawing.Point(700, 383);
             this.Desconexion.Name = "Desconexion";
             this.Desconexion.Size = new System.Drawing.Size(235, 62);
             this.Desconexion.TabIndex = 10;
@@ -156,7 +160,7 @@
             // Mensaje
             // 
             this.Mensaje.Enabled = false;
-            this.Mensaje.Location = new System.Drawing.Point(412, 353);
+            this.Mensaje.Location = new System.Drawing.Point(455, 353);
             this.Mensaje.Name = "Mensaje";
             this.Mensaje.Size = new System.Drawing.Size(176, 31);
             this.Mensaje.TabIndex = 11;
@@ -164,7 +168,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(407, 316);
+            this.label3.Location = new System.Drawing.Point(450, 316);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(203, 25);
             this.label3.TabIndex = 12;
@@ -178,17 +182,63 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 82;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.Height = 33;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(298, 450);
             this.dataGridView1.TabIndex = 14;
+            // 
+            // Invite
+            // 
+            this.Invite.Location = new System.Drawing.Point(1003, 526);
+            this.Invite.Name = "Invite";
+            this.Invite.Size = new System.Drawing.Size(235, 62);
+            this.Invite.TabIndex = 15;
+            this.Invite.Text = "Invitar a Partida";
+            this.Invite.UseVisualStyleBackColor = true;
+            this.Invite.Click += new System.EventHandler(this.Invite_Click);
+            // 
+            // Invitacion
+            // 
+            this.Invitacion.AutoSize = true;
+            this.Invitacion.Location = new System.Drawing.Point(103, 563);
+            this.Invitacion.Name = "Invitacion";
+            this.Invitacion.Size = new System.Drawing.Size(335, 25);
+            this.Invitacion.TabIndex = 16;
+            this.Invitacion.Text = "No tienes invitaciones pendientes";
+            // 
+            // AceptarInvitacion
+            // 
+            this.AceptarInvitacion.Enabled = false;
+            this.AceptarInvitacion.Location = new System.Drawing.Point(108, 610);
+            this.AceptarInvitacion.Name = "AceptarInvitacion";
+            this.AceptarInvitacion.Size = new System.Drawing.Size(160, 59);
+            this.AceptarInvitacion.TabIndex = 17;
+            this.AceptarInvitacion.Text = "Aceptar";
+            this.AceptarInvitacion.UseVisualStyleBackColor = true;
+            this.AceptarInvitacion.Click += new System.EventHandler(this.AceptarInvitacion_Click);
+            // 
+            // RechazarInvitacion
+            // 
+            this.RechazarInvitacion.Enabled = false;
+            this.RechazarInvitacion.Location = new System.Drawing.Point(278, 610);
+            this.RechazarInvitacion.Name = "RechazarInvitacion";
+            this.RechazarInvitacion.Size = new System.Drawing.Size(160, 59);
+            this.RechazarInvitacion.TabIndex = 18;
+            this.RechazarInvitacion.Text = "Rechazar";
+            this.RechazarInvitacion.UseVisualStyleBackColor = true;
+            this.RechazarInvitacion.Click += new System.EventHandler(this.RechazarInvitacion_Click);
             // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1349, 526);
+            this.ClientSize = new System.Drawing.Size(1349, 820);
+            this.Controls.Add(this.RechazarInvitacion);
+            this.Controls.Add(this.AceptarInvitacion);
+            this.Controls.Add(this.Invitacion);
+            this.Controls.Add(this.Invite);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Mensaje);
@@ -227,6 +277,10 @@
         private System.Windows.Forms.TextBox Mensaje;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button Invite;
+        private System.Windows.Forms.Label Invitacion;
+        private System.Windows.Forms.Button AceptarInvitacion;
+        private System.Windows.Forms.Button RechazarInvitacion;
     }
 }
 

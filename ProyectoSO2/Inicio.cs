@@ -18,12 +18,17 @@ namespace ProyectoSO2
     {
         Socket server;
         Thread Atender;
-        string ip = "147.83.117.22";
-        int puerto = 50057;
+        string ip = "192.168.56.105";
+        int puerto = 9069;
+        List<string> Aceptados = new List<string>();
+        List<string> Respuestas = new List<string>();
+        int Invitaciones;
+        string UsuarioInvita;
         public Inicio()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+            
         }
 
         private void AtenderServidor()
@@ -141,6 +146,42 @@ namespace ProyectoSO2
                             {
                                 dataGridView1[0, i].Value = Users[i];
                                 i = i + 1;
+                            }
+                            break;
+                        case 7:
+                            Invitacion.Text = contenido + " te ha invitado a jugar";
+                            UsuarioInvita = contenido;
+                            AceptarInvitacion.Enabled = true;
+                            RechazarInvitacion.Enabled = true;
+                            break;
+                        case 8:
+                            Aceptados.Add(contenido);
+                            Respuestas.Add(contenido);
+                            MessageBox.Show(contenido + " ha aceptado la partida");
+                            if (Invitaciones == Aceptados.Count)
+                            {
+                                MessageBox.Show("Todos los jugadores han aceptado la partida");
+                            }
+                            else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
+                            {
+                                MessageBox.Show("Algun jugador ha rechazado la partida");
+                                Invite.Enabled = true;
+                                Invitaciones = 0;
+                                Respuestas.Clear();
+                                Aceptados.Clear();
+
+                            }
+                            break;
+                        case 9:
+                            MessageBox.Show(contenido + " ha rechazado la partida");
+                            Respuestas.Add(contenido);
+                            if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
+                            {
+                                MessageBox.Show("Algun jugador ha rechazado la partida");
+                                Invite.Enabled = true;
+                                Invitaciones = 0;
+                                Respuestas.Clear();
+                                Aceptados.Clear();
                             }
                             break;
                     }
@@ -296,18 +337,68 @@ namespace ProyectoSO2
                 Enviar.Enabled = false;
                 Desconexion.Enabled = false;
                 MessageBox.Show("Te has desconectado");
-                InicioSesion.Enabled = true;
-                RegistroBoton.Enabled = true;
-                User.Enabled = true;
-                Password.Enabled = true;
-                dataGridView1.DataSource = null;
-                dataGridView1.Refresh();
+                this.Close();
             }
 
             catch (SocketException)
             {
                 MessageBox.Show("Error de conexión con el servidor");
             }
+        }
+
+        private void Invite_Click(object sender, EventArgs e)
+        {
+            string UsuariosInvitados = "";
+            bool PermitirInvitacion = true;
+            int Seleccionados = dataGridView1.SelectedRows.Count;
+            int i = 0;
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (Convert.ToString(row.Cells[0].Value) == User.Text)
+                {
+                    MessageBox.Show("No puedes invitarte a ti mismo");
+                    PermitirInvitacion = false;
+                    break;
+                }
+                else if (Seleccionados-1 != i )
+                {
+                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value+",";
+                }
+                else
+                {
+                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value;
+                }
+                i = i + 1;
+            }
+            if (PermitirInvitacion == true)
+            {
+                string mensaje ="6/" + Convert.ToString(i+1) + ":" + User.Text +","+ UsuariosInvitados;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+                Invitaciones = i;
+                Invite.Enabled = false;
+            }
+            
+        }
+
+        private void AceptarInvitacion_Click(object sender, EventArgs e)
+        {
+            string mensaje = "7/" + UsuarioInvita + "," + User.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            AceptarInvitacion.Enabled = false;
+            RechazarInvitacion.Enabled = false;
+            Invite.Enabled = false;
+        }
+
+        private void RechazarInvitacion_Click(object sender, EventArgs e)
+        {
+            string mensaje = "8/" + UsuarioInvita + "," + User.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            AceptarInvitacion.Enabled = false;
+            RechazarInvitacion.Enabled = false;
+            Invite.Enabled = true;
         }
     }
 }
