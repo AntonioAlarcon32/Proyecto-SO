@@ -47,6 +47,7 @@
             this.Invitacion = new System.Windows.Forms.Label();
             this.AceptarInvitacion = new System.Windows.Forms.Button();
             this.RechazarInvitacion = new System.Windows.Forms.Button();
+            this.Cerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -230,11 +231,22 @@
             this.RechazarInvitacion.UseVisualStyleBackColor = true;
             this.RechazarInvitacion.Click += new System.EventHandler(this.RechazarInvitacion_Click);
             // 
+            // Cerrar
+            // 
+            this.Cerrar.Location = new System.Drawing.Point(700, 682);
+            this.Cerrar.Name = "Cerrar";
+            this.Cerrar.Size = new System.Drawing.Size(235, 62);
+            this.Cerrar.TabIndex = 19;
+            this.Cerrar.Text = "Cerrar";
+            this.Cerrar.UseVisualStyleBackColor = true;
+            this.Cerrar.Click += new System.EventHandler(this.Cerrar_Click);
+            // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1349, 820);
+            this.Controls.Add(this.Cerrar);
             this.Controls.Add(this.RechazarInvitacion);
             this.Controls.Add(this.AceptarInvitacion);
             this.Controls.Add(this.Invitacion);
@@ -281,6 +293,7 @@
         private System.Windows.Forms.Label Invitacion;
         private System.Windows.Forms.Button AceptarInvitacion;
         private System.Windows.Forms.Button RechazarInvitacion;
+        private System.Windows.Forms.Button Cerrar;
     }
 }
 

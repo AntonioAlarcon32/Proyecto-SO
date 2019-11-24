@@ -18,14 +18,15 @@ namespace ProyectoSO2
     {
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.102";
-        int puerto = 9072;
+        string ip = "192.168.56.106";
+        int puerto = 9077;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
         string UsuarioInvita;
         public Inicio()
         {
+            this.ControlBox = false;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             
@@ -33,15 +34,24 @@ namespace ProyectoSO2
 
         private void AtenderServidor()
         {
-            try
-            {
                 while (true)
                 {
                     byte[] msg2 = new byte[80];
+                try
+                {
                     server.Receive(msg2);
+                }
+                catch(SocketException ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+
                     string[] mensaje = Encoding.ASCII.GetString(msg2).Split(':');
+                try
+                {
                     int codigo = Convert.ToInt32(mensaje[0]);
                     string contenido = mensaje[1].Split('\0')[0];
+                
                     switch (codigo)
                     {
                         case 1:
@@ -123,7 +133,7 @@ namespace ProyectoSO2
                         case 5:
                             if (contenido == "NoEncontrado")
                             {
-                                MessageBox.Show("No se ha encontrado la partida");
+                                MessageBox.Show("No se ha encontrado el jugador");
                             }
                             else if (contenido != "")
                             {
@@ -190,11 +200,12 @@ namespace ProyectoSO2
                             break;
                     }
                 }
-            }
-
-            catch (SocketException)
-            {
-                MessageBox.Show("Error de conexión con el servidor");
+                catch (Exception)
+                {
+                    MessageBox.Show("Se ha perdido la conexion con el servidor");
+                    Application.Exit();
+                    break;
+                }
             }
         }
 
@@ -209,14 +220,12 @@ namespace ProyectoSO2
             {
                 try
                 {
-                    //al que deseamos conectarnos
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    server.Connect(ipep);//Intentamos conectar el socket
+                    server.Connect(ipep);
 
                     string mensaje = "1/" + User.Text + "," + Password.Text;
-                    // Enviamos al servidor el nombre tecleado
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
@@ -224,10 +233,9 @@ namespace ProyectoSO2
                     Atender = new Thread(ts);
                     Atender.Start();
                 }
-
-                catch (SocketException)
+                catch(SocketException)
                 {
-                    MessageBox.Show("Error de conexión con el servidor");
+                    MessageBox.Show("Error al conectar con el servidor");
                 }
             }
         }
@@ -246,21 +254,20 @@ namespace ProyectoSO2
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    server.Connect(ipep);//Intentamos conectar el socket
+                    server.Connect(ipep);
 
                     string mensaje = "2/" + User.Text + "," + Password.Text;
-                    // Enviamos al servidor el nombre tecleado
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
                     ThreadStart ts = delegate { AtenderServidor(); };
                     Atender = new Thread(ts);
                     Atender.Start();
+                    Cerrar.Enabled = false;
                 }
-
                 catch (SocketException)
                 {
-                    MessageBox.Show("Error de conexión con el servidor");
+                    MessageBox.Show("Error al conectar con el servidor");
                 }
             }
         }
@@ -282,7 +289,6 @@ namespace ProyectoSO2
                         if (Consulta1.Checked)
                         {
                             string mensaje = "3/" + Mensaje.Text;
-                            // Enviamos al servidor el nombre tecleado
                             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                             server.Send(msg);
                         }
@@ -312,15 +318,14 @@ namespace ProyectoSO2
                             else
                             {
                                 string mensaje = "5/" + Mensaje.Text;
-                                // Enviamos al servidor el nombre tecleado
                                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                                 server.Send(msg);
                             }
                         }
                     }
-                    catch (SocketException)
+                    catch(SocketException)
                     {
-                        MessageBox.Show("Error de conexión con el servidor");
+                        MessageBox.Show("Error al conectar con el servidor");
                     }
                 }
             }
@@ -328,11 +333,8 @@ namespace ProyectoSO2
 
         private void Desconexion_Click(object sender, EventArgs e)
         {
-            try
-            {
                 Atender.Abort();
                 string mensaje = "0/" + User.Text;
-                // Enviamos al servidor el nombre tecleado
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 server.Shutdown(SocketShutdown.Both);
@@ -341,13 +343,9 @@ namespace ProyectoSO2
                 Enviar.Enabled = false;
                 Desconexion.Enabled = false;
                 MessageBox.Show("Te has desconectado");
-                this.Close();
-            }
-
-            catch (SocketException)
-            {
-                MessageBox.Show("Error de conexión con el servidor");
-            }
+                Cerrar.Enabled = true;
+                dataGridView1.Rows.Clear();
+                dataGridView1.Refresh();
         }
 
         private void Invite_Click(object sender, EventArgs e)
@@ -416,6 +414,11 @@ namespace ProyectoSO2
             string mensaje = "9/" +  Usuarios + User.Text + ',';
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+        }
+
+        private void Cerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

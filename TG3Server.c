@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-#include <myglobal.h>
+#include <my_global.h>
 
 typedef struct
 {

@@ -301,7 +301,7 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	char consulta[216];
-	sprintf(consulta,"SELECT COUNT((Relacion.idPartida)) FROM Players,Partidas,Relacion WHERE Players.id = Relacion.idJugador AND Relacion.PokemonsRestantes = 3 AND Relacion.idPartida = Partidas.id AND Players.nombre ='%s'",mensaje);
+	sprintf(consulta,"SELECT (Relacion.idPartida) FROM Players,Partidas,Relacion WHERE Players.id = Relacion.idJugador AND Relacion.PokemonsRestantes = 3 AND Relacion.idPartida = Partidas.id AND Players.nombre ='%s'",mensaje);
 	err=mysql_query (conn,consulta);
 	if (err!=0) {
 		printf ("Error al consultar datos de la base %u %s\n",
@@ -309,15 +309,20 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 	}
 	resultado = mysql_store_result (conn);
 	row = mysql_fetch_row (resultado);
-	
-	if (row[0] == NULL)
+	if (row == NULL)
 	{
 		printf ("No se han obtenido datos en la consulta\n");
 		return 1;
 	}
 	else
 	{
-		strcpy(numeropartidas,row[0]);
+		i = 1;
+		row = mysql_fetch_row (resultado);
+		while (row !=NULL) 
+		{
+			i = i + 1;
+		}
+		sprintf(numeropartidas,"%d",i);
 		return 0;
 	}
 }
@@ -514,7 +519,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConect);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9072);
+	int sock_listen = ConexionSocket(9077);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
