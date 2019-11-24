@@ -18,8 +18,8 @@ namespace ProyectoSO2
     {
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.105";
-        int puerto = 9069;
+        string ip = "192.168.56.102";
+        int puerto = 9072;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -161,6 +161,7 @@ namespace ProyectoSO2
                             if (Invitaciones == Aceptados.Count)
                             {
                                 MessageBox.Show("Todos los jugadores han aceptado la partida");
+                                Empezar_Partida();
                             }
                             else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
                             {
@@ -183,6 +184,9 @@ namespace ProyectoSO2
                                 Respuestas.Clear();
                                 Aceptados.Clear();
                             }
+                            break;
+                        case 10:
+                            MessageBox.Show("Iniciando partida");                          
                             break;
                     }
                 }
@@ -399,6 +403,19 @@ namespace ProyectoSO2
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             Invite.Enabled = true;
+        }
+        private void Empezar_Partida()
+        {
+            string Usuarios="";
+            int i = 0;
+            foreach (string usuario in Aceptados)
+            {
+                Usuarios = Usuarios + usuario + ",";
+                i = i + 1;
+            }
+            string mensaje = "9/" +  Usuarios + User.Text + ',';
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
         }
     }
 }

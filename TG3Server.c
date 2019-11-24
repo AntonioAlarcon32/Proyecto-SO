@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-#include <my_global.h>
+#include <myglobal.h>
 
 typedef struct
 {
@@ -325,6 +325,44 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 
 
 
+void EnviarInvitacion(ListaConectados *lista,char invitacion[200])
+{
+	char *p = strtok(invitacion, ":");
+	int NumeroJugadores =  atoi (p);
+	p = strtok( NULL, ":");
+	char invitados[100];
+	char UsuarioInvita[20];
+	strcpy(invitados,p);
+	p = strtok(invitados, ",");
+	strcpy(UsuarioInvita,p);
+	p = strtok(NULL, ",");
+	
+	while (p != NULL)
+	{
+		char UsuarioInvitado[20];
+		strcpy(UsuarioInvitado,p);
+		int SocketInvitacion = SocketJugador(lista,UsuarioInvitado);
+		p = strtok(NULL, ",");
+		char notificacion[200];
+		sprintf(notificacion,"7:%s",UsuarioInvita);
+		write (SocketInvitacion,notificacion, strlen(notificacion));
+	}
+}
+void EmpezarPartida(ListaConectados *lista,char invitacion[200])
+{
+	char Jugador[20];
+	char *p = strtok(invitacion, ",");
+	
+	while (p != NULL)
+	{
+		strcpy(Jugador,p);
+		int SocketPartida = SocketJugador(lista,Jugador);
+		p = strtok(NULL, ",");
+		char notificacion[200];
+		sprintf(notificacion,"10:%s",Jugador);
+		write (SocketPartida,notificacion, strlen(notificacion));
+	}
+}
 void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (codigo principal)
 {
 	int sock_conn = * (int *) socket;
@@ -416,7 +454,45 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 				sprintf(salida,"5:%s",numeropartidas);
 			}
 		}
-		if (codigo != 0)
+		
+		if (codigo == 6) //Codigo invitacion a jugar
+		{
+			EnviarInvitacion(&ListaConect,mensaje);
+		}
+		if (codigo == 7) //Invitacion Aceptada
+		{
+			char UsuarioRespondido[20];
+			char UsuarioAcepta[20];
+			char *p = strtok(mensaje, ",");
+			strcpy(UsuarioRespondido,p);
+			p = strtok(NULL, ",");
+			strcpy(UsuarioAcepta,p);
+			int socketAEnviar = SocketJugador(&ListaConect,UsuarioRespondido);
+			char respuesta[30];
+			sprintf(respuesta,"8:%s",UsuarioAcepta);
+			write (socketAEnviar,respuesta, strlen(respuesta));
+		}
+		
+		if (codigo == 8) //Invitacion Rechazada
+		{
+			char UsuarioRespondido[20];
+			char UsuarioRechaza[20];
+			char *p = strtok(mensaje, ",");
+			strcpy(UsuarioRespondido,p);
+			p = strtok(NULL, ",");
+			strcpy(UsuarioRechaza,p);
+			int socketAEnviar = SocketJugador(&ListaConect,UsuarioRespondido);
+			char respuesta[30];
+			sprintf(respuesta,"9:%s",UsuarioRechaza);
+			write (socketAEnviar,respuesta, strlen(respuesta));
+		}
+		
+		if (codigo == 9) //Empezar Partida
+		{
+			EmpezarPartida(&ListaConect,mensaje);
+		}
+		
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -430,7 +506,6 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			for (j=0; j<i;j++)
 			{
 				write (sockets[j],notificacion, strlen(notificacion));
-				printf("Notificacion enviada");
 			}
 		}
 	}

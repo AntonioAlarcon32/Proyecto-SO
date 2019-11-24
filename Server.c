@@ -347,6 +347,21 @@ void EnviarInvitacion(ListaConectados *lista,char invitacion[200])
 		write (SocketInvitacion,notificacion, strlen(notificacion));
 	}
 }
+void EmpezarPartida(ListaConectados *lista,char invitacion[200])
+{
+	char Jugador[20];
+	char *p = strtok(invitacion, ",");
+	
+	while (p != NULL)
+	{
+		strcpy(Jugador,p);
+		int SocketPartida = SocketJugador(lista,Jugador);
+		p = strtok(NULL, ",");
+		char notificacion[200];
+		sprintf(notificacion,"10:%s",Jugador);
+		write (SocketPartida,notificacion, strlen(notificacion));
+	}
+}
 void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (codigo principal)
 {
 	int sock_conn = * (int *) socket;
@@ -471,7 +486,12 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			write (socketAEnviar,respuesta, strlen(respuesta));
 		}
 		
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8))
+		if (codigo == 9) //Empezar Partida
+		{
+			EmpezarPartida(&ListaConect,mensaje);
+		}
+		
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -494,7 +514,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConect);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9069);
+	int sock_listen = ConexionSocket(9072);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
