@@ -16,10 +16,11 @@ namespace ProyectoSO2
 {
     public partial class Inicio : Form
     {
+        
         Socket server;
         Thread Atender;
-        string ip = "147.83.117.22";
-        int puerto = 50057;
+        string ip = "192.168.56.107";
+        int puerto = 9060;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -29,7 +30,8 @@ namespace ProyectoSO2
             this.ControlBox = false;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            
+            Invite.Enabled = false;
+
         }
 
         private void AtenderServidor()
@@ -60,6 +62,8 @@ namespace ProyectoSO2
                                 Mensaje.Enabled = true;
                                 Enviar.Enabled = true;
                                 Desconexion.Enabled = true;
+                                Invite.Enabled = true;
+
 
                                 MessageBox.Show("Sesion Iniciada");
                                 InicioSesion.Enabled = false;
@@ -90,6 +94,7 @@ namespace ProyectoSO2
                                 RegistroBoton.Enabled = false;
                                 User.Enabled = false;
                                 Password.Enabled = false;
+                                Invite.Enabled = true;
                             }
                             else
                             {
@@ -98,11 +103,14 @@ namespace ProyectoSO2
                                 server.Send(msg3);
                                 server.Shutdown(SocketShutdown.Both);
                                 server.Close();
-                                MessageBox.Show("El nombre o la contraseña son incorrectos");
+                                MessageBox.Show("El nombre y/o la contraseña son incorrectos. También compruebe que no ha iniciado sesión anteriormente.");
+                                Cerrar.Enabled = true;
+                                Invite.Enabled = false;
                                 Atender.Abort();
                             }
                             break;
                         case 3:
+
                             if (contenido == "NoEncontrado")
                             {
                                 MessageBox.Show("No se ha encontrado el jugador");
@@ -159,12 +167,14 @@ namespace ProyectoSO2
                             }
                             break;
                         case 7:
+                            Invite.Enabled = true;
                             Invitacion.Text = contenido + " te ha invitado a jugar";
                             UsuarioInvita = contenido;
                             AceptarInvitacion.Enabled = true;
                             RechazarInvitacion.Enabled = true;
                             break;
                         case 8:
+                            Invite.Enabled = true;
                             Aceptados.Add(contenido);
                             Respuestas.Add(contenido);
                             MessageBox.Show(contenido + " ha aceptado la partida");
@@ -184,6 +194,7 @@ namespace ProyectoSO2
                             }
                             break;
                         case 9:
+                            Invite.Enabled = true;
                             MessageBox.Show(contenido + " ha rechazado la partida");
                             Respuestas.Add(contenido);
                             if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
@@ -203,7 +214,6 @@ namespace ProyectoSO2
                 catch (Exception)
                 {
                     MessageBox.Show("Se ha perdido la conexion con el servidor");
-                    Application.Exit();
                     break;
                 }
             }
@@ -220,6 +230,7 @@ namespace ProyectoSO2
             {
                 try
                 {
+                    Invite.Enabled = true;
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -251,6 +262,7 @@ namespace ProyectoSO2
             {
                 try
                 {
+
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -267,7 +279,7 @@ namespace ProyectoSO2
                 }
                 catch (SocketException)
                 {
-                    MessageBox.Show("Error al conectar con el servidor");
+                    MessageBox.Show("Error al conectar con el servidor.");
                 }
             }
         }
@@ -346,6 +358,11 @@ namespace ProyectoSO2
                 Cerrar.Enabled = true;
                 dataGridView1.Rows.Clear();
                 dataGridView1.Refresh();
+                InicioSesion.Enabled = true;
+                RegistroBoton.Enabled = true;
+                User.Enabled = true;
+                Password.Enabled = true;
+                Invite.Enabled = false;
         }
 
         private void Invite_Click(object sender, EventArgs e)
@@ -419,6 +436,7 @@ namespace ProyectoSO2
         private void Cerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+            Application.Exit();
         }
     }
 }
