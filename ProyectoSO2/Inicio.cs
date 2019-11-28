@@ -20,20 +20,23 @@ namespace ProyectoSO2
         Socket server;
         Thread Atender;
         string ip = "192.168.56.107";
-        int puerto = 9062;
+        int puerto = 9068;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
         string UsuarioInvita;
+        int IDChat;
         public Inicio()
         {
             InitializeComponent();
+            Chat.ColumnCount = 1;
         }
 
         delegate void DelegadoInvitacionRecibida(string mensaje);
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
+        delegate void EscribirChat(string MensajeChat);
 
         private void Empezar_Partida()
         {
@@ -44,7 +47,7 @@ namespace ProyectoSO2
                 Usuarios = Usuarios + usuario + ",";
                 i = i + 1;
             }
-            string mensaje = "9/" + Usuarios + User.Text + ',';
+            string mensaje = "9/" + User.Text +","+ Usuarios;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
         }
@@ -87,6 +90,11 @@ namespace ProyectoSO2
         public void DelegarInvitacionRechazada()
         {
             Invite.Enabled = true;
+        }
+
+        public void RellenarChat(string Mensaje)
+        {
+            Chat.Rows.Add(Mensaje);
         }
 
         private void AtenderServidor()
@@ -235,10 +243,14 @@ namespace ProyectoSO2
                         }
                         break;
                     case 10:
-                        MessageBox.Show("Iniciando partida");
+                        IDChat = Convert.ToInt32(contenido);
+                        MessageBox.Show("Iniciando partida " +IDChat);
+                        break;
+                    case 11:
+                        EscribirChat WriteChat = new EscribirChat(RellenarChat);
+                        Chat.Invoke(WriteChat, new object[] { contenido });
                         break;
                 }
-
             }
         }
 
@@ -450,6 +462,13 @@ namespace ProyectoSO2
         {
             this.Close();
             Application.Exit();
+        }
+
+        private void EnviarChat_Click(object sender, EventArgs e)
+        {
+            string mensaje = "10/" + Convert.ToString(IDChat) + "," + User.Text + ";" + MensajeChat.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
         }
     }
 }

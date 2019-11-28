@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.User = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,8 +49,11 @@
             this.AceptarInvitacion = new System.Windows.Forms.Button();
             this.RechazarInvitacion = new System.Windows.Forms.Button();
             this.Cerrar = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Chat = new System.Windows.Forms.DataGridView();
+            this.MensajeChat = new System.Windows.Forms.TextBox();
+            this.EnviarChat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Chat)).BeginInit();
             this.SuspendLayout();
             // 
             // User
@@ -243,23 +247,47 @@
             this.Cerrar.UseVisualStyleBackColor = true;
             this.Cerrar.Click += new System.EventHandler(this.Cerrar_Click);
             // 
-            // button1
+            // Chat
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(600, 584);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(235, 62);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Chat.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.Chat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Chat.Location = new System.Drawing.Point(1338, 12);
+            this.Chat.Name = "Chat";
+            this.Chat.RowHeadersVisible = false;
+            this.Chat.RowHeadersWidth = 82;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Chat.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.Chat.RowTemplate.Height = 33;
+            this.Chat.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Chat.Size = new System.Drawing.Size(686, 695);
+            this.Chat.TabIndex = 21;
+            // 
+            // MensajeChat
+            // 
+            this.MensajeChat.Location = new System.Drawing.Point(1338, 737);
+            this.MensajeChat.Name = "MensajeChat";
+            this.MensajeChat.Size = new System.Drawing.Size(473, 31);
+            this.MensajeChat.TabIndex = 22;
+            // 
+            // EnviarChat
+            // 
+            this.EnviarChat.Location = new System.Drawing.Point(1817, 728);
+            this.EnviarChat.Name = "EnviarChat";
+            this.EnviarChat.Size = new System.Drawing.Size(207, 49);
+            this.EnviarChat.TabIndex = 23;
+            this.EnviarChat.Text = "Enviar";
+            this.EnviarChat.UseVisualStyleBackColor = true;
+            this.EnviarChat.Click += new System.EventHandler(this.EnviarChat_Click);
             // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1349, 820);
+            this.ClientSize = new System.Drawing.Size(2052, 931);
             this.ControlBox = false;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.EnviarChat);
+            this.Controls.Add(this.MensajeChat);
+            this.Controls.Add(this.Chat);
             this.Controls.Add(this.Cerrar);
             this.Controls.Add(this.RechazarInvitacion);
             this.Controls.Add(this.AceptarInvitacion);
@@ -282,6 +310,7 @@
             this.Name = "Inicio";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Chat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,7 +337,9 @@
         private System.Windows.Forms.Button AceptarInvitacion;
         private System.Windows.Forms.Button RechazarInvitacion;
         private System.Windows.Forms.Button Cerrar;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridView Chat;
+        private System.Windows.Forms.TextBox MensajeChat;
+        private System.Windows.Forms.Button EnviarChat;
     }
 }
 
