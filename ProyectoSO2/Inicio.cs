@@ -16,208 +16,234 @@ namespace ProyectoSO2
 {
     public partial class Inicio : Form
     {
-        
+
         Socket server;
         Thread Atender;
         string ip = "192.168.56.107";
-        int puerto = 9060;
+        int puerto = 9062;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
         string UsuarioInvita;
         public Inicio()
         {
-            this.ControlBox = false;
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
-            Invite.Enabled = false;
+        }
 
+        delegate void DelegadoInvitacionRecibida(string mensaje);
+        delegate void DelegadoInicioSesion();
+        delegate void DelegadoListaConectados(string ListaConectados);
+        delegate void DelegadoInvitacionRechazada();
+
+        private void Empezar_Partida()
+        {
+            string Usuarios = "";
+            int i = 0;
+            foreach (string usuario in Aceptados)
+            {
+                Usuarios = Usuarios + usuario + ",";
+                i = i + 1;
+            }
+            string mensaje = "9/" + Usuarios + User.Text + ',';
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+        }
+
+        public void DelegarInicioSesion()
+        {
+            Mensaje.Enabled = true;
+            Enviar.Enabled = true;
+            Desconexion.Enabled = true;
+            Invite.Enabled = true;
+            InicioSesion.Enabled = false;
+            RegistroBoton.Enabled = false;
+            User.Enabled = false;
+            Password.Enabled = false;
+            Cerrar.Enabled = false;
+        }
+        public void DelegarInvitacionRecibida(string UsuarioInvitacion)
+        {
+            Invitacion.Text = UsuarioInvitacion + " te ha invitado a jugar";
+            AceptarInvitacion.Enabled = true;
+            RechazarInvitacion.Enabled = true;
+        }
+
+        public void RellenarListaConectados(string ListaConectados)
+        {
+            string[] str = ListaConectados.Split('/');
+            int i = Convert.ToInt32(str[0]);
+            string usuarios = str[1];
+            string[] Users = usuarios.Split(',');
+            dataGridView1.ColumnCount = 1;
+            dataGridView1.RowCount = Users.Length;
+            i = 0;
+            foreach (string User in Users)
+            {
+                dataGridView1[0, i].Value = Users[i];
+                i = i + 1;
+            }
+        }
+
+        public void DelegarInvitacionRechazada()
+        {
+            Invite.Enabled = true;
         }
 
         private void AtenderServidor()
         {
-                while (true)
-                {
-                    byte[] msg2 = new byte[80];
+            while (true)
+            {
+                byte[] msg2 = new byte[80];
                 try
                 {
                     server.Receive(msg2);
                 }
-                catch(SocketException ex)
+                catch (SocketException ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
 
-                    string[] mensaje = Encoding.ASCII.GetString(msg2).Split(':');
-                try
+                string[] mensaje = Encoding.ASCII.GetString(msg2).Split(':');
+
+                int codigo = Convert.ToInt32(mensaje[0]);
+                string contenido = mensaje[1].Split('\0')[0];
+
+
+                switch (codigo)
                 {
-                    int codigo = Convert.ToInt32(mensaje[0]);
-                    string contenido = mensaje[1].Split('\0')[0];
-                
-                    switch (codigo)
-                    {
-                        case 1:
-                            if (contenido == "0")
-                            {
-                                Mensaje.Enabled = true;
-                                Enviar.Enabled = true;
-                                Desconexion.Enabled = true;
-                                Invite.Enabled = true;
+                    case 1:
+                        if (contenido == "0")
+                        {
+                            DelegadoInicioSesion delegadoStart = new DelegadoInicioSesion(DelegarInicioSesion);
+                            Enviar.Invoke(delegadoStart);
+                            MessageBox.Show("Sesion Iniciada");
+                        }
+                        else
+                        {
+                            string mensaje2 = "0/" + User.Text;
+                            byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
+                            server.Send(msg3);
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                            MessageBox.Show("El nombre ya está registrado");
+                            Atender.Abort();
+                        }
+                        break;
+                    case 2:
+                        if (contenido == "0")
+                        {
+                            DelegadoInicioSesion delegadoStart = new DelegadoInicioSesion(DelegarInicioSesion);
+                            Enviar.Invoke(delegadoStart);
+                            MessageBox.Show("Sesion Iniciada");
+                        }
+                        else
+                        {
 
+                            string mensaje2 = "0/" + User.Text;
+                            byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
+                            server.Send(msg3);
+                            server.Shutdown(SocketShutdown.Both);
+                            server.Close();
+                            MessageBox.Show("El nombre y/o la contraseña son incorrectos.");
+                            Atender.Abort();
+                        }
+                        break;
+                    case 3:
 
-                                MessageBox.Show("Sesion Iniciada");
-                                InicioSesion.Enabled = false;
-                                RegistroBoton.Enabled = false;
-                                User.Enabled = false;
-                                Password.Enabled = false;
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado el jugador");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Número de turnos:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 4:
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado la partida");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Jugadores:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 5:
+                        if (contenido == "NoEncontrado")
+                        {
+                            MessageBox.Show("No se ha encontrado el jugador");
+                        }
+                        else if (contenido != "")
+                        {
+                            MessageBox.Show("Número de turnos:" + contenido);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error");
+                        }
+                        break;
+                    case 6:
 
-                            }
-                            else
-                            {
-                                string mensaje2 = "0/" + User.Text;
-                                byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
-                                server.Send(msg3);
-                                server.Shutdown(SocketShutdown.Both);
-                                server.Close();
-                                MessageBox.Show("El nombre ya está registrado");
-                                Atender.Abort();
-                            }
-                            break;
-                        case 2:
-                            if (contenido == "0")
-                            {
-                                Mensaje.Enabled = true;
-                                Enviar.Enabled = true;
-                                Desconexion.Enabled = true;
-                                MessageBox.Show("Sesion Iniciada");
-                                InicioSesion.Enabled = false;
-                                RegistroBoton.Enabled = false;
-                                User.Enabled = false;
-                                Password.Enabled = false;
-                                Invite.Enabled = true;
-                            }
-                            else
-                            {
-                                string mensaje2 = "0/" + User.Text;
-                                byte[] msg3 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
-                                server.Send(msg3);
-                                server.Shutdown(SocketShutdown.Both);
-                                server.Close();
-                                MessageBox.Show("El nombre y/o la contraseña son incorrectos. También compruebe que no ha iniciado sesión anteriormente.");
-                                Cerrar.Enabled = true;
-                                Invite.Enabled = false;
-                                Atender.Abort();
-                            }
-                            break;
-                        case 3:
+                        DelegadoListaConectados delegadoLista = new DelegadoListaConectados(RellenarListaConectados);
+                        dataGridView1.Invoke(delegadoLista, new object[] { contenido });
 
-                            if (contenido == "NoEncontrado")
-                            {
-                                MessageBox.Show("No se ha encontrado el jugador");
-                            }
-                            else if (contenido != "")
-                            {
-                                MessageBox.Show("Número de turnos:" + contenido);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error");
-                            }
-                            break;
-                        case 4:
-                            if (contenido == "NoEncontrado")
-                            {
-                                MessageBox.Show("No se ha encontrado la partida");
-                            }
-                            else if (contenido != "")
-                            {
-                                MessageBox.Show("Jugadores:" + contenido);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error");
-                            }
-                            break;
-                        case 5:
-                            if (contenido == "NoEncontrado")
-                            {
-                                MessageBox.Show("No se ha encontrado el jugador");
-                            }
-                            else if (contenido != "")
-                            {
-                                MessageBox.Show("Número de turnos:" + contenido);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error");
-                            }
-                            break;
-                        case 6:
-                            string[] str = contenido.Split('/');
-                            int i = Convert.ToInt32(str[0]);
-                            string usuarios = str[1];
-                            string[] Users = usuarios.Split(',');
-                            dataGridView1.ColumnCount = 1;
-                            dataGridView1.RowCount = Users.Length;
-                            i = 0;
-                            foreach (string User in Users)
-                            {
-                                dataGridView1[0, i].Value = Users[i];
-                                i = i + 1;
-                            }
-                            break;
-                        case 7:
-                            Invite.Enabled = true;
-                            Invitacion.Text = contenido + " te ha invitado a jugar";
-                            UsuarioInvita = contenido;
-                            AceptarInvitacion.Enabled = true;
-                            RechazarInvitacion.Enabled = true;
-                            break;
-                        case 8:
-                            Invite.Enabled = true;
-                            Aceptados.Add(contenido);
-                            Respuestas.Add(contenido);
-                            MessageBox.Show(contenido + " ha aceptado la partida");
-                            if (Invitaciones == Aceptados.Count)
-                            {
-                                MessageBox.Show("Todos los jugadores han aceptado la partida");
-                                Empezar_Partida();
-                            }
-                            else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
-                            {
-                                MessageBox.Show("Algun jugador ha rechazado la partida");
-                                Invite.Enabled = true;
-                                Invitaciones = 0;
-                                Respuestas.Clear();
-                                Aceptados.Clear();
-
-                            }
-                            break;
-                        case 9:
-                            Invite.Enabled = true;
-                            MessageBox.Show(contenido + " ha rechazado la partida");
-                            Respuestas.Add(contenido);
-                            if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
-                            {
-                                MessageBox.Show("Algun jugador ha rechazado la partida");
-                                Invite.Enabled = true;
-                                Invitaciones = 0;
-                                Respuestas.Clear();
-                                Aceptados.Clear();
-                            }
-                            break;
-                        case 10:
-                            MessageBox.Show("Iniciando partida");                          
-                            break;
-                    }
+                        break;
+                    case 7:
+                        DelegadoInvitacionRecibida delegadoInv = new DelegadoInvitacionRecibida(DelegarInvitacionRecibida);
+                        Invitacion.Invoke(delegadoInv, new object[] { contenido });
+                        UsuarioInvita = contenido;
+                        break;
+                    case 8:
+                        Aceptados.Add(contenido);
+                        Respuestas.Add(contenido);
+                        MessageBox.Show(contenido + " ha aceptado la partida");
+                        if (Invitaciones == Aceptados.Count)
+                        {
+                            MessageBox.Show("Todos los jugadores han aceptado la partida");
+                            Empezar_Partida();
+                        }
+                        else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
+                        {
+                            MessageBox.Show("Algun jugador ha rechazado la partida");
+                            DelegadoInvitacionRechazada delegadorech = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
+                            Invite.Invoke(delegadorech);
+                            Invitaciones = 0;
+                            Respuestas.Clear();
+                            Aceptados.Clear();
+                        }
+                        break;
+                    case 9:
+                        MessageBox.Show(contenido + " ha rechazado la partida");
+                        Respuestas.Add(contenido);
+                        if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
+                        {
+                            DelegadoInvitacionRechazada delegadorech = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
+                            Invite.Invoke(delegadorech);
+                            MessageBox.Show("Algun jugador ha rechazado la partida");
+                            Invitaciones = 0;
+                            Respuestas.Clear();
+                            Aceptados.Clear();
+                        }
+                        break;
+                    case 10:
+                        MessageBox.Show("Iniciando partida");
+                        break;
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Se ha perdido la conexion con el servidor");
-                    break;
-                }
+
             }
         }
+
+
+
 
         private void Registro_Click(object sender, EventArgs e)
         {
@@ -244,7 +270,7 @@ namespace ProyectoSO2
                     Atender = new Thread(ts);
                     Atender.Start();
                 }
-                catch(SocketException)
+                catch (SocketException)
                 {
                     MessageBox.Show("Error al conectar con el servidor");
                 }
@@ -335,7 +361,7 @@ namespace ProyectoSO2
                             }
                         }
                     }
-                    catch(SocketException)
+                    catch (SocketException)
                     {
                         MessageBox.Show("Error al conectar con el servidor");
                     }
@@ -345,24 +371,24 @@ namespace ProyectoSO2
 
         private void Desconexion_Click(object sender, EventArgs e)
         {
-                Atender.Abort();
-                string mensaje = "0/" + User.Text;
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-                server.Shutdown(SocketShutdown.Both);
-                server.Close();
-                Mensaje.Enabled = false;
-                Enviar.Enabled = false;
-                Desconexion.Enabled = false;
-                MessageBox.Show("Te has desconectado");
-                Cerrar.Enabled = true;
-                dataGridView1.Rows.Clear();
-                dataGridView1.Refresh();
-                InicioSesion.Enabled = true;
-                RegistroBoton.Enabled = true;
-                User.Enabled = true;
-                Password.Enabled = true;
-                Invite.Enabled = false;
+            Atender.Abort();
+            string mensaje = "0/" + User.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            server.Shutdown(SocketShutdown.Both);
+            server.Close();
+            Mensaje.Enabled = false;
+            Enviar.Enabled = false;
+            Desconexion.Enabled = false;
+            MessageBox.Show("Te has desconectado");
+            Cerrar.Enabled = true;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
+            InicioSesion.Enabled = true;
+            RegistroBoton.Enabled = true;
+            User.Enabled = true;
+            Password.Enabled = true;
+            Invite.Enabled = false;
         }
 
         private void Invite_Click(object sender, EventArgs e)
@@ -379,9 +405,9 @@ namespace ProyectoSO2
                     PermitirInvitacion = false;
                     break;
                 }
-                else if (Seleccionados-1 != i )
+                else if (Seleccionados - 1 != i)
                 {
-                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value+",";
+                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value + ",";
                 }
                 else
                 {
@@ -391,13 +417,13 @@ namespace ProyectoSO2
             }
             if (PermitirInvitacion == true)
             {
-                string mensaje ="6/" + Convert.ToString(i+1) + ":" + User.Text +","+ UsuariosInvitados;
+                string mensaje = "6/" + Convert.ToString(i + 1) + ":" + User.Text + "," + UsuariosInvitados;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 Invitaciones = i;
                 Invite.Enabled = false;
             }
-            
+
         }
 
         private void AceptarInvitacion_Click(object sender, EventArgs e)
@@ -418,19 +444,6 @@ namespace ProyectoSO2
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             Invite.Enabled = true;
-        }
-        private void Empezar_Partida()
-        {
-            string Usuarios="";
-            int i = 0;
-            foreach (string usuario in Aceptados)
-            {
-                Usuarios = Usuarios + usuario + ",";
-                i = i + 1;
-            }
-            string mensaje = "9/" +  Usuarios + User.Text + ',';
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
         }
 
         private void Cerrar_Click(object sender, EventArgs e)

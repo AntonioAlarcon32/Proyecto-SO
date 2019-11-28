@@ -542,7 +542,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConect);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9057);
+	int sock_listen = ConexionSocket(9062);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];

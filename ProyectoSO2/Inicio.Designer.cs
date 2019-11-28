@@ -48,6 +48,7 @@
             this.AceptarInvitacion = new System.Windows.Forms.Button();
             this.RechazarInvitacion = new System.Windows.Forms.Button();
             this.Cerrar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -192,6 +193,7 @@
             // 
             // Invite
             // 
+            this.Invite.Enabled = false;
             this.Invite.Location = new System.Drawing.Point(1003, 526);
             this.Invite.Name = "Invite";
             this.Invite.Size = new System.Drawing.Size(235, 62);
@@ -241,11 +243,23 @@
             this.Cerrar.UseVisualStyleBackColor = true;
             this.Cerrar.Click += new System.EventHandler(this.Cerrar_Click);
             // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(600, 584);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(235, 62);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1349, 820);
+            this.ControlBox = false;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Cerrar);
             this.Controls.Add(this.RechazarInvitacion);
             this.Controls.Add(this.AceptarInvitacion);
@@ -294,6 +308,7 @@
         private System.Windows.Forms.Button AceptarInvitacion;
         private System.Windows.Forms.Button RechazarInvitacion;
         private System.Windows.Forms.Button Cerrar;
+        private System.Windows.Forms.Button button1;
     }
 }
 
