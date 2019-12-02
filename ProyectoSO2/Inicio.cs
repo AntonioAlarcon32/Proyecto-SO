@@ -19,8 +19,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.108";
-        int puerto = 9068;
+        string ip = "147.83.117.22";
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -201,10 +201,8 @@ namespace ProyectoSO2
                         }
                         break;
                     case 6:
-
                         DelegadoListaConectados delegadoLista = new DelegadoListaConectados(RellenarListaConectados);
                         dataGridView1.Invoke(delegadoLista, new object[] { contenido });
-
                         break;
                     case 7:
                         DelegadoInvitacionRecibida delegadoInv = new DelegadoInvitacionRecibida(DelegarInvitacionRecibida);
@@ -470,6 +468,7 @@ namespace ProyectoSO2
             string mensaje = "10/" + Convert.ToString(IDChat) + "," + User.Text + ";" + MensajeChat.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            MensajeChat.Clear();
         }
     }
 }

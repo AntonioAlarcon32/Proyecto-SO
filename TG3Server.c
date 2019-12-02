@@ -8,7 +8,6 @@
 #include <mysql.h>
 #include <pthread.h>
 #include <my_global.h>
-
 typedef struct
 {
 	char nickname[20];
@@ -17,22 +16,36 @@ typedef struct
 
 typedef struct
 {
-		Usuario Usuarios[10];
-		int num;
-}ListaConectados;		//Estructura lista de conectados
+	Usuario Usuarios[10];
+	int num;
+}ListaUsuarios;		//Estructura lista de conectados
+
+typedef struct
+{
+	int ID;
+	ListaUsuarios Usuarios;
+}Partida;	
+
+typedef struct
+{
+	Partida Partidas[5];
+	int num;
+}ListaPartidas;
 
 MYSQL *conn;
-ListaConectados ListaConect;							//Definimos las variables globales (Lista de conectados y la conexion SQL)
+ListaUsuarios ListaConectados;							//Definimos las variables globales (Lista de conectados y la conexion SQL)
+ListaPartidas Listapartidas;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;		// Estructura para la exclusion mutua
 int i;
 int sockets[10];
+int MaxID = 0;
 
-void InicializarLista( ListaConectados *lista)			//Funcion para borrar la lista
+void InicializarLista( ListaUsuarios *lista)			//Funcion para borrar la lista
 {
 	lista->num = 0;					
 }
 
-int AddUsuario( ListaConectados *lista, char nick[20], int socket)	//Funcion para añadir un usuario a la lista
+int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para aÃ±adir un usuario a la lista
 {
 	if (lista->num == 10)
 	{
@@ -47,7 +60,7 @@ int AddUsuario( ListaConectados *lista, char nick[20], int socket)	//Funcion par
 	}
 }
 
-int EliminarUsuario(ListaConectados *lista, char nick[20])			//Funcion para eliminar un usuario de la lista
+int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para eliminar un usuario de la lista
 {
 	int encontrado = 0;
 	int i = 0;
@@ -77,7 +90,7 @@ int EliminarUsuario(ListaConectados *lista, char nick[20])			//Funcion para elim
 		return 1;
 }
 
-int SocketJugador(ListaConectados *lista, char nick[20])		//Funcion que devuelve el socket del usuario que le das
+int SocketJugador(ListaUsuarios *lista, char nick[20])		//Funcion que devuelve el socket del usuario que le das
 {
 	int encontrado = 0;
 	int i = 0;
@@ -94,8 +107,8 @@ int SocketJugador(ListaConectados *lista, char nick[20])		//Funcion que devuelve
 	return -1;
 }
 
-	
-int DarListaConectados(ListaConectados *lista, char respuesta[200])	//Escribe la lista de conectados en la respuestas
+
+int DarListaUsuarios(ListaUsuarios *lista, char respuesta[200])	//Escribe la lista de conectados en la respuestas
 {
 	char buffer[200];
 	sprintf(buffer,"%s",lista->Usuarios[0].nickname);
@@ -188,9 +201,29 @@ int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un u
 	}
 	else
 		printf("Registro completo\n");
-		return 0;
+	return 0;
 }
 
+int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario en la lista de conectados y si lo encu7entra devuelve un 1 si no devuelve un 0.
+{
+	int i = 0;
+	int found = 0;
+	while ( (found == 0) && ( i < lista->num ) )
+	{
+		printf("Num usuarios:%d\n", lista->num);
+		printf ("Usuario introducido:%s\n",nickname);
+		printf ("Usuario de la lista:%s\n",lista->Usuarios[i].nickname);
+		int a = strcmp(lista->Usuarios[i].nickname,nickname );
+		printf ("Resultado strcmp=%d\n",a);
+		if ( strcmp(lista->Usuarios[i].nickname,nickname) == 0 )
+		{
+			found = 1;
+		}
+		i++;
+	}
+	
+	return found;  
+}
 int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
 {
 	int err;
@@ -201,6 +234,9 @@ int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
 	char *p = strtok(mensaje, ",");
 	strcpy(nick,p);
 	strcpy(nickname,nick);
+	//Primero comprobamos que el usuario no haya iniciado sesión previamente.
+	int SesionIniciada = 0;
+	SesionIniciada = BuscarUsuario( &ListaConectados , nick );
 	p = strtok(NULL,",");	
 	strcpy(password,p);
 	char consulta[128];
@@ -221,7 +257,7 @@ int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
 		char copia[25];
 		strcpy(copia,row[0]);
 		login = strcmp(password,copia);
-		if (login == 0)
+		if ( (login == 0) && (SesionIniciada == 0) )
 		{
 			printf("Usuario conectado: %s\n",nick);
 			return 0;
@@ -302,7 +338,7 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	char consulta[216];
-	sprintf(consulta,"SELECT COUNT((Relacion.idPartida)) FROM Players,Partidas,Relacion WHERE Players.id = Relacion.idJugador AND Relacion.PokemonsRestantes = 3 AND Relacion.idPartida = Partidas.id AND Players.nombre ='%s'",mensaje);
+	sprintf(consulta,"SELECT (Relacion.idPartida) FROM Players,Partidas,Relacion WHERE Players.id = Relacion.idJugador AND Relacion.PokemonsRestantes = 3 AND Relacion.idPartida = Partidas.id AND Players.nombre ='%s'",mensaje);
 	err=mysql_query (conn,consulta);
 	if (err!=0) {
 		printf ("Error al consultar datos de la base %u %s\n",
@@ -310,22 +346,27 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 	}
 	resultado = mysql_store_result (conn);
 	row = mysql_fetch_row (resultado);
-	
-	if (row[0] == NULL)
+	if (row == NULL)
 	{
 		printf ("No se han obtenido datos en la consulta\n");
 		return 1;
 	}
 	else
 	{
-		strcpy(numeropartidas,row[0]);
+		i = 1;
+		row = mysql_fetch_row (resultado);
+		while (row !=NULL) 
+		{
+			i = i + 1;
+		}
+		sprintf(numeropartidas,"%d",i);
 		return 0;
 	}
 }
 
 
 
-void EnviarInvitacion(ListaConectados *lista,char invitacion[200])
+void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200])
 {
 	char *p = strtok(invitacion, ":");
 	int NumeroJugadores =  atoi (p);
@@ -348,19 +389,65 @@ void EnviarInvitacion(ListaConectados *lista,char invitacion[200])
 		write (SocketInvitacion,notificacion, strlen(notificacion));
 	}
 }
-void EmpezarPartida(ListaConectados *lista,char invitacion[200])
+void InicializarListaPartidas(ListaPartidas *listaPart)
+{
+	listaPart->num = 0;
+	listaPart->Partidas[0].ID = 0;
+	int i;
+	for (i=0;i<10;i++)
+	{
+		listaPart->Partidas[i].Usuarios.num = 0;
+	}
+}
+
+void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitacion[200])
 {
 	char Jugador[20];
 	char *p = strtok(invitacion, ",");
-	
+	int SlotPartida = listaPart->num;
+	int IDPartida = MaxID+1;
+	int i = 0;
 	while (p != NULL)
 	{
 		strcpy(Jugador,p);
 		int SocketPartida = SocketJugador(lista,Jugador);
-		p = strtok(NULL, ",");
+		int c = AddUsuario(&(listaPart->Partidas[SlotPartida].Usuarios),Jugador,SocketPartida);
 		char notificacion[200];
-		sprintf(notificacion,"10:%s",Jugador);
+		sprintf(notificacion,"10:%d",IDPartida);
 		write (SocketPartida,notificacion, strlen(notificacion));
+		p = strtok(NULL, ",");
+	}
+	listaPart->Partidas[SlotPartida].ID = IDPartida;
+	listaPart->num += 1;
+	MaxID = IDPartida;
+}
+
+void BroadCastMensaje(ListaPartidas *listapartida, char mensaje[200], int ID)
+{
+	int i = 0;
+	int found = 0;
+	while ((i < listapartida->num) && (found == 0))
+	{
+		if (listapartida->Partidas[i].ID == ID)
+		{
+			found = 1;
+		}
+		else 
+			i += 1;
+	}
+	int index = i;
+	i = listapartida->Partidas[index].Usuarios.num;
+	int c = 0;
+	char receptor[20];
+	int socketreceptor;
+	char buffer[222];
+	while (c < i)
+	{
+		socketreceptor = listapartida->Partidas[index].Usuarios.Usuarios[c].socket;
+		strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
+		sprintf(buffer,"11:%s",mensaje);
+		write(socketreceptor,buffer, strlen(buffer));
+		c = c + 1;
 	}
 }
 void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (codigo principal)
@@ -385,12 +472,12 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		strcpy (mensaje, p);
 		printf ("Codigo: %d, Variables: %s\n", codigo, mensaje);
 		char nick[20];
-
+		
 		if (codigo == 0)
 		{
 			conectado = 0;
 			pthread_mutex_lock(&mutex);
-			int error = EliminarUsuario(&ListaConect,mensaje);
+			int error = EliminarUsuario(&ListaConectados,mensaje);
 			pthread_mutex_unlock(&mutex);
 			printf("Un usuario se ha desconectado\n");
 		}
@@ -399,7 +486,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		{
 			int respuesta = Registro(mensaje,nick);
 			pthread_mutex_lock(&mutex);
-			int add = AddUsuario(&ListaConect,mensaje,sock_conn);
+			int add = AddUsuario(&ListaConectados,mensaje,sock_conn);
 			pthread_mutex_unlock(&mutex);
 			sprintf(salida,"1:%d",respuesta);
 			
@@ -408,10 +495,10 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		{
 			int respuesta = Acceso(mensaje,nick);
 			pthread_mutex_lock(&mutex);
-			int add = AddUsuario(&ListaConect,mensaje,sock_conn);
+			int add = AddUsuario(&ListaConectados,mensaje,sock_conn);
 			pthread_mutex_unlock(&mutex);
 			sprintf(salida,"2:%d",respuesta);
-
+			
 		}
 		if (codigo ==3) //Consulta 1
 		{
@@ -457,7 +544,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		
 		if (codigo == 6) //Codigo invitacion a jugar
 		{
-			EnviarInvitacion(&ListaConect,mensaje);
+			EnviarInvitacion(&ListaConectados,mensaje);
 		}
 		if (codigo == 7) //Invitacion Aceptada
 		{
@@ -467,7 +554,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			strcpy(UsuarioRespondido,p);
 			p = strtok(NULL, ",");
 			strcpy(UsuarioAcepta,p);
-			int socketAEnviar = SocketJugador(&ListaConect,UsuarioRespondido);
+			int socketAEnviar = SocketJugador(&ListaConectados,UsuarioRespondido);
 			char respuesta[30];
 			sprintf(respuesta,"8:%s",UsuarioAcepta);
 			write (socketAEnviar,respuesta, strlen(respuesta));
@@ -481,7 +568,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			strcpy(UsuarioRespondido,p);
 			p = strtok(NULL, ",");
 			strcpy(UsuarioRechaza,p);
-			int socketAEnviar = SocketJugador(&ListaConect,UsuarioRespondido);
+			int socketAEnviar = SocketJugador(&ListaConectados,UsuarioRespondido);
 			char respuesta[30];
 			sprintf(respuesta,"9:%s",UsuarioRechaza);
 			write (socketAEnviar,respuesta, strlen(respuesta));
@@ -489,10 +576,22 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		
 		if (codigo == 9) //Empezar Partida
 		{
-			EmpezarPartida(&ListaConect,mensaje);
+			pthread_mutex_lock(&mutex);
+			EmpezarPartida(&ListaConectados,&Listapartidas,mensaje);
+			pthread_mutex_unlock(&mutex);
 		}
 		
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9))
+		if (codigo == 10) //Mensaje en Partida
+		{
+			p = strtok(mensaje, ",");
+			int IDPartida = atoi(p);
+			p = strtok(NULL,",");
+			char mensaje[200];
+			strcpy(mensaje,p);
+			BroadCastMensaje(&Listapartidas,mensaje,IDPartida);
+		}
+		
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -500,7 +599,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		{
 			int j;
 			char list[200];
-			int listAact = DarListaConectados(&ListaConect,list);
+			int listAact = DarListaUsuarios(&ListaConectados,list);
 			char notificacion[200];
 			sprintf(notificacion,"6:%s",list);
 			for (j=0; j<i;j++)
@@ -513,7 +612,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 }
 int main(int argc, char *argv[])
 {
-	InicializarLista(&ListaConect);
+	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
 	int sock_listen = ConexionSocket(50057);
 	int sock_conn, ret;
@@ -527,6 +626,7 @@ int main(int argc, char *argv[])
 		sockets[i] = sock_conn;
 		printf ("Conexion establecida\n");
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
-		}
+	}
 }
-	
+
+
