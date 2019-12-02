@@ -19,7 +19,7 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.107";
+        string ip = "192.168.56.108";
         int puerto = 9068;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
@@ -29,7 +29,7 @@ namespace ProyectoSO2
         public Inicio()
         {
             InitializeComponent();
-            Chat.ColumnCount = 1;
+            Chat.ColumnCount = 2;
         }
 
         delegate void DelegadoInvitacionRecibida(string mensaje);
@@ -94,7 +94,8 @@ namespace ProyectoSO2
 
         public void RellenarChat(string Mensaje)
         {
-            Chat.Rows.Add(Mensaje);
+            string[] Message = Mensaje.Split(';');
+            Chat.Rows.Add(Message);
         }
 
         private void AtenderServidor()

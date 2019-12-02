@@ -576,7 +576,9 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		
 		if (codigo == 9) //Empezar Partida
 		{
+			pthread_mutex_lock(&mutex);
 			EmpezarPartida(&ListaConectados,&Listapartidas,mensaje);
+			pthread_mutex_unlock(&mutex);
 		}
 		
 		if (codigo == 10) //Mensaje en Partida
