@@ -19,24 +19,48 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "147.83.117.22";
+        string ip = "192.168.56.109";
         int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
         string UsuarioInvita;
         int IDChat;
+        List<Chat> Chats = new List<Chat>();
+        List<int> IDs = new List<int>();
+
         public Inicio()
         {
             InitializeComponent();
-            Chat.ColumnCount = 2;
         }
 
         delegate void DelegadoInvitacionRecibida(string mensaje);
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
-        delegate void EscribirChat(string MensajeChat);
+
+
+        public int BuscarID(int num)
+        {
+            int i = 0;
+            bool found = false;
+            while (!found)
+            {
+                if (IDs[i] == num)
+                    found = true;
+                else
+                    i += 1;
+            }
+            return i;
+        }
+
+        private void AbrirChat()
+        {
+            Chat Ch = new Chat(IDChat, server,User.Text);
+            Chats.Add(Ch);
+            IDs.Add(IDChat);
+            Ch.ShowDialog();
+        }
 
         private void Empezar_Partida()
         {
@@ -90,12 +114,6 @@ namespace ProyectoSO2
         public void DelegarInvitacionRechazada()
         {
             Invite.Enabled = true;
-        }
-
-        public void RellenarChat(string Mensaje)
-        {
-            string[] Message = Mensaje.Split(';');
-            Chat.Rows.Add(Message);
         }
 
         private void AtenderServidor()
@@ -221,8 +239,8 @@ namespace ProyectoSO2
                         else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
                         {
                             MessageBox.Show("Algun jugador ha rechazado la partida");
-                            DelegadoInvitacionRechazada delegadorech = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
-                            Invite.Invoke(delegadorech);
+                            DelegadoInvitacionRechazada delegadorech1 = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
+                            Invite.Invoke(delegadorech1);
                             Invitaciones = 0;
                             Respuestas.Clear();
                             Aceptados.Clear();
@@ -233,8 +251,8 @@ namespace ProyectoSO2
                         Respuestas.Add(contenido);
                         if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
                         {
-                            DelegadoInvitacionRechazada delegadorech = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
-                            Invite.Invoke(delegadorech);
+                            DelegadoInvitacionRechazada delegadorech2 = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
+                            Invite.Invoke(delegadorech2);
                             MessageBox.Show("Algun jugador ha rechazado la partida");
                             Invitaciones = 0;
                             Respuestas.Clear();
@@ -244,10 +262,18 @@ namespace ProyectoSO2
                     case 10:
                         IDChat = Convert.ToInt32(contenido);
                         MessageBox.Show("Iniciando partida " +IDChat);
+                        DelegadoInvitacionRechazada delegadorech3 = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
+                        Invite.Invoke(delegadorech3);
+                        ThreadStart ts = delegate { AbrirChat(); };
+                        Atender = new Thread(ts);
+                        Atender.Start();
+
                         break;
                     case 11:
-                        EscribirChat WriteChat = new EscribirChat(RellenarChat);
-                        Chat.Invoke(WriteChat, new object[] { contenido });
+                        int ID = Convert.ToInt32(contenido.Split('-')[0]);
+                        contenido = contenido.Split('-')[1];
+                        int IDindex = BuscarID(ID);
+                        Chats[IDindex].EscribirMensaje(contenido);
                         break;
                 }
             }
@@ -461,14 +487,6 @@ namespace ProyectoSO2
         {
             this.Close();
             Application.Exit();
-        }
-
-        private void EnviarChat_Click(object sender, EventArgs e)
-        {
-            string mensaje = "10/" + Convert.ToString(IDChat) + "," + User.Text + ";" + MensajeChat.Text;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
-            MensajeChat.Clear();
         }
     }
 }
