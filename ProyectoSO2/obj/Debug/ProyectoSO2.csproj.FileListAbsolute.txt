@@ -72,3 +72,4 @@ C:\Users\anton\Desktop\Proyecto-SO-master_Update (1)\Proyecto-SO-master_Update\P
 C:\Users\anton\Desktop\Proyecto-SO-master_Update (1)\Proyecto-SO-master_Update\ProyectoSO2\obj\Debug\ProyectoSO2.exe
 C:\Users\anton\Desktop\Proyecto-SO-master_Update (1)\Proyecto-SO-master_Update\ProyectoSO2\obj\Debug\ProyectoSO2.pdb
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Chat.resources
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.Chat.resources

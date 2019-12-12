@@ -19,8 +19,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.109";
-        int puerto = 50057;
+        string ip = "192.168.56.104";
+        int puerto = 9087;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -38,6 +38,7 @@ namespace ProyectoSO2
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
+        
 
 
         public int BuscarID(int num)
@@ -61,6 +62,7 @@ namespace ProyectoSO2
             IDs.Add(IDChat);
             Ch.ShowDialog();
         }
+
 
         private void Empezar_Partida()
         {
@@ -235,6 +237,8 @@ namespace ProyectoSO2
                         {
                             MessageBox.Show("Todos los jugadores han aceptado la partida");
                             Empezar_Partida();
+                            Respuestas.Clear();
+                            Aceptados.Clear();
                         }
                         else if ((Invitaciones == Respuestas.Count()) && (Respuestas.Count != Aceptados.Count()))
                         {
@@ -264,16 +268,22 @@ namespace ProyectoSO2
                         MessageBox.Show("Iniciando partida " +IDChat);
                         DelegadoInvitacionRechazada delegadorech3 = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
                         Invite.Invoke(delegadorech3);
-                        ThreadStart ts = delegate { AbrirChat(); };
-                        Atender = new Thread(ts);
-                        Atender.Start();
-
+                        ThreadStart ts2 = delegate { AbrirChat(); };
+                        Thread forms = new Thread(ts2);
+                        forms.Start();
                         break;
                     case 11:
                         int ID = Convert.ToInt32(contenido.Split('-')[0]);
                         contenido = contenido.Split('-')[1];
                         int IDindex = BuscarID(ID);
                         Chats[IDindex].EscribirMensaje(contenido);
+                        break;
+                    case 12:
+                        ID = Convert.ToInt32(contenido.Split('-')[0]);
+                        string usuario = contenido.Split('-')[1];
+                        IDindex = BuscarID(ID);
+                        MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
+                        Chats[IDindex].AbandonarPartida();
                         break;
                 }
             }
@@ -430,37 +440,42 @@ namespace ProyectoSO2
 
         private void Invite_Click(object sender, EventArgs e)
         {
+            
             string UsuariosInvitados = "";
             bool PermitirInvitacion = true;
             int Seleccionados = dataGridView1.SelectedRows.Count;
             int i = 0;
-            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            if ((Seleccionados == 1) || (Seleccionados == 3))
             {
-                if (Convert.ToString(row.Cells[0].Value) == User.Text)
+                foreach (DataGridViewRow row in dataGridView1.SelectedRows)
                 {
-                    MessageBox.Show("No puedes invitarte a ti mismo");
-                    PermitirInvitacion = false;
-                    break;
+                    if (Convert.ToString(row.Cells[0].Value) == User.Text)
+                    {
+                        MessageBox.Show("No puedes invitarte a ti mismo");
+                        PermitirInvitacion = false;
+                        break;
+                    }
+                    else if (Seleccionados - 1 != i)
+                    {
+                        UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value + ",";
+                    }
+                    else
+                    {
+                        UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value;
+                    }
+                    i = i + 1;
                 }
-                else if (Seleccionados - 1 != i)
+                if (PermitirInvitacion == true)
                 {
-                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value + ",";
+                    string mensaje = "6/" + Convert.ToString(i + 1) + ":" + User.Text + "," + UsuariosInvitados;
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                    Invitaciones = i;
+                    Invite.Enabled = false;
                 }
-                else
-                {
-                    UsuariosInvitados = UsuariosInvitados + row.Cells[0].Value;
-                }
-                i = i + 1;
             }
-            if (PermitirInvitacion == true)
-            {
-                string mensaje = "6/" + Convert.ToString(i + 1) + ":" + User.Text + "," + UsuariosInvitados;
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-                Invitaciones = i;
-                Invite.Enabled = false;
-            }
-
+            else
+                MessageBox.Show("Solo puedes invitar a 1 o a 3 personas");
         }
 
         private void AceptarInvitacion_Click(object sender, EventArgs e)
@@ -471,6 +486,7 @@ namespace ProyectoSO2
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             Invite.Enabled = false;
+           
         }
 
         private void RechazarInvitacion_Click(object sender, EventArgs e)
@@ -488,6 +504,8 @@ namespace ProyectoSO2
             this.Close();
             Application.Exit();
         }
+
+
     }
 }
 

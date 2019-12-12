@@ -14,11 +14,12 @@ namespace ProyectoSO2
     public partial class Chat : Form
     {
 
-        
+
         int IDPartida;
         Socket server;
         string User;
         delegate void EscribirChat(string MensajeChat);
+        delegate void CerrarChat();
         public Chat(int ID, Socket servidor, string User)
         {
             this.IDPartida = ID;
@@ -46,13 +47,32 @@ namespace ProyectoSO2
             ChatData.Rows.Add(Message);
         }
 
+        public void AbandonarPartida()
+        {
+            CerrarChat delegado = new CerrarChat(CerrarPartida);
+            Abandonar.Invoke(delegado);
 
+        }
+
+        public void CerrarPartida()
+        {
+            this.Close();
+        } 
         private void EnviarChat_Click(object sender, EventArgs e)
         {
             string mensaje = "10/" + Convert.ToString(IDPartida) + "," + User + ";" + MensajeChat.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
             MensajeChat.Clear();
+        }
+
+        private void Abandonar_Click(object sender, EventArgs e)
+        {
+            string mensaje = "11/" + Convert.ToString(IDPartida) + "," + User;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            this.Close();
+            
         }
     }
 }

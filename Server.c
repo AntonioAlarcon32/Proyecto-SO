@@ -38,8 +38,37 @@ ListaPartidas Listapartidas;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;		// Estructura para la exclusion mutua
 int i;
 int sockets[10];
-int MaxID = 0;
+int MaxID=0;
 
+
+
+int GetMAXID()
+{
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[200];
+	sprintf(consulta,"SELECT MAX(Partidas.id) FROM Partidas");
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al consultar datos de la base %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		return 1;
+	}
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado);
+	if (row[0] == NULL)
+	{
+		printf ("No se han obtenido datos en la consulta\n");
+		return 1;
+	}
+	else
+	{
+		
+		return atoi(row[0]);
+	}
+
+}
 void InicializarLista( ListaUsuarios *lista)			//Funcion para borrar la lista
 {
 	lista->num = 0;					
@@ -421,7 +450,42 @@ void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitaci
 	listaPart->num += 1;
 	MaxID = IDPartida;
 }
-
+int EliminarPartida(ListaPartidas *lista, int ID)			//Funcion para eliminar una partida de la lista
+{
+	int encontrado = 0;
+	int i = 0;
+	printf("%d",ID);
+	while ((!encontrado) & (i < lista->num))
+	{
+		if (lista->Partidas[i].ID == ID)
+		{
+			encontrado = 1;
+			
+		}
+		else
+			i = i + 1;
+	}
+	if (encontrado == 1)
+	{   int j=0;
+		lista->Partidas[i].ID =0;
+		while (j<lista->Partidas[i].Usuarios.num)
+		{
+			int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
+		}
+		lista->Partidas[i].Usuarios.num=0;
+	    lista->num = lista->num - 1;
+		j =0;
+		printf("%d",lista->num);
+		while (j<=lista->num)
+		{
+			printf("%d",lista->Partidas[j].ID);
+			j=j+1;
+		}
+	    return 0;
+	}
+	else
+		return 1;
+}
 void BroadCastMensaje(ListaPartidas *listapartida, char mensaje[200], int ID)
 {
 	int i = 0;
@@ -447,6 +511,39 @@ void BroadCastMensaje(ListaPartidas *listapartida, char mensaje[200], int ID)
 		strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
 		sprintf(buffer,"11:%d-%s",ID,mensaje);
 		write(socketreceptor,buffer, strlen(buffer));
+		c = c + 1;
+	}
+}
+void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID)
+{
+	int i = 0;
+	int found = 0;
+	while ((i < listapartida->num) && (found == 0))
+	{
+		if (listapartida->Partidas[i].ID == ID)
+		{
+			found = 1;
+		}
+		else 
+			i += 1;
+	}
+	int index = i;
+	i = listapartida->Partidas[index].Usuarios.num;
+	int c = 0;
+	char receptor[20];
+	int socketreceptor;
+	char buffer[222];
+	int socketpropio = SocketJugador(listaconectados,usuario);
+	while (c < i)
+	{  
+		socketreceptor = listapartida->Partidas[index].Usuarios.Usuarios[c].socket;
+		if (socketpropio != socketreceptor)
+		{
+			strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
+			sprintf(buffer,"12:%d-%s",ID,usuario);
+			write(socketreceptor,buffer, strlen(buffer));
+
+		}
 		c = c + 1;
 	}
 }
@@ -591,7 +688,20 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			BroadCastMensaje(&Listapartidas,mensaje,IDPartida);
 		}
 		
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10))
+		if (codigo == 11) //Jugador sale de Partida
+		{
+			p = strtok(mensaje, ",");
+			int IDPartida = atoi(p);
+			p = strtok(NULL,",");
+			char mensaje[200];
+			strcpy(mensaje,p);
+			SalirPartida(&Listapartidas,&ListaConectados,mensaje,IDPartida);
+			pthread_mutex_lock(&mutex);
+			int error = EliminarPartida(&Listapartidas,IDPartida);
+			pthread_mutex_unlock(&mutex);
+			printf("Partida borrada\n");
+		}
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -614,11 +724,12 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(50057);
+	int sock_listen = ConexionSocket(9087);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
 	pthread_t thread[10];
+	MaxID = GetMAXID();
 	
 	for(i = 0;;i++){
 		printf ("Escuchando\n");
