@@ -5,11 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using PokemonLib;
 
 
 namespace ProyectoSO2
@@ -19,8 +21,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.104";
-        int puerto = 9087;
+        string ip = "192.168.56.110";
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -28,18 +30,113 @@ namespace ProyectoSO2
         int IDChat;
         List<Chat> Chats = new List<Chat>();
         List<int> IDs = new List<int>();
+        string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+
+
+        Equipo Disponibles = new Equipo();
+        Equipo EquipoBatalla = new Equipo();
+        MoveSet MovDisponibles = new MoveSet();
 
         public LogIn()
         {
             InitializeComponent();
+            GetPokemons();
         }
 
         delegate void DelegadoInvitacionRecibida(string mensaje);
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
-        
 
+        private Pokemon SearchPokemon(string pok)
+        {
+            bool encontrado = false;
+            int i = 0;
+            while (!encontrado)
+            {
+                if (Disponibles.GetPokemon(i).Nombre == pok)
+                {
+                    encontrado = true;
+                }
+                else
+                {
+                    i = i + 1;
+                }
+            }
+            return Disponibles.GetPokemon(i);
+        }
+
+
+        private void SetEquipo(string poke1, string poke2, string poke3)
+        {
+            EquipoBatalla.AddPokemon(SearchPokemon(poke1));
+            EquipoBatalla.AddPokemon(SearchPokemon(poke2));
+            EquipoBatalla.AddPokemon(SearchPokemon(poke3));
+        }
+
+        private void GetPokemons()
+        {
+            StreamReader r = new StreamReader(directorio + "\\Pokemons.txt");
+            StreamReader r2 = new StreamReader(directorio + "\\Movements.txt");
+            string linea;
+            string[] Partes;
+            while (true)
+            {
+                linea = r2.ReadLine();
+                Partes = linea.Split('/');
+                if (Partes[0] == "-")
+                {
+                    break;
+                }
+                else
+                {
+                    string nombre = Partes[0];
+                    string categoria = Partes[1];
+                    int PP = Convert.ToInt32(Partes[2]);
+                    string Tipo = Partes[3];
+                    int prioridad = Convert.ToInt32(Partes[4]);
+                    int potencia = Convert.ToInt32(Partes[5]);
+                    string alcance = Partes[6];
+                    string descripcion = Partes[7];
+                    Movimiento Mov = new Movimiento(nombre, categoria, PP, Tipo, prioridad, potencia, alcance, descripcion);
+                    MovDisponibles.AddMovimiento(Mov);
+                }
+            }
+            while (true)
+            {
+                linea = r.ReadLine();
+                Partes = linea.Split('/');
+                if (Partes[0] == "-")
+                {
+                    break;
+                }
+                else
+                {
+                    string name = Partes[0];
+                    string Tipo1 = Partes[7];
+                    string Tipo2 = Partes[8];
+                    int PS = Convert.ToInt32(Partes[1]);
+                    int Ataque = Convert.ToInt32(Partes[2]);
+                    int Defensa = Convert.ToInt32(Partes[3]);
+                    int AtEsp = Convert.ToInt32(Partes[4]);
+                    int DefEsp = Convert.ToInt32(Partes[5]);
+                    int Vel = Convert.ToInt32(Partes[6]);
+                    string Mov1 = Partes[9];
+                    string Mov2 = Partes[10];
+                    string Mov3 = Partes[11];
+                    string Mov4 = Partes[12];
+                    Movimiento mov1 = MovDisponibles.BuscarMovimiento(Mov1);
+                    Movimiento mov2 = MovDisponibles.BuscarMovimiento(Mov2);
+                    Movimiento mov3 = MovDisponibles.BuscarMovimiento(Mov3);
+                    Movimiento mov4 = MovDisponibles.BuscarMovimiento(Mov4);
+
+
+                    Pokemon pok = new Pokemon(name, Tipo1, Tipo2, PS, Ataque, Defensa, AtEsp, DefEsp, Vel);
+                    pok.AddMovimientos(mov1, mov2, mov3, mov4);
+                    Disponibles.AddPokemon(pok);
+                }
+            }
+        }
 
         public int BuscarID(int num)
         {
@@ -61,6 +158,13 @@ namespace ProyectoSO2
             Chats.Add(Ch);
             IDs.Add(IDChat);
             Ch.ShowDialog();
+
+        }
+
+        private void AbrirTeamBuilder()
+        {
+            TeamBuilder tb = new TeamBuilder(server);
+            tb.ShowDialog();
         }
 
 
@@ -89,6 +193,7 @@ namespace ProyectoSO2
             User.Enabled = false;
             Password.Enabled = false;
             Cerrar.Enabled = false;
+            TeamBuilder.Enabled = true;
         }
         public void DelegarInvitacionRecibida(string UsuarioInvitacion)
         {
@@ -285,12 +390,15 @@ namespace ProyectoSO2
                         MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
                         Chats[IDindex].AbandonarPartida();
                         break;
+                    case 13:
+                        string[] TuEquipo = contenido.Split(',');
+                        SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
+                        MessageBox.Show(EquipoBatalla.GetPokemon(0).Nombre + EquipoBatalla.GetPokemon(1).Nombre + EquipoBatalla.GetPokemon(2).Nombre);
+                        break;
+
                 }
             }
         }
-
-
-
 
         private void Registro_Click(object sender, EventArgs e)
         {
@@ -505,7 +613,12 @@ namespace ProyectoSO2
             Application.Exit();
         }
 
-
+        private void TeamBuilder_Click(object sender, EventArgs e)
+        {
+            ThreadStart ts3 = delegate { AbrirTeamBuilder(); };
+            Thread build = new Thread(ts3);
+            build.Start();
+        }
     }
 }
 

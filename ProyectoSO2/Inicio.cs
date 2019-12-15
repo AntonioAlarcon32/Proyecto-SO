@@ -19,7 +19,6 @@ namespace ProyectoSO2
         public Inicio()
         {
             InitializeComponent();
-
             pokemon.PlayLooping();
         }
 

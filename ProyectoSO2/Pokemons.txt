@@ -1,0 +1,32 @@
+Venusaur/364/289/291/328/328/284/planta/veneno/Toxico/Sintesis/Hierba Lazo/Terremoto
+Charizard/360/293/280/348/295/328/fuego/volador/Lanzallamas/Dia Soleado/Rayo Solar/Descanso
+Blastoise/362/291/328/295/339/280/agua/-/Hidrobomba/Rayo Hielo/Esfera Aural/Pulso Umbrio
+Alakazam/314/218/207/405/317/372/psiquico/-/Psiquico/Bola Sombra/Hierba Lazo/Hiperrayo
+Golem/364/372/394/229/251/207/tierra/roca/Roca Afilada/Terremoto/Explosion/Proteccion
+Gengar/324/251/240/394/273/350/fantasma/veneno/Bola Sombra/Onda Certera/Trueno/Pulso Umbrio
+Dragonite/386/403/317/328/328/284/dragon/volador/Terremoto/Danza Dragon/Golpe Aereo/Velocidad Extrema
+Crobat/374/306/284/262/264/394/veneno/volador/Descanso/Superdiente/Pajaro Osado/Golpe Aereo
+Kingdra/354/317/317/317/317/295/agua/dragon/Hidrobomba/Surf/Cometa Draco/Rayo Hielo
+Tyranitar/404/403/350/317/328/243/roca/siniestro/Roca Afilada/Terremoto/Puño Fuego/Persecucion
+Sceptile/344/350/273/427/295/427/planta/-/Lluevehojas/Pulso Dragon/Proteccion/GigaDrenado
+Blaziken/364/460/284/394/284/328/fuego/lucha/Danza Espada/Envite Igneo/Roca Afilada/Patada Salto Alta
+Swampert/404/438/350/317/350/262/agua/tierra/Cascada/Terremoto/Puño Hielo/Roca Afilada
+Gardevoir/340/251/251/383/361/284/psiquico/-/Psiquico/Onda Certera/Bola Sombra/MismoDestino
+Aggron/344/350/504/240/240/218/acero/roca/Roca Afilada/Doble Filo/Terremoto/Toxico
+Glalie/364/372/284/372/284/328/hielo/-/Doble Filo/Terremoto/Explosion/Colmillo Hielo
+Salamence/394/405/284/350/284/328/dragon/volador/Danza Dragon/Doble Filo/Descanso/Garra Dragon
+Metagross/364/405/394/317/306/262/acero/psiquico/Puño Meteoro/Puño Hielo/Roca Afilada/Terremoto
+Garchomp/420/394/317/284/295/333/dragon/tierra/Roca Afilada/Terremoto/Danza Espada/Garra Dragon
+Lucario/344/427/302/416/262/355/acero/lucha/Danza Espada/Puño Meteoro/A Bocajarro/Esfera Aural
+Weavile/344/372/251/207/295/383/siniestro/hielo/Tajo Umbrio/Golpe Aereo/Imagen/Garra Metal
+Pikachu/324/306/229/306/284/350/electrico/-/Trueno/Hierba Lazo/Maquinacion/Onda Certera
+Gallade/340/471/317/251/361/350/psiquico/lucha/PsicoCorte/Danza Espada/Roca Afilada/Puño Hielo
+Walrein/424/284/306/317/306/251/agua/hielo/Rugido/Toxico/Surf/Rayo Hielo
+Dusknoir/294/328/405/241/405/207/fantasma/-/Terremoto/Sombra Vil/Puño Hielo/Tajo Umbrio
+Rhyperior/434/416/394/229/229/196/roca/tierra/Roca Afilada/Terremoto/Megacuerno/Danza Espada
+Electivire/354/379/256/317/295/317/electrico/-/Rayo/Lanzallamas/Terremoto/Puño Hielo/
+Arcanine/384/350/284/328/284/317/fuego/-/Dia Soleado/Velocidad Extrema/Envite Igneo/Doble Filo
+Milotic/394/240/282/328/383/287/agua/-/Escaldar/Recuperacion/Toxico/Rayo Hielo
+Machamp/384/394/284/251/295/229/lucha/-/Imagen/Puño Bala/Tajo Umbrio/A Bocajarro
+Ludicolo/364/262/262/306/328/262/planta/agua/Danza Lluvia/Hidrobomba/GigaDrenado/Rayo Hielo
+-/------------------------------------------------------
