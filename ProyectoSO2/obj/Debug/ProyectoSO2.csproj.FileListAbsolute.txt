@@ -20,7 +20,6 @@ C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\ProyectoSO2.exe.config
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\ProyectoSO2.exe
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\ProyectoSO2.pdb
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.csprojAssemblyReference.cache
-C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Inicio.resources
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Properties.Resources.resources
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.GenerateResource.cache
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.exe
@@ -73,3 +72,10 @@ C:\Users\anton\Desktop\Proyecto-SO-master_Update (1)\Proyecto-SO-master_Update\P
 C:\Users\anton\Desktop\Proyecto-SO-master_Update (1)\Proyecto-SO-master_Update\ProyectoSO2\obj\Debug\ProyectoSO2.pdb
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Chat.resources
 C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\ProyectoSO2.Chat.resources
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\Interop.WMPLib.dll
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.ResolveComReference.cache
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.LogIn.resources
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\PokemonLib.dll
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\PokemonLib.pdb
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.csproj.CopyComplete
+C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Inicio.resources
