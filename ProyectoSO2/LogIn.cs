@@ -22,20 +22,20 @@ namespace ProyectoSO2
         Socket server;
         Thread Atender;
         string ip = "192.168.56.110";
-        int puerto = 50057;
+        int puerto = 50058;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
         string UsuarioInvita;
         int IDChat;
-        List<Chat> Chats = new List<Chat>();
+        List<Batalla> Chats = new List<Batalla>();
         List<int> IDs = new List<int>();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
-
-
         Equipo Disponibles = new Equipo();
-        Equipo EquipoBatalla = new Equipo();
+        Equipo EquipoBatallaPropio = new Equipo();
+        Equipo EquipoBatallaOponente = new Equipo();
         MoveSet MovDisponibles = new MoveSet();
+        string Oponente;
 
         public LogIn()
         {
@@ -69,9 +69,9 @@ namespace ProyectoSO2
 
         private void SetEquipo(string poke1, string poke2, string poke3)
         {
-            EquipoBatalla.AddPokemon(SearchPokemon(poke1));
-            EquipoBatalla.AddPokemon(SearchPokemon(poke2));
-            EquipoBatalla.AddPokemon(SearchPokemon(poke3));
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke1));
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke2));
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke3));
         }
 
         private void GetPokemons()
@@ -154,7 +154,7 @@ namespace ProyectoSO2
 
         private void AbrirChat()
         {
-            Chat Ch = new Chat(IDChat, server,User.Text);
+            Batalla Ch = new Batalla(User.Text, Oponente, EquipoBatallaPropio, EquipoBatallaOponente, IDChat);
             Chats.Add(Ch);
             IDs.Add(IDChat);
             Ch.ShowDialog();
@@ -373,27 +373,48 @@ namespace ProyectoSO2
                         MessageBox.Show("Iniciando partida " +IDChat);
                         DelegadoInvitacionRechazada delegadorech3 = new DelegadoInvitacionRechazada(DelegarInvitacionRechazada);
                         Invite.Invoke(delegadorech3);
-                        ThreadStart ts2 = delegate { AbrirChat(); };
-                        Thread forms = new Thread(ts2);
-                        forms.Start();
+                        string mensaje3 = "13/" + IDChat + "," + User.Text + "," + EquipoBatallaPropio.GetPokemon(0).Nombre + "," + EquipoBatallaPropio.GetPokemon(1).Nombre + "," + EquipoBatallaPropio.GetPokemon(2).Nombre;
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje3);
+                        server.Send(msg);
                         break;
                     case 11:
                         int ID = Convert.ToInt32(contenido.Split('-')[0]);
                         contenido = contenido.Split('-')[1];
                         int IDindex = BuscarID(ID);
-                        Chats[IDindex].EscribirMensaje(contenido);
+                        //Chats[IDindex].EscribirMensaje(contenido);
                         break;
                     case 12:
                         ID = Convert.ToInt32(contenido.Split('-')[0]);
                         string usuario = contenido.Split('-')[1];
                         IDindex = BuscarID(ID);
                         MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
-                        Chats[IDindex].AbandonarPartida();
+                        //Chats[IDindex].AbandonarPartida();
                         break;
                     case 13:
                         string[] TuEquipo = contenido.Split(',');
                         SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
-                        MessageBox.Show(EquipoBatalla.GetPokemon(0).Nombre + EquipoBatalla.GetPokemon(1).Nombre + EquipoBatalla.GetPokemon(2).Nombre);
+                        MessageBox.Show(EquipoBatallaPropio.GetPokemon(0).Nombre + EquipoBatallaPropio.GetPokemon(1).Nombre + EquipoBatallaPropio.GetPokemon(2).Nombre);
+                        break;
+                    case 14:
+                        string[] content = contenido.Split('-');
+                        int IDa = Convert.ToInt32(content[0]);
+                        contenido = content[1];
+                        content = contenido.Split(',');
+                        bool OponenteRecibido = false;
+                        if (content[0] != User.Text)
+                        {
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[1]));
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[2]));
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[3]));
+                            Oponente = content[0];
+                            OponenteRecibido = true;
+                        }
+                        if (OponenteRecibido == true)
+                        {
+                            ThreadStart ts2 = delegate { AbrirChat(); };
+                            Thread forms = new Thread(ts2);
+                            forms.Start();
+                        }
                         break;
 
                 }

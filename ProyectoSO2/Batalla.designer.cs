@@ -1,0 +1,487 @@
+﻿namespace ProyectoSO2
+{
+    partial class Batalla
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.Jug1 = new System.Windows.Forms.Label();
+            this.Jug2 = new System.Windows.Forms.Label();
+            this.PokemonP1 = new System.Windows.Forms.Label();
+            this.PokemonP2 = new System.Windows.Forms.Label();
+            this.CambiarPokemon = new System.Windows.Forms.Button();
+            this.Notif = new System.Windows.Forms.Label();
+            this.counter = new System.Windows.Forms.Label();
+            this.Mov1Text = new System.Windows.Forms.Label();
+            this.Mov2Text = new System.Windows.Forms.Label();
+            this.Mov3Text = new System.Windows.Forms.Label();
+            this.Mov4Text = new System.Windows.Forms.Label();
+            this.PPMov1 = new System.Windows.Forms.Label();
+            this.PPMov2 = new System.Windows.Forms.Label();
+            this.PPMov3 = new System.Windows.Forms.Label();
+            this.PPMov4 = new System.Windows.Forms.Label();
+            this.Mov4 = new System.Windows.Forms.PictureBox();
+            this.Mov3 = new System.Windows.Forms.PictureBox();
+            this.Mov2 = new System.Windows.Forms.PictureBox();
+            this.Mov1 = new System.Windows.Forms.PictureBox();
+            this.HealthBar1 = new System.Windows.Forms.PictureBox();
+            this.HealthBar2 = new System.Windows.Forms.PictureBox();
+            this.pokeball6 = new System.Windows.Forms.PictureBox();
+            this.pokeball5 = new System.Windows.Forms.PictureBox();
+            this.pokeball4 = new System.Windows.Forms.PictureBox();
+            this.pokeball3 = new System.Windows.Forms.PictureBox();
+            this.pokeball2 = new System.Windows.Forms.PictureBox();
+            this.pokeball1 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Fondo = new System.Windows.Forms.PictureBox();
+            this.cuarenta = new System.Windows.Forms.Button();
+            this.dos = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HealthBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HealthBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Fondo)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // Jug1
+            // 
+            this.Jug1.AutoSize = true;
+            this.Jug1.Location = new System.Drawing.Point(49, 639);
+            this.Jug1.Name = "Jug1";
+            this.Jug1.Size = new System.Drawing.Size(108, 25);
+            this.Jug1.TabIndex = 13;
+            this.Jug1.Text = "Jugador 1";
+            // 
+            // Jug2
+            // 
+            this.Jug2.AutoSize = true;
+            this.Jug2.Location = new System.Drawing.Point(639, 648);
+            this.Jug2.Name = "Jug2";
+            this.Jug2.Size = new System.Drawing.Size(108, 25);
+            this.Jug2.TabIndex = 14;
+            this.Jug2.Text = "Jugador 2";
+            // 
+            // PokemonP1
+            // 
+            this.PokemonP1.AutoSize = true;
+            this.PokemonP1.Location = new System.Drawing.Point(299, 648);
+            this.PokemonP1.Name = "PokemonP1";
+            this.PokemonP1.Size = new System.Drawing.Size(128, 25);
+            this.PokemonP1.TabIndex = 18;
+            this.PokemonP1.Text = "PokemonP1";
+            this.PokemonP1.Visible = false;
+            // 
+            // PokemonP2
+            // 
+            this.PokemonP2.AutoSize = true;
+            this.PokemonP2.Location = new System.Drawing.Point(889, 648);
+            this.PokemonP2.Name = "PokemonP2";
+            this.PokemonP2.Size = new System.Drawing.Size(128, 25);
+            this.PokemonP2.TabIndex = 19;
+            this.PokemonP2.Text = "PokemonP2";
+            this.PokemonP2.Visible = false;
+            // 
+            // CambiarPokemon
+            // 
+            this.CambiarPokemon.Location = new System.Drawing.Point(1072, 441);
+            this.CambiarPokemon.Name = "CambiarPokemon";
+            this.CambiarPokemon.Size = new System.Drawing.Size(429, 104);
+            this.CambiarPokemon.TabIndex = 26;
+            this.CambiarPokemon.Text = "Cambiar Pokemon";
+            this.CambiarPokemon.UseVisualStyleBackColor = true;
+            this.CambiarPokemon.Click += new System.EventHandler(this.CambiarPokemon_Click);
+            // 
+            // Notif
+            // 
+            this.Notif.AutoSize = true;
+            this.Notif.BackColor = System.Drawing.Color.Transparent;
+            this.Notif.Location = new System.Drawing.Point(1067, 49);
+            this.Notif.MaximumSize = new System.Drawing.Size(480, 0);
+            this.Notif.Name = "Notif";
+            this.Notif.Size = new System.Drawing.Size(210, 25);
+            this.Notif.TabIndex = 28;
+            this.Notif.Text = "La batalla comienza!";
+            // 
+            // counter
+            // 
+            this.counter.AutoSize = true;
+            this.counter.Location = new System.Drawing.Point(1328, 678);
+            this.counter.Name = "counter";
+            this.counter.Size = new System.Drawing.Size(70, 25);
+            this.counter.TabIndex = 27;
+            this.counter.Text = "label1";
+            // 
+            // Mov1Text
+            // 
+            this.Mov1Text.AutoSize = true;
+            this.Mov1Text.BackColor = System.Drawing.Color.Transparent;
+            this.Mov1Text.Location = new System.Drawing.Point(1067, 198);
+            this.Mov1Text.Name = "Mov1Text";
+            this.Mov1Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov1Text.TabIndex = 36;
+            this.Mov1Text.Text = "Mov1Text";
+            this.Mov1Text.Visible = false;
+            // 
+            // Mov2Text
+            // 
+            this.Mov2Text.AutoSize = true;
+            this.Mov2Text.BackColor = System.Drawing.Color.Transparent;
+            this.Mov2Text.Location = new System.Drawing.Point(1328, 198);
+            this.Mov2Text.Name = "Mov2Text";
+            this.Mov2Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov2Text.TabIndex = 37;
+            this.Mov2Text.Text = "Mov2Text";
+            this.Mov2Text.Visible = false;
+            // 
+            // Mov3Text
+            // 
+            this.Mov3Text.AutoSize = true;
+            this.Mov3Text.BackColor = System.Drawing.Color.Transparent;
+            this.Mov3Text.Location = new System.Drawing.Point(1067, 327);
+            this.Mov3Text.Name = "Mov3Text";
+            this.Mov3Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov3Text.TabIndex = 38;
+            this.Mov3Text.Text = "Mov3Text";
+            this.Mov3Text.Visible = false;
+            // 
+            // Mov4Text
+            // 
+            this.Mov4Text.AutoSize = true;
+            this.Mov4Text.BackColor = System.Drawing.Color.Transparent;
+            this.Mov4Text.Location = new System.Drawing.Point(1328, 327);
+            this.Mov4Text.Name = "Mov4Text";
+            this.Mov4Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov4Text.TabIndex = 39;
+            this.Mov4Text.Text = "Mov4Text";
+            this.Mov4Text.Visible = false;
+            // 
+            // PPMov1
+            // 
+            this.PPMov1.AutoSize = true;
+            this.PPMov1.BackColor = System.Drawing.Color.Transparent;
+            this.PPMov1.Location = new System.Drawing.Point(1125, 239);
+            this.PPMov1.Name = "PPMov1";
+            this.PPMov1.Size = new System.Drawing.Size(100, 25);
+            this.PPMov1.TabIndex = 40;
+            this.PPMov1.Text = "PPMOV1";
+            this.PPMov1.Visible = false;
+            // 
+            // PPMov2
+            // 
+            this.PPMov2.AutoSize = true;
+            this.PPMov2.BackColor = System.Drawing.Color.Transparent;
+            this.PPMov2.Location = new System.Drawing.Point(1374, 239);
+            this.PPMov2.Name = "PPMov2";
+            this.PPMov2.Size = new System.Drawing.Size(100, 25);
+            this.PPMov2.TabIndex = 41;
+            this.PPMov2.Text = "PPMOV2";
+            this.PPMov2.Visible = false;
+            // 
+            // PPMov3
+            // 
+            this.PPMov3.AutoSize = true;
+            this.PPMov3.BackColor = System.Drawing.Color.Transparent;
+            this.PPMov3.Location = new System.Drawing.Point(1125, 373);
+            this.PPMov3.Name = "PPMov3";
+            this.PPMov3.Size = new System.Drawing.Size(100, 25);
+            this.PPMov3.TabIndex = 42;
+            this.PPMov3.Text = "PPMOV3";
+            this.PPMov3.Visible = false;
+            // 
+            // PPMov4
+            // 
+            this.PPMov4.AutoSize = true;
+            this.PPMov4.BackColor = System.Drawing.Color.Transparent;
+            this.PPMov4.Location = new System.Drawing.Point(1374, 373);
+            this.PPMov4.Name = "PPMov4";
+            this.PPMov4.Size = new System.Drawing.Size(100, 25);
+            this.PPMov4.TabIndex = 43;
+            this.PPMov4.Text = "PPMOV4";
+            this.PPMov4.Visible = false;
+            // 
+            // Mov4
+            // 
+            this.Mov4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Mov4.Location = new System.Drawing.Point(1307, 307);
+            this.Mov4.Name = "Mov4";
+            this.Mov4.Size = new System.Drawing.Size(262, 106);
+            this.Mov4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Mov4.TabIndex = 35;
+            this.Mov4.TabStop = false;
+            // 
+            // Mov3
+            // 
+            this.Mov3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Mov3.Location = new System.Drawing.Point(1049, 307);
+            this.Mov3.Name = "Mov3";
+            this.Mov3.Size = new System.Drawing.Size(252, 106);
+            this.Mov3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Mov3.TabIndex = 34;
+            this.Mov3.TabStop = false;
+            // 
+            // Mov2
+            // 
+            this.Mov2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Mov2.Location = new System.Drawing.Point(1307, 175);
+            this.Mov2.Name = "Mov2";
+            this.Mov2.Size = new System.Drawing.Size(262, 106);
+            this.Mov2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Mov2.TabIndex = 33;
+            this.Mov2.TabStop = false;
+            // 
+            // Mov1
+            // 
+            this.Mov1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Mov1.Location = new System.Drawing.Point(1049, 175);
+            this.Mov1.Name = "Mov1";
+            this.Mov1.Size = new System.Drawing.Size(252, 106);
+            this.Mov1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Mov1.TabIndex = 32;
+            this.Mov1.TabStop = false;
+            // 
+            // HealthBar1
+            // 
+            this.HealthBar1.Location = new System.Drawing.Point(894, 697);
+            this.HealthBar1.Name = "HealthBar1";
+            this.HealthBar1.Size = new System.Drawing.Size(231, 24);
+            this.HealthBar1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.HealthBar1.TabIndex = 31;
+            this.HealthBar1.TabStop = false;
+            // 
+            // HealthBar2
+            // 
+            this.HealthBar2.Location = new System.Drawing.Point(295, 697);
+            this.HealthBar2.Name = "HealthBar2";
+            this.HealthBar2.Size = new System.Drawing.Size(231, 24);
+            this.HealthBar2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.HealthBar2.TabIndex = 30;
+            this.HealthBar2.TabStop = false;
+            // 
+            // pokeball6
+            // 
+            this.pokeball6.Location = new System.Drawing.Point(803, 688);
+            this.pokeball6.Name = "pokeball6";
+            this.pokeball6.Size = new System.Drawing.Size(49, 54);
+            this.pokeball6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball6.TabIndex = 6;
+            this.pokeball6.TabStop = false;
+            // 
+            // pokeball5
+            // 
+            this.pokeball5.Location = new System.Drawing.Point(723, 688);
+            this.pokeball5.Name = "pokeball5";
+            this.pokeball5.Size = new System.Drawing.Size(49, 54);
+            this.pokeball5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball5.TabIndex = 5;
+            this.pokeball5.TabStop = false;
+            // 
+            // pokeball4
+            // 
+            this.pokeball4.Location = new System.Drawing.Point(644, 688);
+            this.pokeball4.Name = "pokeball4";
+            this.pokeball4.Size = new System.Drawing.Size(49, 54);
+            this.pokeball4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball4.TabIndex = 4;
+            this.pokeball4.TabStop = false;
+            // 
+            // pokeball3
+            // 
+            this.pokeball3.Location = new System.Drawing.Point(210, 682);
+            this.pokeball3.Name = "pokeball3";
+            this.pokeball3.Size = new System.Drawing.Size(49, 54);
+            this.pokeball3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball3.TabIndex = 3;
+            this.pokeball3.TabStop = false;
+            this.pokeball3.Click += new System.EventHandler(this.pokeball3_Click);
+            // 
+            // pokeball2
+            // 
+            this.pokeball2.Location = new System.Drawing.Point(133, 682);
+            this.pokeball2.Name = "pokeball2";
+            this.pokeball2.Size = new System.Drawing.Size(49, 54);
+            this.pokeball2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball2.TabIndex = 2;
+            this.pokeball2.TabStop = false;
+            this.pokeball2.Click += new System.EventHandler(this.pokeball2_Click);
+            // 
+            // pokeball1
+            // 
+            this.pokeball1.Location = new System.Drawing.Point(54, 682);
+            this.pokeball1.Name = "pokeball1";
+            this.pokeball1.Size = new System.Drawing.Size(49, 54);
+            this.pokeball1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pokeball1.TabIndex = 1;
+            this.pokeball1.TabStop = false;
+            this.pokeball1.Click += new System.EventHandler(this.pokeball1_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(45, 38);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(972, 552);
+            this.panel1.TabIndex = 0;
+            // 
+            // Fondo
+            // 
+            this.Fondo.Location = new System.Drawing.Point(1049, 38);
+            this.Fondo.Name = "Fondo";
+            this.Fondo.Size = new System.Drawing.Size(520, 96);
+            this.Fondo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Fondo.TabIndex = 29;
+            this.Fondo.TabStop = false;
+            // 
+            // cuarenta
+            // 
+            this.cuarenta.Location = new System.Drawing.Point(1113, 560);
+            this.cuarenta.Name = "cuarenta";
+            this.cuarenta.Size = new System.Drawing.Size(188, 104);
+            this.cuarenta.TabIndex = 44;
+            this.cuarenta.Text = "Vida a 40%";
+            this.cuarenta.UseVisualStyleBackColor = true;
+            this.cuarenta.Click += new System.EventHandler(this.cuarenta_Click);
+            // 
+            // dos
+            // 
+            this.dos.Location = new System.Drawing.Point(1333, 560);
+            this.dos.Name = "dos";
+            this.dos.Size = new System.Drawing.Size(188, 104);
+            this.dos.TabIndex = 45;
+            this.dos.Text = "vida a 2%";
+            this.dos.UseVisualStyleBackColor = true;
+            this.dos.Click += new System.EventHandler(this.dos_Click);
+            // 
+            // Batalla
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1596, 838);
+            this.Controls.Add(this.dos);
+            this.Controls.Add(this.cuarenta);
+            this.Controls.Add(this.PPMov4);
+            this.Controls.Add(this.PPMov3);
+            this.Controls.Add(this.PPMov2);
+            this.Controls.Add(this.PPMov1);
+            this.Controls.Add(this.Mov4Text);
+            this.Controls.Add(this.Mov3Text);
+            this.Controls.Add(this.Mov2Text);
+            this.Controls.Add(this.Mov1Text);
+            this.Controls.Add(this.Mov4);
+            this.Controls.Add(this.Mov3);
+            this.Controls.Add(this.Mov2);
+            this.Controls.Add(this.Mov1);
+            this.Controls.Add(this.HealthBar1);
+            this.Controls.Add(this.HealthBar2);
+            this.Controls.Add(this.Notif);
+            this.Controls.Add(this.counter);
+            this.Controls.Add(this.CambiarPokemon);
+            this.Controls.Add(this.PokemonP2);
+            this.Controls.Add(this.PokemonP1);
+            this.Controls.Add(this.Jug2);
+            this.Controls.Add(this.Jug1);
+            this.Controls.Add(this.pokeball6);
+            this.Controls.Add(this.pokeball5);
+            this.Controls.Add(this.pokeball4);
+            this.Controls.Add(this.pokeball3);
+            this.Controls.Add(this.pokeball2);
+            this.Controls.Add(this.pokeball1);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.Fondo);
+            this.Name = "Batalla";
+            this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.Mov4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Mov1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HealthBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HealthBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pokeball1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Fondo)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.PictureBox pokeball1;
+        private System.Windows.Forms.PictureBox pokeball2;
+        private System.Windows.Forms.PictureBox pokeball3;
+        private System.Windows.Forms.PictureBox pokeball4;
+        private System.Windows.Forms.PictureBox pokeball5;
+        private System.Windows.Forms.PictureBox pokeball6;
+        private System.Windows.Forms.Label Jug1;
+        private System.Windows.Forms.Label Jug2;
+        private System.Windows.Forms.Label PokemonP1;
+        private System.Windows.Forms.Label PokemonP2;
+        private System.Windows.Forms.Button CambiarPokemon;
+        private System.Windows.Forms.Label Notif;
+        private System.Windows.Forms.Label counter;
+        private System.Windows.Forms.PictureBox Fondo;
+        private System.Windows.Forms.PictureBox HealthBar2;
+        private System.Windows.Forms.PictureBox HealthBar1;
+        private System.Windows.Forms.PictureBox Mov1;
+        private System.Windows.Forms.PictureBox Mov2;
+        private System.Windows.Forms.PictureBox Mov3;
+        private System.Windows.Forms.PictureBox Mov4;
+        private System.Windows.Forms.Label Mov1Text;
+        private System.Windows.Forms.Label Mov2Text;
+        private System.Windows.Forms.Label Mov3Text;
+        private System.Windows.Forms.Label Mov4Text;
+        private System.Windows.Forms.Label PPMov1;
+        private System.Windows.Forms.Label PPMov2;
+        private System.Windows.Forms.Label PPMov3;
+        private System.Windows.Forms.Label PPMov4;
+        private System.Windows.Forms.Button cuarenta;
+        private System.Windows.Forms.Button dos;
+    }
+}
+

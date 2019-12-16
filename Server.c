@@ -486,7 +486,7 @@ int EliminarPartida(ListaPartidas *lista, int ID)			//Funcion para eliminar una 
 	else
 		return 1;
 }
-void BroadCastMensaje(ListaPartidas *listapartida, char mensaje[200], int ID)
+void BroadCastMensaje(ListaPartidas *listapartida,int codigoreceptor, char mensaje[200], int ID)
 {
 	int i = 0;
 	int found = 0;
@@ -509,7 +509,7 @@ void BroadCastMensaje(ListaPartidas *listapartida, char mensaje[200], int ID)
 	{
 		socketreceptor = listapartida->Partidas[index].Usuarios.Usuarios[c].socket;
 		strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
-		sprintf(buffer,"11:%d-%s",ID,mensaje);
+		sprintf(buffer,"%d:%d-%s",codigoreceptor,ID,mensaje);
 		write(socketreceptor,buffer, strlen(buffer));
 		c = c + 1;
 	}
@@ -685,7 +685,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			p = strtok(NULL,",");
 			char mensaje[200];
 			strcpy(mensaje,p);
-			BroadCastMensaje(&Listapartidas,mensaje,IDPartida);
+			BroadCastMensaje(&Listapartidas,11,mensaje,IDPartida);
 		}
 		
 		if (codigo == 11) //Jugador sale de Partida
@@ -701,7 +701,31 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			pthread_mutex_unlock(&mutex);
 			printf("Partida borrada\n");
 		}
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11))
+		if (codigo == 12) //Confirmar equipo
+		{
+			sprintf(salida,"13:%s",mensaje);
+		}
+		if (codigo == 13)
+		{
+			p = strtok(mensaje,",");
+			int ID = atoi(p);
+			p = strtok(NULL,",");
+			char User[20];
+			strcpy(User,p);
+			p = strtok(NULL,",");
+			char Pokemon1[30];
+			char Pokemon2[30];
+			char Pokemon3[30];
+			strcpy(Pokemon1,p);
+			p = strtok(NULL,",");
+			strcpy(Pokemon2,p);
+			p = strtok(NULL,",");	
+			strcpy(Pokemon3,p);
+			char salida[200];
+			sprintf(salida,"%s,%s,%s,%s",User,Pokemon1,Pokemon2,Pokemon3);
+			BroadCastMensaje(&Listapartidas,14,salida,ID);
+		}
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -724,7 +748,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9087);
+	int sock_listen = ConexionSocket(50058);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
