@@ -133,12 +133,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Proyecto SO\PokemonBattle\PokemonLib\PokemonLib.csproj">
-      <Project>{cbae959b-123b-46c4-ad3f-72effdedb42c}</Project>
-      <Name>PokemonLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="WMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -160,6 +154,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokemonLib\PokemonLib.csproj">
+      <Project>{68dd92b2-dffa-41bc-8254-2d9782592b79}</Project>
+      <Name>PokemonLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

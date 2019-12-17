@@ -11,8 +11,8 @@ using System.Media;
 using System.Drawing.Text;
 using WMPLib;
 using System.Runtime.InteropServices;
-using PokemonLib;
 using System.Net.Sockets;
+using PokemonLib;
 
 namespace ProyectoSO2
 {
