@@ -164,7 +164,7 @@ namespace ProyectoSO2
             Pokemon.BackColor = Color.Transparent;
             panel1.Controls.Add(Pokemon);
             WindowsMediaPlayer pokemon = new WindowsMediaPlayer();
-            pokemon.URL = directorio + "\\Sounds\\" + poke + ".wav";
+            pokemon.URL = directorio + "\\Sounds\\" + poke.Nombre + ".wav";
             pokemon.controls.play();
             PokemonP2.Visible = true;
             HealthBar1.Image = (Image)HealthBar;
