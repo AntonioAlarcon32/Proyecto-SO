@@ -1,0 +1,24 @@
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.deps.json
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.csprojAssemblyReference.cache
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfoInputs.cache
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfo.cs
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\PokemonBattle\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.deps.json
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.csprojAssemblyReference.cache
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfoInputs.cache
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfo.cs
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.deps.json
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.csprojAssemblyReference.cache
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfoInputs.cache
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfo.cs
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\Marc\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.pdb

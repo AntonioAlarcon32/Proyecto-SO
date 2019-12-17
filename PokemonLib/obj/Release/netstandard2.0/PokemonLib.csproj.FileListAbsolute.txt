@@ -1,0 +1,8 @@
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Release\netstandard2.0\PokemonLib.deps.json
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Release\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\bin\Release\netstandard2.0\PokemonLib.pdb
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Release\netstandard2.0\PokemonLib.csprojAssemblyReference.cache
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Release\netstandard2.0\PokemonLib.AssemblyInfoInputs.cache
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Release\netstandard2.0\PokemonLib.AssemblyInfo.cs
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Release\netstandard2.0\PokemonLib.dll
+C:\Users\anton\Desktop\Proyecto SO\PokemonBattle\PokemonLib\obj\Release\netstandard2.0\PokemonLib.pdb
