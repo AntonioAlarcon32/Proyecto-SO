@@ -22,7 +22,7 @@ namespace ProyectoSO2
         Socket server;
         Thread Atender;
         string ip = "192.168.56.110";
-        int puerto = 50058;
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -154,7 +154,7 @@ namespace ProyectoSO2
 
         private void AbrirChat()
         {
-            Batalla Ch = new Batalla(User.Text, Oponente, EquipoBatallaPropio, EquipoBatallaOponente, IDChat);
+            Batalla Ch = new Batalla(User.Text, Oponente, EquipoBatallaPropio, EquipoBatallaOponente, IDChat, server);
             Chats.Add(Ch);
             IDs.Add(IDChat);
             Ch.ShowDialog();
@@ -381,21 +381,22 @@ namespace ProyectoSO2
                         int ID = Convert.ToInt32(contenido.Split('-')[0]);
                         contenido = contenido.Split('-')[1];
                         int IDindex = BuscarID(ID);
-                        //Chats[IDindex].EscribirMensaje(contenido);
+                        Chats[IDindex].EscribirMensaje(contenido);
                         break;
                     case 12:
                         ID = Convert.ToInt32(contenido.Split('-')[0]);
                         string usuario = contenido.Split('-')[1];
                         IDindex = BuscarID(ID);
                         MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
-                        //Chats[IDindex].AbandonarPartida();
+                        Chats[IDindex].AbandonarPartida();
                         break;
                     case 13:
+                        //EquipoBatallaPropio.DeleteEquipo();
                         string[] TuEquipo = contenido.Split(',');
                         SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
-                        MessageBox.Show(EquipoBatallaPropio.GetPokemon(0).Nombre + EquipoBatallaPropio.GetPokemon(1).Nombre + EquipoBatallaPropio.GetPokemon(2).Nombre);
                         break;
                     case 14:
+                        //EquipoBatallaOponente.DeleteEquipo();
                         string[] content = contenido.Split('-');
                         int IDa = Convert.ToInt32(content[0]);
                         contenido = content[1];
@@ -630,6 +631,7 @@ namespace ProyectoSO2
 
         private void Cerrar_Click(object sender, EventArgs e)
         {
+            
             this.Close();
             Application.Exit();
         }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.Jug1 = new System.Windows.Forms.Label();
             this.Jug2 = new System.Windows.Forms.Label();
@@ -61,6 +62,11 @@
             this.Fondo = new System.Windows.Forms.PictureBox();
             this.cuarenta = new System.Windows.Forms.Button();
             this.dos = new System.Windows.Forms.Button();
+            this.Abandonar = new System.Windows.Forms.Button();
+            this.EnviarChat = new System.Windows.Forms.Button();
+            this.MensajeChat = new System.Windows.Forms.TextBox();
+            this.ChatData = new System.Windows.Forms.DataGridView();
+            this.IDLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Mov4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mov3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mov2)).BeginInit();
@@ -74,6 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pokeball2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokeball1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Fondo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChatData)).BeginInit();
             this.SuspendLayout();
             // 
             // timer
@@ -390,12 +397,69 @@
             this.dos.UseVisualStyleBackColor = true;
             this.dos.Click += new System.EventHandler(this.dos_Click);
             // 
+            // Abandonar
+            // 
+            this.Abandonar.Location = new System.Drawing.Point(1113, 758);
+            this.Abandonar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Abandonar.Name = "Abandonar";
+            this.Abandonar.Size = new System.Drawing.Size(207, 62);
+            this.Abandonar.TabIndex = 50;
+            this.Abandonar.Text = "Abandonar Partida";
+            this.Abandonar.UseVisualStyleBackColor = true;
+            this.Abandonar.Click += new System.EventHandler(this.Abandonar_Click);
+            // 
+            // EnviarChat
+            // 
+            this.EnviarChat.Location = new System.Drawing.Point(1900, 763);
+            this.EnviarChat.Name = "EnviarChat";
+            this.EnviarChat.Size = new System.Drawing.Size(207, 48);
+            this.EnviarChat.TabIndex = 48;
+            this.EnviarChat.Text = "Enviar";
+            this.EnviarChat.UseVisualStyleBackColor = true;
+            this.EnviarChat.Click += new System.EventHandler(this.EnviarChat_Click);
+            // 
+            // MensajeChat
+            // 
+            this.MensajeChat.Location = new System.Drawing.Point(1575, 774);
+            this.MensajeChat.Name = "MensajeChat";
+            this.MensajeChat.Size = new System.Drawing.Size(310, 31);
+            this.MensajeChat.TabIndex = 47;
+            // 
+            // ChatData
+            // 
+            this.ChatData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ChatData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ChatData.Location = new System.Drawing.Point(1575, 62);
+            this.ChatData.Name = "ChatData";
+            this.ChatData.RowHeadersVisible = false;
+            this.ChatData.RowHeadersWidth = 82;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.ChatData.RowTemplate.Height = 33;
+            this.ChatData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ChatData.Size = new System.Drawing.Size(489, 695);
+            this.ChatData.TabIndex = 46;
+            // 
+            // IDLabel
+            // 
+            this.IDLabel.AutoSize = true;
+            this.IDLabel.Location = new System.Drawing.Point(1779, 34);
+            this.IDLabel.Name = "IDLabel";
+            this.IDLabel.Size = new System.Drawing.Size(32, 25);
+            this.IDLabel.TabIndex = 49;
+            this.IDLabel.Text = "ID";
+            // 
             // Batalla
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1596, 838);
+            this.ClientSize = new System.Drawing.Size(2126, 913);
+            this.Controls.Add(this.Abandonar);
+            this.Controls.Add(this.IDLabel);
+            this.Controls.Add(this.EnviarChat);
+            this.Controls.Add(this.MensajeChat);
+            this.Controls.Add(this.ChatData);
             this.Controls.Add(this.dos);
             this.Controls.Add(this.cuarenta);
             this.Controls.Add(this.PPMov4);
@@ -429,6 +493,7 @@
             this.Controls.Add(this.Fondo);
             this.Name = "Batalla";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Batalla_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Mov4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mov3)).EndInit();
@@ -443,6 +508,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pokeball2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pokeball1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Fondo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChatData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,6 +548,11 @@
         private System.Windows.Forms.Label PPMov4;
         private System.Windows.Forms.Button cuarenta;
         private System.Windows.Forms.Button dos;
+        private System.Windows.Forms.Button Abandonar;
+        private System.Windows.Forms.Button EnviarChat;
+        private System.Windows.Forms.TextBox MensajeChat;
+        private System.Windows.Forms.DataGridView ChatData;
+        private System.Windows.Forms.Label IDLabel;
     }
 }
 

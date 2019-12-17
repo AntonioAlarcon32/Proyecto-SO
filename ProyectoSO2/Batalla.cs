@@ -12,6 +12,7 @@ using System.Drawing.Text;
 using WMPLib;
 using System.Runtime.InteropServices;
 using PokemonLib;
+using System.Net.Sockets;
 
 namespace ProyectoSO2
 {
@@ -24,6 +25,8 @@ namespace ProyectoSO2
         Bitmap pokeball = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeball.png");
         Bitmap pokeballdebilitado = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeballblanco.png");
         Bitmap HealthBar = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\healthbar.png");
+        static Random rand = new Random();
+        SoundPlayer Player1 = new SoundPlayer(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Music\\batalla" + Convert.ToString(rand.Next(1, 9)) + ".wav");
 
         Pokemon PokemonLuchando1 = new Pokemon();
         int numPokemonLuchandoPlayer1 = 0;
@@ -37,7 +40,9 @@ namespace ProyectoSO2
 
         string Jugador1;
         string Jugador2;
-
+        Socket Server;
+        delegate void EscribirChat(string MensajeChat);
+        delegate void CerrarChat();
 
 
         PictureBox barrasalud1 = new PictureBox();
@@ -51,7 +56,7 @@ namespace ProyectoSO2
         }
 
 
-        public Batalla(string Play1, string Play2, Equipo EqJugador1, Equipo EqJugador2, int ID)
+        public Batalla(string Play1, string Play2, Equipo EqJugador1, Equipo EqJugador2, int ID, Socket Server)
         {
             pfc.AddFontFile(directorio + "\\UI\\fuente.ttf");
             this.Jugador1 = Play1;
@@ -59,8 +64,36 @@ namespace ProyectoSO2
             this.EquipoJugador1 = EqJugador1;
             this.EquipoJugador2 = EqJugador2;
             this.ID = ID;
+            this.Server = Server;
+
             InitializeComponent();
         }
+        public void EscribirMensaje(string contenido)
+        {
+            EscribirChat delegadoChat = new EscribirChat(EscribirMensajeDelegado);
+            ChatData.Invoke(delegadoChat, new object[] { contenido });
+            string[] Message = contenido.Split(';');
+        }
+
+
+        public void EscribirMensajeDelegado(string contenido)
+        {
+            string[] Message = contenido.Split(';');
+            ChatData.Rows.Add(Message);
+        }
+
+        public void AbandonarPartida()
+        {
+            CerrarChat delegado = new CerrarChat(CerrarPartida);
+            Abandonar.Invoke(delegado);
+
+        }
+
+        public void CerrarPartida()
+        {
+            this.Close();
+        }
+
 
         private void PreMatch(Equipo Player1, string Juga1, Equipo Player2, string Juga2)
         {
@@ -308,7 +341,8 @@ namespace ProyectoSO2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            IDLabel.Text = Convert.ToString(ID);
+            ChatData.ColumnCount = 2;
             PokemonLuchando1 = EquipoJugador1.GetPokemon(0);
             PokemonLuchando2 = EquipoJugador2.GetPokemon(0);
             timer.Interval = (2000);
@@ -339,11 +373,8 @@ namespace ProyectoSO2
             if (contador == 10) 
             {
                 panel1.Controls.Clear();
-                Random rand = new Random();
-                int numero = rand.Next(1, 9);
                 Bitmap campo = new Bitmap(directorio + "\\UI\\campo.png");
                 panel1.BackgroundImage = campo; 
-                SoundPlayer Player1 = new SoundPlayer(directorio + "\\Music\\batalla" + Convert.ToString(numero) + ".wav");
                 Player1.PlayLooping();
             }
             if (contador == 14)
@@ -421,6 +452,27 @@ namespace ProyectoSO2
             Double newPS = PokemonLuchando1.PS * 0.2;
             PokemonLuchando1.PSactuales = (int)newPS;
             ActualizarBarraSalud1(PokemonLuchando1,barrasalud1);
+        }
+
+        private void EnviarChat_Click(object sender, EventArgs e)
+        {
+            string mensaje = "10/" + Convert.ToString(ID) + "," + Jugador1 + ";" + MensajeChat.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            Server.Send(msg);
+            MensajeChat.Clear();
+        }
+
+        private void Abandonar_Click(object sender, EventArgs e)
+        {
+            string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            Server.Send(msg);
+            this.Close();
+        }
+
+        private void Batalla_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Player1.Stop();
         }
     }
 }
