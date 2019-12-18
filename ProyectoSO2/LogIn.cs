@@ -391,12 +391,10 @@ namespace ProyectoSO2
                         Chats[IDindex].AbandonarPartida();
                         break;
                     case 13:
-                        //EquipoBatallaPropio.DeleteEquipo();
                         string[] TuEquipo = contenido.Split(',');
                         SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
                         break;
                     case 14:
-                        //EquipoBatallaOponente.DeleteEquipo();
                         string[] content = contenido.Split('-');
                         int IDa = Convert.ToInt32(content[0]);
                         contenido = content[1];
@@ -610,6 +608,7 @@ namespace ProyectoSO2
 
         private void AceptarInvitacion_Click(object sender, EventArgs e)
         {
+            EquipoBatallaOponente.DeleteEquipo();
             string mensaje = "7/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -638,6 +637,7 @@ namespace ProyectoSO2
 
         private void TeamBuilder_Click(object sender, EventArgs e)
         {
+            EquipoBatallaPropio.DeleteEquipo();
             ThreadStart ts3 = delegate { AbrirTeamBuilder(); };
             Thread build = new Thread(ts3);
             build.Start();

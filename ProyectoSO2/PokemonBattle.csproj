@@ -68,12 +68,6 @@
     <Compile Include="Batalla.designer.cs">
       <DependentUpon>Batalla.cs</DependentUpon>
     </Compile>
-    <Compile Include="Chat.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Chat.Designer.cs">
-      <DependentUpon>Chat.cs</DependentUpon>
-    </Compile>
     <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,9 +90,6 @@
     </Compile>
     <EmbeddedResource Include="Batalla.resx">
       <DependentUpon>Batalla.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Chat.resx">
-      <DependentUpon>Chat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>

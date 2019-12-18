@@ -2,7 +2,6 @@ C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\PokemonLib.dll
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\bin\Debug\PokemonLib.pdb
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\Interop.WMPLib.dll
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\PokemonBattle.csproj.ResolveComReference.cache
-C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Chat.resources
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.Inicio.resources
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\ProyectoSO2.LogIn.resources
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\PokemonBattle.csproj.GenerateResource.cache

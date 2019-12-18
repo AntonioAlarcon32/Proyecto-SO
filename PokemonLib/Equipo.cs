@@ -11,9 +11,6 @@ namespace PokemonLib
         public int Pokemons_Iniciales = 0;
         public int Pokemons_Restantes = 0;
 
-
-
-
         public Equipo()
         {
         }

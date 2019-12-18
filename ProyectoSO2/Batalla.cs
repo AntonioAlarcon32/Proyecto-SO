@@ -18,6 +18,7 @@ namespace ProyectoSO2
 {
     public partial class Batalla : Form
     {
+        BattleManager bt = new BattleManager();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         PrivateFontCollection pfc = new PrivateFontCollection();
         Equipo EquipoJugador1 = new Equipo();
@@ -380,8 +381,10 @@ namespace ProyectoSO2
             if (contador == 14)
                 SpawnPokemon2(PokemonLuchando2);
             if (contador == 18)
+            {
                 SpawnPokemon1(PokemonLuchando1);
-            Spawning = false;
+                bt.InicioTurno();
+            }
         }
 
         
@@ -397,7 +400,7 @@ namespace ProyectoSO2
 
         private void CambiarPokemon_Click(object sender, EventArgs e)
         {
-            if (Spawning == false)
+            if (bt.GetAllowAttack() == true)
             {
                 CambiandoPoke = true;
                 Notif.Text = "Selecciona el Pokemon al que cambiar";
@@ -473,6 +476,42 @@ namespace ProyectoSO2
         private void Batalla_FormClosing(object sender, FormClosingEventArgs e)
         {
             Player1.Stop();
+        }
+
+        private void Mov1_Click(object sender, EventArgs e)
+        {
+            if (bt.GetAllowAttack() == true)
+            {
+                bt.CalcularDaño(PokemonLuchando1, PokemonLuchando2, Mov1Text.Text);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
+        }
+
+        private void Mov2_Click(object sender, EventArgs e)
+        {
+            if (bt.GetAllowAttack() == true)
+            {
+                bt.CalcularDaño(PokemonLuchando1, PokemonLuchando2, Mov2Text.Text);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
+        }
+
+        private void Mov3_Click(object sender, EventArgs e)
+        {
+            if (bt.GetAllowAttack() == true)
+            {
+                bt.CalcularDaño(PokemonLuchando1, PokemonLuchando2, Mov3Text.Text);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
+        }
+
+        private void Mov4_Click(object sender, EventArgs e)
+        {
+            if (bt.GetAllowAttack() == true)
+            {
+                bt.CalcularDaño(PokemonLuchando1, PokemonLuchando2, Mov4Text.Text);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
         }
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.Jug1 = new System.Windows.Forms.Label();
             this.Jug2 = new System.Windows.Forms.Label();
@@ -253,6 +253,7 @@
             this.Mov4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov4.TabIndex = 35;
             this.Mov4.TabStop = false;
+            this.Mov4.Click += new System.EventHandler(this.Mov4_Click);
             // 
             // Mov3
             // 
@@ -263,6 +264,7 @@
             this.Mov3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov3.TabIndex = 34;
             this.Mov3.TabStop = false;
+            this.Mov3.Click += new System.EventHandler(this.Mov3_Click);
             // 
             // Mov2
             // 
@@ -273,6 +275,7 @@
             this.Mov2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov2.TabIndex = 33;
             this.Mov2.TabStop = false;
+            this.Mov2.Click += new System.EventHandler(this.Mov2_Click);
             // 
             // Mov1
             // 
@@ -283,6 +286,7 @@
             this.Mov1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov1.TabIndex = 32;
             this.Mov1.TabStop = false;
+            this.Mov1.Click += new System.EventHandler(this.Mov1_Click);
             // 
             // HealthBar1
             // 
@@ -433,8 +437,8 @@
             this.ChatData.Name = "ChatData";
             this.ChatData.RowHeadersVisible = false;
             this.ChatData.RowHeadersWidth = 82;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.ChatData.RowTemplate.Height = 33;
             this.ChatData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ChatData.Size = new System.Drawing.Size(489, 695);
