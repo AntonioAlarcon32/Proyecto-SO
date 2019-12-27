@@ -76,6 +76,10 @@ namespace ProyectoSO2
             string[] Message = contenido.Split(';');
         }
 
+        public void SetOrders(string mensaje)
+        {
+            this.bt.RecibirOrden(mensaje);
+        }
 
         public void EscribirMensajeDelegado(string contenido)
         {
@@ -385,6 +389,12 @@ namespace ProyectoSO2
                 SpawnPokemon1(PokemonLuchando1);
                 bt.InicioTurno();
             }
+            if (bt.OrdenesRecibidas() == true)
+            {
+                
+            }
+
+
         }
 
         
@@ -411,11 +421,9 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 0))
             {
-                PokemonLuchando1 = EquipoJugador1.GetPokemon(0);
-                SpawnPokemon1(PokemonLuchando1);
-                panel1.Refresh();
-                numPokemonLuchandoPlayer1 = 0;
-                CambiandoPoke = false;
+                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";0";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                Server.Send(msg);
             }
         }
 
@@ -423,11 +431,9 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 1))
             {
-                PokemonLuchando1 = EquipoJugador1.GetPokemon(1);
-                SpawnPokemon1(PokemonLuchando1);
-                panel1.Refresh();
-                numPokemonLuchandoPlayer1 = 1;
-                CambiandoPoke = false;
+                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";1";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                Server.Send(msg);
             }
         }
 
@@ -435,26 +441,10 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 2))
             {
-                PokemonLuchando1 = EquipoJugador1.GetPokemon(2);
-                SpawnPokemon1(PokemonLuchando1);
-                panel1.Refresh();
-                numPokemonLuchandoPlayer1 = 2;
-                CambiandoPoke = false;
+                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";2";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                Server.Send(msg);
             }
-        }
-
-        private void cuarenta_Click(object sender, EventArgs e)
-        {
-            Double newPS = PokemonLuchando1.PS * 0.4;
-            PokemonLuchando1.PSactuales = (int)newPS;
-            ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-        }
-
-        private void dos_Click(object sender, EventArgs e)
-        {
-            Double newPS = PokemonLuchando1.PS * 0.2;
-            PokemonLuchando1.PSactuales = (int)newPS;
-            ActualizarBarraSalud1(PokemonLuchando1,barrasalud1);
         }
 
         private void EnviarChat_Click(object sender, EventArgs e)

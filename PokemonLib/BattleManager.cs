@@ -11,8 +11,8 @@ namespace PokemonLib
         private string Orden1;
         private string Orden2;
         private string clima;
-        private int OrdenesRecibidas = 0;
         private bool PuedeAtacar = false;
+        private bool MovimientosRecibidos = false;
 
         private string[] Tipos = {"Normal","Fuego","Agua","Electrico","Planta","Hielo","Lucha","Veneno","Tierra",
                                 "Volador","Psiquico","Bicho","Roca","Fantasma","Dragon","Siniestro","Acero"};
@@ -54,10 +54,21 @@ namespace PokemonLib
             return this.PuedeAtacar;
         }
 
+        public bool OrdenesRecibidas()
+        {
+            return this.MovimientosRecibidos;
+        }
+
+        public void SetPlayers(string nombre1, string nombre2)
+        {
+            this.Jugador1 = nombre1;
+            this.Jugador2 = nombre2;
+        }
+
         public double CalcularDebilidad(string TipoAtaque, string Tipo1, string Tipo2)
         {
             int AtacanteIndex = 1;
-            int DefensaIndex = 1; 
+            int DefensaIndex = 1;
             int Defensa2Index = 1;
             bool Atacante = false;
             bool Defensa = false;
@@ -104,7 +115,6 @@ namespace PokemonLib
                 }
                 i = i + 1;
             }
-            PokemonAtacante.moveSet.Movimientos[i].PPAct -= 1; // Quitamos un PP al ataque que usa el pokemon
 
             double dmg, B, E, V, N, A = 0, P = 0, D = 0;
             Movimiento Attq = PokemonAtacante.moveSet.BuscarMovimiento(Ataque);
@@ -121,9 +131,9 @@ namespace PokemonLib
             E = CalcularDebilidad(tipoAtaque, TipoDefensa1, TipoDefensa2);  //Efectividad del ataque
 
             Random rnd = new Random();
-            int Ran = rnd.Next(85, 100);        //Valor aleatorio entre 85 y 100
-            V = (double) Ran;               
-            
+            int Ran = 92;        //Valor aleatorio entre 85 y 100
+            V = (double)Ran;
+
             N = 100;            //Nivel del pokemon, siempre 100
             if (categoria == "Fisico")
             {
@@ -147,5 +157,54 @@ namespace PokemonLib
             int dmgfinal = (int)dmg;
             PokemonDefensa.PSactuales -= dmgfinal;
         }
+
+        public void RecibirOrden(string mensaje)
+        {
+            if (this.Orden1 == null)
+            {
+                this.Orden1 = mensaje;
+            }
+            else
+            {
+                this.Orden2 = mensaje;
+                this.MovimientosRecibidos = true;
+            }
+        }
+
+        public void CambiarPokemon(Pokemon PokemonLuchando, Equipo EquipoCambio, int IndexActual, int IndexCambio)
+        {
+            EquipoCambio.Pokemons[IndexActual] = PokemonLuchando;
+            PokemonLuchando = EquipoCambio.Pokemons[IndexCambio];
+        }
+
+        public void ProcesarOrdenes(Equipo Equipo1, Equipo Equipo2, Pokemon Poke1, Pokemon Poke2)
+        {
+            string[] Order1 = this.Orden1.Split(';');
+            string[] Order2 = this.Orden2.Split(';');
+
+            if (Order1[1] == "Cambiar")
+            {
+                if (Jugador1 == Order1[0])
+                {
+                    this.CambiarPokemon(Poke1, Equipo1, Convert.ToInt32(Order1[2]), Convert.ToInt32(Order1[3]));
+                }
+                if (Jugador2 == Order1[0])
+                {
+                    this.CambiarPokemon(Poke2, Equipo2, Convert.ToInt32(Order1[2]), Convert.ToInt32(Order1[3]));
+                }
+            }
+            if (Order2[1] == "Cambiar")
+            {
+                if (Jugador1 == Order2[0])
+                {
+                    this.CambiarPokemon(Poke1, Equipo1, Convert.ToInt32(Order2[2]), Convert.ToInt32(Order2[3]));
+                }
+                if (Jugador2 == Order2[0])
+                {
+                    this.CambiarPokemon(Poke2, Equipo2, Convert.ToInt32(Order2[2]), Convert.ToInt32(Order2[3]));
+                }
+            }
+        }
+
     }
 }

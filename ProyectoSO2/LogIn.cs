@@ -415,7 +415,12 @@ namespace ProyectoSO2
                             forms.Start();
                         }
                         break;
-
+                    case 15:
+                        int ID2 = Convert.ToInt32(contenido.Split('-')[0]);
+                        contenido = contenido.Split('-')[1];
+                        int IDindex2 = BuscarID(ID2);
+                        Chats[IDindex2].EscribirMensaje(contenido);
+                        break;
                 }
             }
         }

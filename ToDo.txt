@@ -1,0 +1,5 @@
+Que puedan atacarse
+Que al acabar la partida se guarde quien ha ganado en la base de datos
+Que tengas que hacer un equipo antes de poder aceptar o invitar
+timer para que si no aceptas en 20 segundos se rechace automaticamente
+poder darse de baja en el servidor 

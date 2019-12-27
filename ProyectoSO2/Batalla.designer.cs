@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.Jug1 = new System.Windows.Forms.Label();
             this.Jug2 = new System.Windows.Forms.Label();
@@ -60,8 +60,6 @@
             this.pokeball1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.Fondo = new System.Windows.Forms.PictureBox();
-            this.cuarenta = new System.Windows.Forms.Button();
-            this.dos = new System.Windows.Forms.Button();
             this.Abandonar = new System.Windows.Forms.Button();
             this.EnviarChat = new System.Windows.Forms.Button();
             this.MensajeChat = new System.Windows.Forms.TextBox();
@@ -381,26 +379,6 @@
             this.Fondo.TabIndex = 29;
             this.Fondo.TabStop = false;
             // 
-            // cuarenta
-            // 
-            this.cuarenta.Location = new System.Drawing.Point(1113, 560);
-            this.cuarenta.Name = "cuarenta";
-            this.cuarenta.Size = new System.Drawing.Size(188, 104);
-            this.cuarenta.TabIndex = 44;
-            this.cuarenta.Text = "Vida a 40%";
-            this.cuarenta.UseVisualStyleBackColor = true;
-            this.cuarenta.Click += new System.EventHandler(this.cuarenta_Click);
-            // 
-            // dos
-            // 
-            this.dos.Location = new System.Drawing.Point(1333, 560);
-            this.dos.Name = "dos";
-            this.dos.Size = new System.Drawing.Size(188, 104);
-            this.dos.TabIndex = 45;
-            this.dos.Text = "vida a 2%";
-            this.dos.UseVisualStyleBackColor = true;
-            this.dos.Click += new System.EventHandler(this.dos_Click);
-            // 
             // Abandonar
             // 
             this.Abandonar.Location = new System.Drawing.Point(1113, 758);
@@ -437,8 +415,8 @@
             this.ChatData.Name = "ChatData";
             this.ChatData.RowHeadersVisible = false;
             this.ChatData.RowHeadersWidth = 82;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ChatData.RowTemplate.Height = 33;
             this.ChatData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ChatData.Size = new System.Drawing.Size(489, 695);
@@ -464,8 +442,6 @@
             this.Controls.Add(this.EnviarChat);
             this.Controls.Add(this.MensajeChat);
             this.Controls.Add(this.ChatData);
-            this.Controls.Add(this.dos);
-            this.Controls.Add(this.cuarenta);
             this.Controls.Add(this.PPMov4);
             this.Controls.Add(this.PPMov3);
             this.Controls.Add(this.PPMov2);
@@ -550,8 +526,6 @@
         private System.Windows.Forms.Label PPMov2;
         private System.Windows.Forms.Label PPMov3;
         private System.Windows.Forms.Label PPMov4;
-        private System.Windows.Forms.Button cuarenta;
-        private System.Windows.Forms.Button dos;
         private System.Windows.Forms.Button Abandonar;
         private System.Windows.Forms.Button EnviarChat;
         private System.Windows.Forms.TextBox MensajeChat;
