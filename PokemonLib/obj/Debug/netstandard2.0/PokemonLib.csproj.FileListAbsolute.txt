@@ -30,3 +30,11 @@ C:\Users\anton\Desktop\ProyectoSO2\PokemonLib\obj\Debug\netstandard2.0\PokemonLi
 C:\Users\anton\Desktop\ProyectoSO2\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfo.cs
 C:\Users\anton\Desktop\ProyectoSO2\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.dll
 C:\Users\anton\Desktop\ProyectoSO2\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.deps.json
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\bin\Debug\netstandard2.0\PokemonLib.pdb
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.csprojAssemblyReference.cache
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfoInputs.cache
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.AssemblyInfo.cs
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.dll
+C:\Users\Marc\Documents\Proyecto-SO\PokemonLib\obj\Debug\netstandard2.0\PokemonLib.pdb

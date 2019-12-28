@@ -547,6 +547,22 @@ void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, c
 		c = c + 1;
 	}
 }
+int BorrarUsuario(char mensaje[120])	//Partidas que tuviste tres pokemons
+{
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[216];
+	sprintf(consulta,"DELETE FROM Players WHERE Players.nombre = '%s'",mensaje);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al consultar datos de la base %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		return 1;
+	}
+	else
+		return 0;
+}
 void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (codigo principal)
 {
 	int sock_conn = * (int *) socket;
@@ -725,6 +741,12 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			sprintf(salida,"%s,%s,%s,%s",User,Pokemon1,Pokemon2,Pokemon3);
 			BroadCastMensaje(&Listapartidas,14,salida,ID);
 		}
+		if (codigo == 14)
+		{
+			int respuesta=BorrarUsuario(mensaje);
+			sprintf(salida,"16:%d",respuesta);
+			
+		}
 		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13))
 		{
 			write (sock_conn,salida, strlen(salida));
@@ -748,7 +770,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(50058);
+	int sock_listen = ConexionSocket(50057);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];

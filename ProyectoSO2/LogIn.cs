@@ -21,8 +21,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.110";
-        int puerto = 50058;
+        string ip = "192.168.56.104";
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -47,6 +47,7 @@ namespace ProyectoSO2
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
+        delegate void DelegadoDesconexion();
 
         private Pokemon SearchPokemon(string pok)
         {
@@ -200,6 +201,28 @@ namespace ProyectoSO2
             Invitacion.Text = UsuarioInvitacion + " te ha invitado a jugar";
             AceptarInvitacion.Enabled = true;
             RechazarInvitacion.Enabled = true;
+        }
+        public void DelegarDesconexion()
+        {
+            Atender.Abort();
+            string mensaje = "0/" + User.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            server.Shutdown(SocketShutdown.Both);
+            server.Close();
+            MessageBox.Show("Te has desconectado");
+            Mensaje.Enabled = false;
+            Enviar.Enabled = false;
+            Desconexion.Enabled = false;
+            Cerrar.Enabled = true;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
+            InicioSesion.Enabled = true;
+            RegistroBoton.Enabled = true;
+            User.Enabled = true;
+            Password.Enabled = true;
+            Invite.Enabled = false;
+
         }
 
         public void RellenarListaConectados(string ListaConectados)
@@ -421,6 +444,21 @@ namespace ProyectoSO2
                         int IDindex2 = BuscarID(ID2);
                         Chats[IDindex2].EscribirMensaje(contenido);
                         break;
+                    case 16:
+                        if (contenido == "0")
+                        {
+                            MessageBox.Show("Usuario Eliminado");
+                            DelegadoDesconexion delegadoStart = new DelegadoDesconexion(DelegarDesconexion);
+                            Desconexion.Invoke(delegadoStart);
+
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se ha podido eliminar el usuario");
+                        }
+                        
+                        break;
                 }
             }
         }
@@ -557,10 +595,10 @@ namespace ProyectoSO2
             server.Send(msg);
             server.Shutdown(SocketShutdown.Both);
             server.Close();
+            MessageBox.Show("Te has desconectado");
             Mensaje.Enabled = false;
             Enviar.Enabled = false;
             Desconexion.Enabled = false;
-            MessageBox.Show("Te has desconectado");
             Cerrar.Enabled = true;
             dataGridView1.Rows.Clear();
             dataGridView1.Refresh();
@@ -569,6 +607,7 @@ namespace ProyectoSO2
             User.Enabled = true;
             Password.Enabled = true;
             Invite.Enabled = false;
+
         }
 
         private void Invite_Click(object sender, EventArgs e)
@@ -646,6 +685,13 @@ namespace ProyectoSO2
             ThreadStart ts3 = delegate { AbrirTeamBuilder(); };
             Thread build = new Thread(ts3);
             build.Start();
+        }
+
+        private void BorrarUsuario_Click(object sender, EventArgs e)
+        {
+                    string mensaje = "14/" + User.Text;
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg); 
         }
     }
 }
