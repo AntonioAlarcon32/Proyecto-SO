@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.User = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,13 +51,15 @@
             this.Cerrar = new System.Windows.Forms.Button();
             this.TeamBuilder = new System.Windows.Forms.Button();
             this.BorrarUsuario = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // User
             // 
             this.User.Location = new System.Drawing.Point(57, 90);
-            this.User.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.User.Margin = new System.Windows.Forms.Padding(2);
             this.User.Name = "User";
             this.User.Size = new System.Drawing.Size(143, 22);
             this.User.TabIndex = 0;
@@ -64,7 +67,7 @@
             // Password
             // 
             this.Password.Location = new System.Drawing.Point(57, 148);
-            this.Password.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Password.Margin = new System.Windows.Forms.Padding(2);
             this.Password.Name = "Password";
             this.Password.Size = new System.Drawing.Size(143, 22);
             this.Password.TabIndex = 1;
@@ -92,7 +95,7 @@
             // InicioSesion
             // 
             this.InicioSesion.Location = new System.Drawing.Point(57, 191);
-            this.InicioSesion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.InicioSesion.Margin = new System.Windows.Forms.Padding(2);
             this.InicioSesion.Name = "InicioSesion";
             this.InicioSesion.Size = new System.Drawing.Size(107, 38);
             this.InicioSesion.TabIndex = 4;
@@ -103,7 +106,7 @@
             // RegistroBoton
             // 
             this.RegistroBoton.Location = new System.Drawing.Point(57, 247);
-            this.RegistroBoton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RegistroBoton.Margin = new System.Windows.Forms.Padding(2);
             this.RegistroBoton.Name = "RegistroBoton";
             this.RegistroBoton.Size = new System.Drawing.Size(107, 38);
             this.RegistroBoton.TabIndex = 5;
@@ -115,7 +118,7 @@
             // 
             this.Enviar.Enabled = false;
             this.Enviar.Location = new System.Drawing.Point(467, 191);
-            this.Enviar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Enviar.Margin = new System.Windows.Forms.Padding(2);
             this.Enviar.Name = "Enviar";
             this.Enviar.Size = new System.Drawing.Size(157, 38);
             this.Enviar.TabIndex = 6;
@@ -127,7 +130,7 @@
             // 
             this.Consulta1.AutoSize = true;
             this.Consulta1.Location = new System.Drawing.Point(307, 91);
-            this.Consulta1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Consulta1.Margin = new System.Windows.Forms.Padding(2);
             this.Consulta1.Name = "Consulta1";
             this.Consulta1.Size = new System.Drawing.Size(232, 21);
             this.Consulta1.TabIndex = 7;
@@ -139,7 +142,7 @@
             // 
             this.Consulta2.AutoSize = true;
             this.Consulta2.Location = new System.Drawing.Point(307, 120);
-            this.Consulta2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Consulta2.Margin = new System.Windows.Forms.Padding(2);
             this.Consulta2.Name = "Consulta2";
             this.Consulta2.Size = new System.Drawing.Size(219, 21);
             this.Consulta2.TabIndex = 8;
@@ -151,7 +154,7 @@
             // 
             this.Consulta3.AutoSize = true;
             this.Consulta3.Location = new System.Drawing.Point(307, 149);
-            this.Consulta3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Consulta3.Margin = new System.Windows.Forms.Padding(2);
             this.Consulta3.Name = "Consulta3";
             this.Consulta3.Size = new System.Drawing.Size(315, 21);
             this.Consulta3.TabIndex = 9;
@@ -163,7 +166,7 @@
             // 
             this.Desconexion.Enabled = false;
             this.Desconexion.Location = new System.Drawing.Point(467, 245);
-            this.Desconexion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Desconexion.Margin = new System.Windows.Forms.Padding(2);
             this.Desconexion.Name = "Desconexion";
             this.Desconexion.Size = new System.Drawing.Size(157, 40);
             this.Desconexion.TabIndex = 10;
@@ -175,7 +178,7 @@
             // 
             this.Mensaje.Enabled = false;
             this.Mensaje.Location = new System.Drawing.Point(303, 226);
-            this.Mensaje.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mensaje.Margin = new System.Windows.Forms.Padding(2);
             this.Mensaje.Name = "Mensaje";
             this.Mensaje.Size = new System.Drawing.Size(119, 22);
             this.Mensaje.TabIndex = 11;
@@ -195,12 +198,12 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(649, 22);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 82;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowTemplate.Height = 33;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(199, 288);
@@ -210,7 +213,7 @@
             // 
             this.Invite.Enabled = false;
             this.Invite.Location = new System.Drawing.Point(669, 337);
-            this.Invite.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Invite.Margin = new System.Windows.Forms.Padding(2);
             this.Invite.Name = "Invite";
             this.Invite.Size = new System.Drawing.Size(157, 40);
             this.Invite.TabIndex = 15;
@@ -232,7 +235,7 @@
             // 
             this.AceptarInvitacion.Enabled = false;
             this.AceptarInvitacion.Location = new System.Drawing.Point(72, 436);
-            this.AceptarInvitacion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AceptarInvitacion.Margin = new System.Windows.Forms.Padding(2);
             this.AceptarInvitacion.Name = "AceptarInvitacion";
             this.AceptarInvitacion.Size = new System.Drawing.Size(107, 38);
             this.AceptarInvitacion.TabIndex = 17;
@@ -244,7 +247,7 @@
             // 
             this.RechazarInvitacion.Enabled = false;
             this.RechazarInvitacion.Location = new System.Drawing.Point(182, 436);
-            this.RechazarInvitacion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RechazarInvitacion.Margin = new System.Windows.Forms.Padding(2);
             this.RechazarInvitacion.Name = "RechazarInvitacion";
             this.RechazarInvitacion.Size = new System.Drawing.Size(107, 38);
             this.RechazarInvitacion.TabIndex = 18;
@@ -255,7 +258,7 @@
             // Cerrar
             // 
             this.Cerrar.Location = new System.Drawing.Point(721, 491);
-            this.Cerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Cerrar.Margin = new System.Windows.Forms.Padding(2);
             this.Cerrar.Name = "Cerrar";
             this.Cerrar.Size = new System.Drawing.Size(157, 40);
             this.Cerrar.TabIndex = 19;
@@ -267,7 +270,7 @@
             // 
             this.TeamBuilder.Enabled = false;
             this.TeamBuilder.Location = new System.Drawing.Point(467, 337);
-            this.TeamBuilder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TeamBuilder.Margin = new System.Windows.Forms.Padding(2);
             this.TeamBuilder.Name = "TeamBuilder";
             this.TeamBuilder.Size = new System.Drawing.Size(157, 38);
             this.TeamBuilder.TabIndex = 20;
@@ -285,6 +288,15 @@
             this.BorrarUsuario.UseVisualStyleBackColor = true;
             this.BorrarUsuario.Click += new System.EventHandler(this.BorrarUsuario_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(351, 357);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "label4";
+            // 
             // LogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -292,6 +304,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(889, 542);
             this.ControlBox = false;
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.BorrarUsuario);
             this.Controls.Add(this.TeamBuilder);
             this.Controls.Add(this.Cerrar);
@@ -313,7 +326,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Password);
             this.Controls.Add(this.User);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "LogIn";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -345,6 +358,8 @@
         private System.Windows.Forms.Button Cerrar;
         private System.Windows.Forms.Button TeamBuilder;
         private System.Windows.Forms.Button BorrarUsuario;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label4;
     }
 }
 

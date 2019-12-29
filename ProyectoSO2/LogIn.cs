@@ -22,7 +22,7 @@ namespace ProyectoSO2
         Socket server;
         Thread Atender;
         string ip = "192.168.56.104";
-        int puerto = 50057;
+        int puerto = 50056;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -201,6 +201,13 @@ namespace ProyectoSO2
             Invitacion.Text = UsuarioInvitacion + " te ha invitado a jugar";
             AceptarInvitacion.Enabled = true;
             RechazarInvitacion.Enabled = true;
+            timer1.Interval = 20000;
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Start();
+        }
+        public void PararTimer()
+        {
+            timer1.Stop();
         }
         public void DelegarDesconexion()
         {
@@ -224,7 +231,7 @@ namespace ProyectoSO2
             Invite.Enabled = false;
 
         }
-
+ 
         public void RellenarListaConectados(string ListaConectados)
         {
             string[] str = ListaConectados.Split('/');
@@ -450,8 +457,6 @@ namespace ProyectoSO2
                             MessageBox.Show("Usuario Eliminado");
                             DelegadoDesconexion delegadoStart = new DelegadoDesconexion(DelegarDesconexion);
                             Desconexion.Invoke(delegadoStart);
-
-
                         }
                         else
                         {
@@ -670,6 +675,7 @@ namespace ProyectoSO2
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             Invite.Enabled = true;
+            Invitacion.Text = "No tienes invitaciones pendientes";
         }
 
         private void Cerrar_Click(object sender, EventArgs e)
@@ -692,6 +698,19 @@ namespace ProyectoSO2
                     string mensaje = "14/" + User.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg); 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label4.Text = "Correcto";
+            string mensaje = "8/" + UsuarioInvita + "," + User.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            AceptarInvitacion.Enabled = false;
+            RechazarInvitacion.Enabled = false;
+            Invite.Enabled = true;
+            Invitacion.Text = "No tienes invitaciones pendientes";
+            PararTimer();
         }
     }
 }
