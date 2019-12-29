@@ -89,27 +89,30 @@
             // Jug1
             // 
             this.Jug1.AutoSize = true;
-            this.Jug1.Location = new System.Drawing.Point(49, 639);
+            this.Jug1.Location = new System.Drawing.Point(33, 409);
+            this.Jug1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Jug1.Name = "Jug1";
-            this.Jug1.Size = new System.Drawing.Size(108, 25);
+            this.Jug1.Size = new System.Drawing.Size(72, 17);
             this.Jug1.TabIndex = 13;
             this.Jug1.Text = "Jugador 1";
             // 
             // Jug2
             // 
             this.Jug2.AutoSize = true;
-            this.Jug2.Location = new System.Drawing.Point(639, 648);
+            this.Jug2.Location = new System.Drawing.Point(426, 415);
+            this.Jug2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Jug2.Name = "Jug2";
-            this.Jug2.Size = new System.Drawing.Size(108, 25);
+            this.Jug2.Size = new System.Drawing.Size(72, 17);
             this.Jug2.TabIndex = 14;
             this.Jug2.Text = "Jugador 2";
             // 
             // PokemonP1
             // 
             this.PokemonP1.AutoSize = true;
-            this.PokemonP1.Location = new System.Drawing.Point(299, 648);
+            this.PokemonP1.Location = new System.Drawing.Point(199, 415);
+            this.PokemonP1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PokemonP1.Name = "PokemonP1";
-            this.PokemonP1.Size = new System.Drawing.Size(128, 25);
+            this.PokemonP1.Size = new System.Drawing.Size(84, 17);
             this.PokemonP1.TabIndex = 18;
             this.PokemonP1.Text = "PokemonP1";
             this.PokemonP1.Visible = false;
@@ -117,18 +120,20 @@
             // PokemonP2
             // 
             this.PokemonP2.AutoSize = true;
-            this.PokemonP2.Location = new System.Drawing.Point(889, 648);
+            this.PokemonP2.Location = new System.Drawing.Point(593, 415);
+            this.PokemonP2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PokemonP2.Name = "PokemonP2";
-            this.PokemonP2.Size = new System.Drawing.Size(128, 25);
+            this.PokemonP2.Size = new System.Drawing.Size(84, 17);
             this.PokemonP2.TabIndex = 19;
             this.PokemonP2.Text = "PokemonP2";
             this.PokemonP2.Visible = false;
             // 
             // CambiarPokemon
             // 
-            this.CambiarPokemon.Location = new System.Drawing.Point(1072, 441);
+            this.CambiarPokemon.Location = new System.Drawing.Point(715, 282);
+            this.CambiarPokemon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CambiarPokemon.Name = "CambiarPokemon";
-            this.CambiarPokemon.Size = new System.Drawing.Size(429, 104);
+            this.CambiarPokemon.Size = new System.Drawing.Size(286, 67);
             this.CambiarPokemon.TabIndex = 26;
             this.CambiarPokemon.Text = "Cambiar Pokemon";
             this.CambiarPokemon.UseVisualStyleBackColor = true;
@@ -138,19 +143,21 @@
             // 
             this.Notif.AutoSize = true;
             this.Notif.BackColor = System.Drawing.Color.Transparent;
-            this.Notif.Location = new System.Drawing.Point(1067, 49);
-            this.Notif.MaximumSize = new System.Drawing.Size(480, 0);
+            this.Notif.Location = new System.Drawing.Point(711, 31);
+            this.Notif.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.Notif.MaximumSize = new System.Drawing.Size(320, 0);
             this.Notif.Name = "Notif";
-            this.Notif.Size = new System.Drawing.Size(210, 25);
+            this.Notif.Size = new System.Drawing.Size(137, 17);
             this.Notif.TabIndex = 28;
             this.Notif.Text = "La batalla comienza!";
             // 
             // counter
             // 
             this.counter.AutoSize = true;
-            this.counter.Location = new System.Drawing.Point(1328, 678);
+            this.counter.Location = new System.Drawing.Point(885, 434);
+            this.counter.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.counter.Name = "counter";
-            this.counter.Size = new System.Drawing.Size(70, 25);
+            this.counter.Size = new System.Drawing.Size(46, 17);
             this.counter.TabIndex = 27;
             this.counter.Text = "label1";
             // 
@@ -158,9 +165,10 @@
             // 
             this.Mov1Text.AutoSize = true;
             this.Mov1Text.BackColor = System.Drawing.Color.Transparent;
-            this.Mov1Text.Location = new System.Drawing.Point(1067, 198);
+            this.Mov1Text.Location = new System.Drawing.Point(711, 127);
+            this.Mov1Text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Mov1Text.Name = "Mov1Text";
-            this.Mov1Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov1Text.Size = new System.Drawing.Size(69, 17);
             this.Mov1Text.TabIndex = 36;
             this.Mov1Text.Text = "Mov1Text";
             this.Mov1Text.Visible = false;
@@ -169,9 +177,10 @@
             // 
             this.Mov2Text.AutoSize = true;
             this.Mov2Text.BackColor = System.Drawing.Color.Transparent;
-            this.Mov2Text.Location = new System.Drawing.Point(1328, 198);
+            this.Mov2Text.Location = new System.Drawing.Point(885, 127);
+            this.Mov2Text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Mov2Text.Name = "Mov2Text";
-            this.Mov2Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov2Text.Size = new System.Drawing.Size(69, 17);
             this.Mov2Text.TabIndex = 37;
             this.Mov2Text.Text = "Mov2Text";
             this.Mov2Text.Visible = false;
@@ -180,9 +189,10 @@
             // 
             this.Mov3Text.AutoSize = true;
             this.Mov3Text.BackColor = System.Drawing.Color.Transparent;
-            this.Mov3Text.Location = new System.Drawing.Point(1067, 327);
+            this.Mov3Text.Location = new System.Drawing.Point(711, 209);
+            this.Mov3Text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Mov3Text.Name = "Mov3Text";
-            this.Mov3Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov3Text.Size = new System.Drawing.Size(69, 17);
             this.Mov3Text.TabIndex = 38;
             this.Mov3Text.Text = "Mov3Text";
             this.Mov3Text.Visible = false;
@@ -191,9 +201,10 @@
             // 
             this.Mov4Text.AutoSize = true;
             this.Mov4Text.BackColor = System.Drawing.Color.Transparent;
-            this.Mov4Text.Location = new System.Drawing.Point(1328, 327);
+            this.Mov4Text.Location = new System.Drawing.Point(885, 209);
+            this.Mov4Text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Mov4Text.Name = "Mov4Text";
-            this.Mov4Text.Size = new System.Drawing.Size(107, 25);
+            this.Mov4Text.Size = new System.Drawing.Size(69, 17);
             this.Mov4Text.TabIndex = 39;
             this.Mov4Text.Text = "Mov4Text";
             this.Mov4Text.Visible = false;
@@ -202,9 +213,10 @@
             // 
             this.PPMov1.AutoSize = true;
             this.PPMov1.BackColor = System.Drawing.Color.Transparent;
-            this.PPMov1.Location = new System.Drawing.Point(1125, 239);
+            this.PPMov1.Location = new System.Drawing.Point(750, 153);
+            this.PPMov1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PPMov1.Name = "PPMov1";
-            this.PPMov1.Size = new System.Drawing.Size(100, 25);
+            this.PPMov1.Size = new System.Drawing.Size(65, 17);
             this.PPMov1.TabIndex = 40;
             this.PPMov1.Text = "PPMOV1";
             this.PPMov1.Visible = false;
@@ -213,9 +225,10 @@
             // 
             this.PPMov2.AutoSize = true;
             this.PPMov2.BackColor = System.Drawing.Color.Transparent;
-            this.PPMov2.Location = new System.Drawing.Point(1374, 239);
+            this.PPMov2.Location = new System.Drawing.Point(916, 153);
+            this.PPMov2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PPMov2.Name = "PPMov2";
-            this.PPMov2.Size = new System.Drawing.Size(100, 25);
+            this.PPMov2.Size = new System.Drawing.Size(65, 17);
             this.PPMov2.TabIndex = 41;
             this.PPMov2.Text = "PPMOV2";
             this.PPMov2.Visible = false;
@@ -224,9 +237,10 @@
             // 
             this.PPMov3.AutoSize = true;
             this.PPMov3.BackColor = System.Drawing.Color.Transparent;
-            this.PPMov3.Location = new System.Drawing.Point(1125, 373);
+            this.PPMov3.Location = new System.Drawing.Point(750, 239);
+            this.PPMov3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PPMov3.Name = "PPMov3";
-            this.PPMov3.Size = new System.Drawing.Size(100, 25);
+            this.PPMov3.Size = new System.Drawing.Size(65, 17);
             this.PPMov3.TabIndex = 42;
             this.PPMov3.Text = "PPMOV3";
             this.PPMov3.Visible = false;
@@ -235,9 +249,10 @@
             // 
             this.PPMov4.AutoSize = true;
             this.PPMov4.BackColor = System.Drawing.Color.Transparent;
-            this.PPMov4.Location = new System.Drawing.Point(1374, 373);
+            this.PPMov4.Location = new System.Drawing.Point(916, 239);
+            this.PPMov4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PPMov4.Name = "PPMov4";
-            this.PPMov4.Size = new System.Drawing.Size(100, 25);
+            this.PPMov4.Size = new System.Drawing.Size(65, 17);
             this.PPMov4.TabIndex = 43;
             this.PPMov4.Text = "PPMOV4";
             this.PPMov4.Visible = false;
@@ -245,9 +260,10 @@
             // Mov4
             // 
             this.Mov4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Mov4.Location = new System.Drawing.Point(1307, 307);
+            this.Mov4.Location = new System.Drawing.Point(871, 196);
+            this.Mov4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Mov4.Name = "Mov4";
-            this.Mov4.Size = new System.Drawing.Size(262, 106);
+            this.Mov4.Size = new System.Drawing.Size(175, 68);
             this.Mov4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov4.TabIndex = 35;
             this.Mov4.TabStop = false;
@@ -256,9 +272,10 @@
             // Mov3
             // 
             this.Mov3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Mov3.Location = new System.Drawing.Point(1049, 307);
+            this.Mov3.Location = new System.Drawing.Point(699, 196);
+            this.Mov3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Mov3.Name = "Mov3";
-            this.Mov3.Size = new System.Drawing.Size(252, 106);
+            this.Mov3.Size = new System.Drawing.Size(168, 68);
             this.Mov3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov3.TabIndex = 34;
             this.Mov3.TabStop = false;
@@ -267,9 +284,10 @@
             // Mov2
             // 
             this.Mov2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Mov2.Location = new System.Drawing.Point(1307, 175);
+            this.Mov2.Location = new System.Drawing.Point(871, 112);
+            this.Mov2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Mov2.Name = "Mov2";
-            this.Mov2.Size = new System.Drawing.Size(262, 106);
+            this.Mov2.Size = new System.Drawing.Size(175, 68);
             this.Mov2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov2.TabIndex = 33;
             this.Mov2.TabStop = false;
@@ -278,9 +296,10 @@
             // Mov1
             // 
             this.Mov1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Mov1.Location = new System.Drawing.Point(1049, 175);
+            this.Mov1.Location = new System.Drawing.Point(699, 112);
+            this.Mov1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Mov1.Name = "Mov1";
-            this.Mov1.Size = new System.Drawing.Size(252, 106);
+            this.Mov1.Size = new System.Drawing.Size(168, 68);
             this.Mov1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Mov1.TabIndex = 32;
             this.Mov1.TabStop = false;
@@ -288,25 +307,28 @@
             // 
             // HealthBar1
             // 
-            this.HealthBar1.Location = new System.Drawing.Point(894, 697);
+            this.HealthBar1.Location = new System.Drawing.Point(596, 446);
+            this.HealthBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.HealthBar1.Name = "HealthBar1";
-            this.HealthBar1.Size = new System.Drawing.Size(231, 24);
+            this.HealthBar1.Size = new System.Drawing.Size(154, 15);
             this.HealthBar1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.HealthBar1.TabIndex = 31;
             this.HealthBar1.TabStop = false;
             // 
             // HealthBar2
             // 
-            this.HealthBar2.Location = new System.Drawing.Point(295, 697);
+            this.HealthBar2.Location = new System.Drawing.Point(197, 446);
+            this.HealthBar2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.HealthBar2.Name = "HealthBar2";
-            this.HealthBar2.Size = new System.Drawing.Size(231, 24);
+            this.HealthBar2.Size = new System.Drawing.Size(154, 15);
             this.HealthBar2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.HealthBar2.TabIndex = 30;
             this.HealthBar2.TabStop = false;
             // 
             // pokeball6
             // 
-            this.pokeball6.Location = new System.Drawing.Point(803, 688);
+            this.pokeball6.Location = new System.Drawing.Point(535, 440);
+            this.pokeball6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball6.Name = "pokeball6";
             this.pokeball6.Size = new System.Drawing.Size(49, 54);
             this.pokeball6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -315,7 +337,8 @@
             // 
             // pokeball5
             // 
-            this.pokeball5.Location = new System.Drawing.Point(723, 688);
+            this.pokeball5.Location = new System.Drawing.Point(482, 440);
+            this.pokeball5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball5.Name = "pokeball5";
             this.pokeball5.Size = new System.Drawing.Size(49, 54);
             this.pokeball5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -324,7 +347,8 @@
             // 
             // pokeball4
             // 
-            this.pokeball4.Location = new System.Drawing.Point(644, 688);
+            this.pokeball4.Location = new System.Drawing.Point(429, 440);
+            this.pokeball4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball4.Name = "pokeball4";
             this.pokeball4.Size = new System.Drawing.Size(49, 54);
             this.pokeball4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -333,7 +357,8 @@
             // 
             // pokeball3
             // 
-            this.pokeball3.Location = new System.Drawing.Point(210, 682);
+            this.pokeball3.Location = new System.Drawing.Point(140, 436);
+            this.pokeball3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball3.Name = "pokeball3";
             this.pokeball3.Size = new System.Drawing.Size(49, 54);
             this.pokeball3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -343,7 +368,8 @@
             // 
             // pokeball2
             // 
-            this.pokeball2.Location = new System.Drawing.Point(133, 682);
+            this.pokeball2.Location = new System.Drawing.Point(89, 436);
+            this.pokeball2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball2.Name = "pokeball2";
             this.pokeball2.Size = new System.Drawing.Size(49, 54);
             this.pokeball2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -353,7 +379,8 @@
             // 
             // pokeball1
             // 
-            this.pokeball1.Location = new System.Drawing.Point(54, 682);
+            this.pokeball1.Location = new System.Drawing.Point(36, 436);
+            this.pokeball1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pokeball1.Name = "pokeball1";
             this.pokeball1.Size = new System.Drawing.Size(49, 54);
             this.pokeball1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -365,26 +392,27 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(45, 38);
+            this.panel1.Location = new System.Drawing.Point(30, 24);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(972, 552);
+            this.panel1.Size = new System.Drawing.Size(648, 353);
             this.panel1.TabIndex = 0;
             // 
             // Fondo
             // 
-            this.Fondo.Location = new System.Drawing.Point(1049, 38);
+            this.Fondo.Location = new System.Drawing.Point(699, 24);
+            this.Fondo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Fondo.Name = "Fondo";
-            this.Fondo.Size = new System.Drawing.Size(520, 96);
+            this.Fondo.Size = new System.Drawing.Size(347, 61);
             this.Fondo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Fondo.TabIndex = 29;
             this.Fondo.TabStop = false;
             // 
             // Abandonar
             // 
-            this.Abandonar.Location = new System.Drawing.Point(1113, 758);
-            this.Abandonar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Abandonar.Location = new System.Drawing.Point(742, 485);
             this.Abandonar.Name = "Abandonar";
-            this.Abandonar.Size = new System.Drawing.Size(207, 62);
+            this.Abandonar.Size = new System.Drawing.Size(138, 40);
             this.Abandonar.TabIndex = 50;
             this.Abandonar.Text = "Abandonar Partida";
             this.Abandonar.UseVisualStyleBackColor = true;
@@ -392,9 +420,10 @@
             // 
             // EnviarChat
             // 
-            this.EnviarChat.Location = new System.Drawing.Point(1900, 763);
+            this.EnviarChat.Location = new System.Drawing.Point(1267, 488);
+            this.EnviarChat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.EnviarChat.Name = "EnviarChat";
-            this.EnviarChat.Size = new System.Drawing.Size(207, 48);
+            this.EnviarChat.Size = new System.Drawing.Size(138, 31);
             this.EnviarChat.TabIndex = 48;
             this.EnviarChat.Text = "Enviar";
             this.EnviarChat.UseVisualStyleBackColor = true;
@@ -402,16 +431,18 @@
             // 
             // MensajeChat
             // 
-            this.MensajeChat.Location = new System.Drawing.Point(1575, 774);
+            this.MensajeChat.Location = new System.Drawing.Point(1050, 495);
+            this.MensajeChat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MensajeChat.Name = "MensajeChat";
-            this.MensajeChat.Size = new System.Drawing.Size(310, 31);
+            this.MensajeChat.Size = new System.Drawing.Size(208, 22);
             this.MensajeChat.TabIndex = 47;
             // 
             // ChatData
             // 
             this.ChatData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ChatData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ChatData.Location = new System.Drawing.Point(1575, 62);
+            this.ChatData.Location = new System.Drawing.Point(1050, 40);
+            this.ChatData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ChatData.Name = "ChatData";
             this.ChatData.RowHeadersVisible = false;
             this.ChatData.RowHeadersWidth = 82;
@@ -419,24 +450,26 @@
             this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ChatData.RowTemplate.Height = 33;
             this.ChatData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ChatData.Size = new System.Drawing.Size(489, 695);
+            this.ChatData.Size = new System.Drawing.Size(326, 445);
             this.ChatData.TabIndex = 46;
             // 
             // IDLabel
             // 
             this.IDLabel.AutoSize = true;
-            this.IDLabel.Location = new System.Drawing.Point(1779, 34);
+            this.IDLabel.Location = new System.Drawing.Point(1186, 22);
+            this.IDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.IDLabel.Name = "IDLabel";
-            this.IDLabel.Size = new System.Drawing.Size(32, 25);
+            this.IDLabel.Size = new System.Drawing.Size(21, 17);
             this.IDLabel.TabIndex = 49;
             this.IDLabel.Text = "ID";
             // 
             // Batalla
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(2126, 913);
+            this.ClientSize = new System.Drawing.Size(1283, 584);
+            this.ControlBox = false;
             this.Controls.Add(this.Abandonar);
             this.Controls.Add(this.IDLabel);
             this.Controls.Add(this.EnviarChat);
@@ -471,6 +504,7 @@
             this.Controls.Add(this.pokeball1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Fondo);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Batalla";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Batalla_FormClosing);

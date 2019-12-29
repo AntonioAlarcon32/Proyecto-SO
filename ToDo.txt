@@ -1,5 +1,6 @@
 1. Que puedan atacarse
 2. Que al acabar la partida se guarde quien ha ganado en la base de datos
-3. Que tengas que hacer un equipo antes de poder aceptar o invitar
+3. Que tengas que hacer un equipo antes de poder aceptar o invitar(Hecho)
 4. timer para que si no aceptas en 20 segundos se rechace automaticamente(Hecho)
 5. Arreglar 6 que aparece
+

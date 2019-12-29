@@ -48,6 +48,7 @@ namespace ProyectoSO2
         delegate void DelegadoListaConectados(string ListaConectados);
         delegate void DelegadoInvitacionRechazada();
         delegate void DelegadoDesconexion();
+        delegate void DelegadoActivarInvitacion();
 
         private Pokemon SearchPokemon(string pok)
         {
@@ -188,10 +189,11 @@ namespace ProyectoSO2
             Mensaje.Enabled = true;
             Enviar.Enabled = true;
             Desconexion.Enabled = true;
-            Invite.Enabled = true;
+            Invite.Enabled = false;
             InicioSesion.Enabled = false;
             RegistroBoton.Enabled = false;
             User.Enabled = false;
+            BorrarUsuario.Enabled = true;
             Password.Enabled = false;
             Cerrar.Enabled = false;
             TeamBuilder.Enabled = true;
@@ -199,7 +201,11 @@ namespace ProyectoSO2
         public void DelegarInvitacionRecibida(string UsuarioInvitacion)
         {
             Invitacion.Text = UsuarioInvitacion + " te ha invitado a jugar";
-            AceptarInvitacion.Enabled = true;
+
+            if (EquipoBatallaPropio.Pokemons_Iniciales == 3)
+            {
+                AceptarInvitacion.Enabled = true;
+            }
             RechazarInvitacion.Enabled = true;
             timer1.Interval = 20000;
             timer1.Tick += new EventHandler(timer1_Tick);
@@ -231,7 +237,11 @@ namespace ProyectoSO2
             Invite.Enabled = false;
 
         }
- 
+        public void DelegarActivarInvitacion()
+        {
+            Invite.Enabled = true;
+        }
+
         public void RellenarListaConectados(string ListaConectados)
         {
             string[] str = ListaConectados.Split('/');
@@ -362,7 +372,7 @@ namespace ProyectoSO2
                     case 7:
                         DelegadoInvitacionRecibida delegadoInv = new DelegadoInvitacionRecibida(DelegarInvitacionRecibida);
                         Invitacion.Invoke(delegadoInv, new object[] { contenido });
-                        UsuarioInvita = contenido;
+                        UsuarioInvita = contenido;                    
                         break;
                     case 8:
                         Aceptados.Add(contenido);
@@ -423,6 +433,8 @@ namespace ProyectoSO2
                     case 13:
                         string[] TuEquipo = contenido.Split(',');
                         SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
+                        DelegadoActivarInvitacion delegadoInvite = new DelegadoActivarInvitacion(DelegarActivarInvitacion);
+                        Invite.Invoke(delegadoInvite);
                         break;
                     case 14:
                         string[] content = contenido.Split('-');
@@ -657,6 +669,7 @@ namespace ProyectoSO2
 
         private void AceptarInvitacion_Click(object sender, EventArgs e)
         {
+            timer1.Stop();
             EquipoBatallaOponente.DeleteEquipo();
             string mensaje = "7/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -669,12 +682,16 @@ namespace ProyectoSO2
 
         private void RechazarInvitacion_Click(object sender, EventArgs e)
         {
+            timer1.Stop();
             string mensaje = "8/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
-            Invite.Enabled = true;
+            if (EquipoBatallaPropio.Pokemons_Iniciales == 3)
+            {
+                Invite.Enabled = true;
+            }
             Invitacion.Text = "No tienes invitaciones pendientes";
         }
 
@@ -702,7 +719,6 @@ namespace ProyectoSO2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label4.Text = "Correcto";
             string mensaje = "8/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -712,6 +728,7 @@ namespace ProyectoSO2
             Invitacion.Text = "No tienes invitaciones pendientes";
             PararTimer();
         }
+
     }
 }
 

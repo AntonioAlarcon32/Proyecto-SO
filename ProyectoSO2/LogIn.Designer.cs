@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.User = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -52,7 +52,6 @@
             this.TeamBuilder = new System.Windows.Forms.Button();
             this.BorrarUsuario = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,8 +201,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 82;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowTemplate.Height = 33;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(199, 288);
@@ -280,6 +279,7 @@
             // 
             // BorrarUsuario
             // 
+            this.BorrarUsuario.Enabled = false;
             this.BorrarUsuario.Location = new System.Drawing.Point(57, 302);
             this.BorrarUsuario.Name = "BorrarUsuario";
             this.BorrarUsuario.Size = new System.Drawing.Size(107, 55);
@@ -288,15 +288,6 @@
             this.BorrarUsuario.UseVisualStyleBackColor = true;
             this.BorrarUsuario.Click += new System.EventHandler(this.BorrarUsuario_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(351, 357);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 17);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "label4";
-            // 
             // LogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -304,7 +295,6 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(889, 542);
             this.ControlBox = false;
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.BorrarUsuario);
             this.Controls.Add(this.TeamBuilder);
             this.Controls.Add(this.Cerrar);
@@ -359,7 +349,6 @@
         private System.Windows.Forms.Button TeamBuilder;
         private System.Windows.Forms.Button BorrarUsuario;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label4;
     }
 }
 
