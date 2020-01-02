@@ -21,8 +21,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.104";
-        int puerto = 50056;
+        string ip = "192.168.56.110";
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -458,10 +458,11 @@ namespace ProyectoSO2
                         }
                         break;
                     case 15:
-                        int ID2 = Convert.ToInt32(contenido.Split('-')[0]);
+                        ID = Convert.ToInt32(contenido.Split('-')[0]);
                         contenido = contenido.Split('-')[1];
-                        int IDindex2 = BuscarID(ID2);
-                        Chats[IDindex2].EscribirMensaje(contenido);
+                        IDindex = BuscarID(ID);
+                        MessageBox.Show(contenido);
+                        Chats[IDindex].bt.RecibirOrden(contenido);
                         break;
                     case 16:
                         if (contenido == "0")

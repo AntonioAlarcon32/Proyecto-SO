@@ -747,7 +747,18 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			sprintf(salida,"16:%d",respuesta);
 			
 		}
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13))
+		if (codigo == 15)
+		{
+			p = strtok(mensaje, ",");
+			int IDPartida = atoi(p);
+			p = strtok(NULL,",");
+			char mensaje[200];
+			strcpy(mensaje,p);
+			BroadCastMensaje(&Listapartidas,15,mensaje,IDPartida);
+			
+		}
+		
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13) && (codigo != 15))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}

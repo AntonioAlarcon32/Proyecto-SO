@@ -171,40 +171,48 @@ namespace PokemonLib
             }
         }
 
-        public void CambiarPokemon(Pokemon PokemonLuchando, Equipo EquipoCambio, int IndexActual, int IndexCambio)
-        {
-            EquipoCambio.Pokemons[IndexActual] = PokemonLuchando;
-            PokemonLuchando = EquipoCambio.Pokemons[IndexCambio];
-        }
-
-        public void ProcesarOrdenes(Equipo Equipo1, Equipo Equipo2, Pokemon Poke1, Pokemon Poke2)
+        public string[] ProcesarOrdenes(Equipo Equipo1, Equipo Equipo2, Pokemon Poke1, Pokemon Poke2)
         {
             string[] Order1 = this.Orden1.Split(';');
             string[] Order2 = this.Orden2.Split(';');
-
+            string[] salida = new string[8];
             if (Order1[1] == "Cambiar")
             {
                 if (Jugador1 == Order1[0])
                 {
-                    this.CambiarPokemon(Poke1, Equipo1, Convert.ToInt32(Order1[2]), Convert.ToInt32(Order1[3]));
+                    salida[0] = "Cambio";
+                    salida[2] = Order1[2];
+                    salida[3] = Order1[3];
                 }
                 if (Jugador2 == Order1[0])
                 {
-                    this.CambiarPokemon(Poke2, Equipo2, Convert.ToInt32(Order1[2]), Convert.ToInt32(Order1[3]));
+                    salida[1] = "Cambio";
+                    salida[4] = Order1[2];
+                    salida[5] = Order1[3];
                 }
             }
             if (Order2[1] == "Cambiar")
             {
                 if (Jugador1 == Order2[0])
                 {
-                    this.CambiarPokemon(Poke1, Equipo1, Convert.ToInt32(Order2[2]), Convert.ToInt32(Order2[3]));
+                    salida[0] = "Cambio";
+                    salida[2] = Order2[2];
+                    salida[3] = Order2[3];
                 }
                 if (Jugador2 == Order2[0])
                 {
-                    this.CambiarPokemon(Poke2, Equipo2, Convert.ToInt32(Order2[2]), Convert.ToInt32(Order2[3]));
+                    salida[1] = "Cambio";
+                    salida[4] = Order2[2];
+                    salida[5] = Order2[3];
                 }
             }
+            return salida;
         }
-
+        public void ResetOrders()
+        {
+            this.Orden1 = null;
+            this.Orden2 = null;
+            this.MovimientosRecibidos = false;
+        }
     }
 }

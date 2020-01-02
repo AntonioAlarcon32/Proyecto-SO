@@ -18,7 +18,7 @@ namespace ProyectoSO2
 {
     public partial class Batalla : Form
     {
-        BattleManager bt = new BattleManager();
+        public BattleManager bt = new BattleManager();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         PrivateFontCollection pfc = new PrivateFontCollection();
         Equipo EquipoJugador1 = new Equipo();
@@ -49,6 +49,12 @@ namespace ProyectoSO2
         PictureBox barrasalud1 = new PictureBox();
         PictureBox barrasalud2 = new PictureBox();
 
+        PictureBox SpritePokemon1 = new PictureBox();
+        PictureBox SpritePokemon2 = new PictureBox();
+
+        bool Orden1Done = false;
+        bool Orden2Done = false;
+
         int contador;
         public void GetEquipoPropio(Equipo team)
         {
@@ -66,7 +72,7 @@ namespace ProyectoSO2
             this.EquipoJugador2 = EqJugador2;
             this.ID = ID;
             this.Server = Server;
-
+            this.bt.SetPlayers(Play1, Play2);
             InitializeComponent();
         }
         public void EscribirMensaje(string contenido)
@@ -154,20 +160,38 @@ namespace ProyectoSO2
             Pokemon6.BringToFront();
         }
 
+        public void ChangePokemon(string Player, int PokemonActual, int PokemonCambio)
+        {
+            if (Player == this.Jugador1)
+            {
+                EquipoJugador1.Pokemons[PokemonActual].PSactuales = PokemonLuchando1.PSactuales;
+                PokemonLuchando1 = EquipoJugador1.GetPokemon(PokemonCambio);
+                SpawnPokemon1(PokemonLuchando1);
+                ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
+            }
+            if (Player == this.Jugador2)
+            {
+                EquipoJugador2.Pokemons[PokemonActual].PSactuales = PokemonLuchando2.PSactuales;
+                PokemonLuchando2 = EquipoJugador2.GetPokemon(PokemonCambio);
+                SpawnPokemon2(PokemonLuchando2);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
+        }
+
         private void SpawnPokemon2(Pokemon poke)
         {
-            PictureBox Pokemon = new PictureBox();                                //Creamos un picturebox y un punto
-            Pokemon.ClientSize = new Size(100, 100);
-            Pokemon.Location = new Point(310,80);
+                             
+            SpritePokemon2.ClientSize = new Size(100, 100);
+            SpritePokemon2.Location = new Point(310,80);
             Bitmap image = new Bitmap(directorio + "\\Sprites\\" + poke.Nombre + ".gif");
-            Pokemon.Image = (Image)image;
+            SpritePokemon2.Image = (Image)image;
             int h = 100 - image.Height;
             int l = (100 - image.Width) / 2;
-            Pokemon.Padding = new Padding(l, h, 0, 0);
+            SpritePokemon2.Padding = new Padding(l, h, 0, 0);
             PokemonP2.Font = new Font(pfc.Families[0], 12, FontStyle.Regular);
             PokemonP2.Text = poke.Nombre;
-            Pokemon.BackColor = Color.Transparent;
-            panel1.Controls.Add(Pokemon);
+            SpritePokemon2.BackColor = Color.Transparent;
+            panel1.Controls.Add(SpritePokemon2);
             WindowsMediaPlayer pokemon = new WindowsMediaPlayer();
             pokemon.URL = directorio + "\\Sounds\\" + poke.Nombre + ".wav";
             pokemon.controls.play();
@@ -260,26 +284,25 @@ namespace ProyectoSO2
 
         private void SpawnPokemon1(Pokemon Poke)
         {
-            PictureBox Pokemon4 = new PictureBox(); //Creamos un picturebox y un punto
-            panel1.Controls.Remove(Pokemon4);
-            Pokemon4.ClientSize = new Size(140, 140);
-            Pokemon4.Location = new Point(50,140);
+            panel1.Controls.Remove(SpritePokemon1);
+            SpritePokemon1.ClientSize = new Size(140, 140);
+            SpritePokemon1.Location = new Point(50,140);
 
             Bitmap image4 = new Bitmap(directorio + "\\Sprites\\" + Poke.Nombre + "Back.gif");                             //Cogemos el icono
-            Pokemon4.Image = (Image)image4;
-            Pokemon4.SizeMode = PictureBoxSizeMode.StretchImage;
+            SpritePokemon1.Image = (Image)image4;
+            SpritePokemon1.SizeMode = PictureBoxSizeMode.StretchImage;
             int h = Convert.ToInt32(140 - image4.Height * 1.4);
             int l = Convert.ToInt32(140 - image4.Width * 1.4) / 2;
-            Pokemon4.Padding = new Padding(l, h, l, 0);
-            Pokemon4.BackColor = Color.Transparent;
-            panel1.Controls.Add(Pokemon4);
+            SpritePokemon1.Padding = new Padding(l, h, l, 0);
+            SpritePokemon1.BackColor = Color.Transparent;
+            panel1.Controls.Add(SpritePokemon1);
             WindowsMediaPlayer pokemon4 = new WindowsMediaPlayer();
             pokemon4.URL = directorio + "\\Sounds\\" + Poke.Nombre + ".wav";
             pokemon4.controls.play();
             PokemonP1.Font = new Font(pfc.Families[0], 12, FontStyle.Regular);
             PokemonP1.Text = Poke.Nombre;
             PokemonP1.Visible = true;
-            Pokemon4.BringToFront();
+            SpritePokemon1.BringToFront();
             Bitmap Boton1 = new Bitmap(directorio + "\\Botones\\" + Poke.moveSet.Movimientos[0].Tipo + ".png");
             Bitmap Boton2 = new Bitmap(directorio + "\\Botones\\" + Poke.moveSet.Movimientos[1].Tipo + ".png");
             Bitmap Boton3 = new Bitmap(directorio + "\\Botones\\" + Poke.moveSet.Movimientos[2].Tipo + ".png");
@@ -373,6 +396,7 @@ namespace ProyectoSO2
         {
             contador = contador + 1;
             counter.Text = Convert.ToString(contador);
+            bool Recibido = bt.OrdenesRecibidas();
             if (contador == 1)
                 PreMatch(EquipoJugador1,Jugador1,EquipoJugador2,Jugador2);
             if (contador == 10) 
@@ -389,25 +413,32 @@ namespace ProyectoSO2
                 SpawnPokemon1(PokemonLuchando1);
                 bt.InicioTurno();
             }
-            if (bt.OrdenesRecibidas() == true)
+            if (Recibido == true)
             {
-                
+                string[] ordenes = new string[8];
+                ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                if (ordenes[0] == "Cambio")
+                {
+                    ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
+                    System.Threading.Thread.Sleep(2000);
+                    numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
+                    Orden1Done = true;
+                }
+                if (ordenes[1] == "Cambio")
+                {
+                    ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
+                    System.Threading.Thread.Sleep(2000);
+                    numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
+                    Orden2Done = true;
+                }
             }
-
-
-        }
-
-        
-
-        private void kill_Click(object sender, EventArgs e)
-        {
-            EquipoJugador1.Pokemons[0].PSactuales = 0;
-            if (EquipoJugador1.Pokemons[0].PSactuales == 0)
+            if (Orden1Done && Orden2Done)
             {
-                pokeball1.Image = (Image)pokeballdebilitado;
+                bt.ResetOrders();
+                Orden1Done = false;
+                Orden2Done = false;
             }
         }
-
         private void CambiarPokemon_Click(object sender, EventArgs e)
         {
             if (bt.GetAllowAttack() == true)
@@ -421,7 +452,7 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 0))
             {
-                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";0";
+                string mensaje = "15/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";0";
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 Server.Send(msg);
             }
@@ -431,7 +462,7 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 1))
             {
-                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";1";
+                string mensaje = "15/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";1";
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 Server.Send(msg);
             }
@@ -441,7 +472,7 @@ namespace ProyectoSO2
         {
             if ((CambiandoPoke == true) && (numPokemonLuchandoPlayer1 != 2))
             {
-                string mensaje = "14/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";2";
+                string mensaje = "15/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Cambiar;" + Convert.ToString(numPokemonLuchandoPlayer1) + ";2";
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 Server.Send(msg);
             }
