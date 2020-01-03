@@ -103,7 +103,7 @@ namespace PokemonLib
             return debilidad;
         }
 
-        public void CalcularDaño(Pokemon PokemonAtacante, Pokemon PokemonDefensa, string Ataque)
+        public int CalcularDaño(Pokemon PokemonAtacante, Pokemon PokemonDefensa, string Ataque)
         {
             bool encontrado = false;
             int i = 0;
@@ -155,7 +155,7 @@ namespace PokemonLib
 
             dmg = 0.01 * B * E * V * ((((0.2 * N + 1) * A * P) / (25 * D)) + 2); // Formula del daño
             int dmgfinal = (int)dmg;
-            PokemonDefensa.PSactuales -= dmgfinal;
+            return dmgfinal;
         }
 
         public void RecibirOrden(string mensaje)
@@ -176,6 +176,13 @@ namespace PokemonLib
             string[] Order1 = this.Orden1.Split(';');
             string[] Order2 = this.Orden2.Split(';');
             string[] salida = new string[8];
+            int dmg1 = 0;
+            int dmg2 = 0;
+            Movimiento MovUsado1 = new Movimiento();
+            Movimiento MovUsado2 = new Movimiento();
+            bool debilitado = false;
+            bool Jug1Ataca1 = false;
+            bool Jug2Ataca1 = false;
             if (Order1[1] == "Cambiar")
             {
                 if (Jugador1 == Order1[0])
@@ -183,14 +190,17 @@ namespace PokemonLib
                     salida[0] = "Cambio";
                     salida[2] = Order1[2];
                     salida[3] = Order1[3];
+                    Poke1 = Equipo1.GetPokemon(Convert.ToInt32(Order1[3]));
                 }
                 if (Jugador2 == Order1[0])
                 {
                     salida[1] = "Cambio";
                     salida[4] = Order1[2];
                     salida[5] = Order1[3];
+                    Poke2 = Equipo2.GetPokemon(Convert.ToInt32(Order1[3]));
                 }
             }
+            
             if (Order2[1] == "Cambiar")
             {
                 if (Jugador1 == Order2[0])
@@ -198,12 +208,134 @@ namespace PokemonLib
                     salida[0] = "Cambio";
                     salida[2] = Order2[2];
                     salida[3] = Order2[3];
+                    Poke1 = Equipo1.GetPokemon(Convert.ToInt32(Order2[3]));
                 }
                 if (Jugador2 == Order2[0])
                 {
                     salida[1] = "Cambio";
                     salida[4] = Order2[2];
                     salida[5] = Order2[3];
+                    Poke2 = Equipo2.GetPokemon(Convert.ToInt32(Order2[3]));
+                }
+            }
+            if (Order1[1] == "Atacar")
+            {
+                if (Jugador1 == Order1[0])
+                {
+                    MovUsado1 = Poke1.moveSet.BuscarMovimiento(Order1[2]);
+                    if (MovUsado1.Categoria == "Estado")
+                    {
+
+                    }
+                    else
+                    {
+                        dmg1 = this.CalcularDaño(Poke1, Poke2, MovUsado1.Nombre);
+                        salida[0] = "Ataque";
+                    }
+                }
+                if (Jugador2 == Order1[0])
+                {
+                    MovUsado2 = Poke2.moveSet.BuscarMovimiento(Order1[2]);
+                    if (MovUsado2.Categoria == "Estado")
+                    {
+
+                    }
+                    else
+                    {
+                        dmg2 = this.CalcularDaño(Poke2, Poke1, MovUsado2.Nombre);
+                        salida[1] = "Ataque";
+                    }
+                }
+            }
+            if (Order2[1] == "Atacar")
+            {
+                if (Jugador1 == Order2[0])
+                {
+                    MovUsado1 = Poke1.moveSet.BuscarMovimiento(Order2[2]);
+                    if (MovUsado1.Categoria == "Estado")
+                    {
+
+                    }
+                    else
+                    {
+                        dmg1 = this.CalcularDaño(Poke1, Poke2, MovUsado1.Nombre);
+                        salida[0] = "Ataque";
+                    }
+                }
+                if (Jugador2 == Order2[0])
+                {
+                    MovUsado2 = Poke2.moveSet.BuscarMovimiento(Order2[2]);
+                    if (MovUsado2.Categoria == "Estado")
+                    {
+
+                    }
+                    else
+                    {
+                        dmg2 = this.CalcularDaño(Poke2, Poke1, MovUsado2.Nombre);
+                        salida[1] = "Ataque";
+                    }
+                }
+
+            }
+            if ((salida[0] == "Ataque") && (salida[1] == "Ataque"))
+            {
+                if (MovUsado1.prioridad > MovUsado2.prioridad)
+                {
+                    salida[2] = Jugador1;
+                    Jug1Ataca1 = true;
+                    if ((Poke2.PSactuales - dmg1) <= 0)
+                    {
+                        debilitado = true;
+                    }
+
+                }
+                if (MovUsado2.prioridad > MovUsado1.prioridad)
+                {
+                    Jug2Ataca1 = true;
+                    salida[2] = Jugador2;
+                    if ((Poke1.PSactuales - dmg2) <= 0)
+                    {
+                        debilitado = true;
+                    }
+                }
+                else
+                {
+                    if (Poke1.Velocidad >= Poke2.Velocidad)
+                    {
+                        Jug1Ataca1 = true;
+                        salida[2] = Jugador1;
+                        if ((Poke2.PSactuales - dmg1) <= 0)
+                        {
+                            debilitado = true;
+                        }
+                    }
+                    if (Poke2.Velocidad > Poke1.Velocidad)
+                    {
+                        Jug2Ataca1 = true;
+                        salida[2] = Jugador2;
+                        if ((Poke1.PSactuales - dmg2) <= 0)
+                        {
+                            debilitado = true;
+                        }
+                    }
+                }
+                if (!Jug1Ataca1 && debilitado)
+                {
+                    salida[3] = "0";
+                }
+                else
+                {
+                    salida[3] = Convert.ToString(dmg1);
+                    salida[5] = MovUsado1.Nombre;
+                }
+                if (!Jug2Ataca1 && debilitado)
+                {
+                    salida[4] = "0";
+                }
+                else
+                {
+                    salida[4] = Convert.ToString(dmg2);
+                    salida[6] = MovUsado2.Nombre;
                 }
             }
             return salida;
