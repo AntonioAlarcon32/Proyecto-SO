@@ -93,20 +93,23 @@ int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para elimin
 {
 	int encontrado = 0;
 	int i = 0;
+	int sock = 0;
 	while ((!encontrado) & (i < lista->num))
 	{
 		if (strcmp(lista->Usuarios[i].nickname,nick) == 0)
 		{
+			sock=lista->Usuarios[i].socket;
 			encontrado = 1;
 		}
 		else
 			i = i + 1;
 	}
+	
 	if (encontrado == 1)
 	{
 		int j = i+1;
 		while (j < lista->num)
-		{
+		{   
 			strcpy(lista->Usuarios[i].nickname,lista->Usuarios[j].nickname);
 			lista->Usuarios[i].socket = lista->Usuarios[j].socket;
 			i = i + 1;
@@ -514,6 +517,19 @@ void BroadCastMensaje(ListaPartidas *listapartida,int codigoreceptor, char mensa
 		c = c + 1;
 	}
 }
+void BroadCast(ListaUsuarios *lista,char notificacion[200])
+{
+	int i = 0;
+	i = lista->num;
+	int c = 0;
+	int socket;
+	while (c < i)
+	{
+		socket = lista->Usuarios[c].socket;
+		write (socket,notificacion, strlen(notificacion));
+		c = c + 1;
+	}
+}
 void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID)
 {
 	int i = 0;
@@ -547,7 +563,7 @@ void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, c
 		c = c + 1;
 	}
 }
-int BorrarUsuario(char mensaje[120])	//Partidas que tuviste tres pokemons
+int BorrarUsuario(char mensaje[120])	//Elimina usuario de la base de datos
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -769,10 +785,8 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			int listAact = DarListaUsuarios(&ListaConectados,list);
 			char notificacion[200];
 			sprintf(notificacion,"6:%s",list);
-			for (j=0; j<i;j++)
-			{
-				write (sockets[j],notificacion, strlen(notificacion));
-			}
+			BroadCast(&ListaConectados,notificacion);
+
 		}
 	}
 	close(sock_conn);
@@ -781,7 +795,7 @@ int main(int argc, char *argv[])
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(50057);
+	int sock_listen = ConexionSocket(50058);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];

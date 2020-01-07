@@ -21,8 +21,8 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.110";
-        int puerto = 50057;
+        string ip = "192.168.56.104";
+        int puerto = 50058;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
