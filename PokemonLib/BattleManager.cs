@@ -13,6 +13,7 @@ namespace PokemonLib
         private string clima;
         private bool PuedeAtacar = false;
         private bool MovimientosRecibidos = false;
+        private int NumeroTurnos = 0;
 
         private string[] Tipos = {"Normal","Fuego","Agua","Electrico","Planta","Hielo","Lucha","Veneno","Tierra",
                                 "Volador","Psiquico","Bicho","Roca","Fantasma","Dragon","Siniestro","Acero"};
@@ -345,6 +346,15 @@ namespace PokemonLib
             this.Orden1 = null;
             this.Orden2 = null;
             this.MovimientosRecibidos = false;
+        }
+
+        public void IncreaseTurno()
+        {
+            this.NumeroTurnos += 1;
+        }
+        public int GetTurnos()
+        {
+            return this.NumeroTurnos;
         }
     }
 }
