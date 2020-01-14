@@ -21,7 +21,7 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.104";
+        string ip = "192.168.56.110";
         int puerto = 50058;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
@@ -461,7 +461,6 @@ namespace ProyectoSO2
                         ID = Convert.ToInt32(contenido.Split('-')[0]);
                         contenido = contenido.Split('-')[1];
                         IDindex = BuscarID(ID);
-                        MessageBox.Show(contenido);
                         Chats[IDindex].bt.RecibirOrden(contenido);
                         break;
                     case 16:
@@ -475,7 +474,12 @@ namespace ProyectoSO2
                         {
                             MessageBox.Show("No se ha podido eliminar el usuario");
                         }
-                        
+                        break;
+                    case 17:
+                        ID = Convert.ToInt32(contenido.Split('-')[0]);
+                        contenido = contenido.Split('-')[1];
+                        IDindex = BuscarID(ID);
+                        Chats[IDindex].PokemonDebilitadoDelegado(contenido);
                         break;
                 }
             }

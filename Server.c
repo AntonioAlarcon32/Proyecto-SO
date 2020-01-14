@@ -67,7 +67,7 @@ int GetMAXID()
 		
 		return atoi(row[0]);
 	}
-
+	
 }
 void InicializarLista( ListaUsuarios *lista)			//Funcion para borrar la lista
 {
@@ -470,21 +470,21 @@ int EliminarPartida(ListaPartidas *lista, int ID)			//Funcion para eliminar una 
 	}
 	if (encontrado == 1)
 	{   int j=0;
-		lista->Partidas[i].ID =0;
-		while (j<lista->Partidas[i].Usuarios.num)
-		{
-			int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
-		}
-		lista->Partidas[i].Usuarios.num=0;
-	    lista->num = lista->num - 1;
-		j =0;
-		printf("%d",lista->num);
-		while (j<=lista->num)
-		{
-			printf("%d",lista->Partidas[j].ID);
-			j=j+1;
-		}
-	    return 0;
+	lista->Partidas[i].ID =0;
+	while (j<lista->Partidas[i].Usuarios.num)
+	{
+		int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
+	}
+	lista->Partidas[i].Usuarios.num=0;
+	lista->num = lista->num - 1;
+	j =0;
+	printf("%d",lista->num);
+	while (j<=lista->num)
+	{
+		printf("%d",lista->Partidas[j].ID);
+		j=j+1;
+	}
+	return 0;
 	}
 	else
 		return 1;
@@ -558,7 +558,7 @@ void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, c
 			strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
 			sprintf(buffer,"12:%d-%s",ID,usuario);
 			write(socketreceptor,buffer, strlen(buffer));
-
+			
 		}
 		c = c + 1;
 	}
@@ -773,8 +773,17 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			BroadCastMensaje(&Listapartidas,15,mensaje,IDPartida);
 			
 		}
+		if (codigo == 16)
+		{
+			p = strtok(mensaje, ",");
+			int IDPartida = atoi(p);
+			p = strtok(NULL,",");
+			char mensaje[200];
+			strcpy(mensaje,p);
+			BroadCastMensaje(&Listapartidas,17,mensaje,IDPartida);
+		}
 		
-		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13) && (codigo != 15))
+		if ((codigo != 0) && (codigo != 6) && (codigo !=7) && (codigo !=8) && (codigo !=9) && (codigo != 10) && (codigo != 11) && (codigo != 13) && (codigo != 15) && (codigo != 16))
 		{
 			write (sock_conn,salida, strlen(salida));
 		}
@@ -786,7 +795,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			char notificacion[200];
 			sprintf(notificacion,"6:%s",list);
 			BroadCast(&ListaConectados,notificacion);
-
+			
 		}
 	}
 	close(sock_conn);

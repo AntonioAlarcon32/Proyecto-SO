@@ -289,7 +289,7 @@ namespace PokemonLib
                     }
 
                 }
-                if (MovUsado2.prioridad > MovUsado1.prioridad)
+                else if (MovUsado2.prioridad > MovUsado1.prioridad)
                 {
                     Jug2Ataca1 = true;
                     salida[2] = Jugador2;
