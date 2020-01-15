@@ -168,47 +168,6 @@ namespace ProyectoSO2
             Pokemon6.BringToFront();
         }
 
-        public void ChangePokemon(string Player, int PokemonActual, int PokemonCambio)
-        {
-            if (Player == this.Jugador1)
-            {
-                EquipoJugador1.Pokemons[PokemonActual].PSactuales = PokemonLuchando1.PSactuales;
-                PokemonLuchando1 = EquipoJugador1.GetPokemon(PokemonCambio);
-                SpawnPokemon1(PokemonLuchando1);
-                ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-            }
-            if (Player == this.Jugador2)
-            {
-                EquipoJugador2.Pokemons[PokemonActual].PSactuales = PokemonLuchando2.PSactuales;
-                PokemonLuchando2 = EquipoJugador2.GetPokemon(PokemonCambio);
-                SpawnPokemon2(PokemonLuchando2);
-                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-            }
-        }
-
-        private void SpawnPokemon2(Pokemon poke)
-        {
-                             
-            SpritePokemon2.ClientSize = new Size(100, 100);
-            SpritePokemon2.Location = new Point(310,80);
-            Bitmap image = new Bitmap(directorio + "\\Sprites\\" + poke.Nombre + ".gif");
-            SpritePokemon2.Image = (Image)image;
-            int h = 100 - image.Height;
-            int l = (100 - image.Width) / 2;
-            SpritePokemon2.Padding = new Padding(l, h, 0, 0);
-            PokemonP2.Font = new Font(pfc.Families[0], 12, FontStyle.Regular);
-            PokemonP2.Text = poke.Nombre;
-            SpritePokemon2.BackColor = Color.Transparent;
-            panel1.Controls.Add(SpritePokemon2);
-            WindowsMediaPlayer pokemon = new WindowsMediaPlayer();
-            pokemon.URL = directorio + "\\Sounds\\" + poke.Nombre + ".wav";
-            pokemon.controls.play();
-            PokemonP2.Visible = true;
-            HealthBar1.Image = (Image)HealthBar;
-            Notif.Text = Jugador2 + " saca a " + poke.Nombre;
-            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-        }
-
         private int ProporcionPS(int PSActuales, int PSMax)
         {
             float pend = (float)85 / (float)PSMax;
@@ -375,6 +334,47 @@ namespace ProyectoSO2
             ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
         }
 
+        private void SpawnPokemon2(Pokemon poke)
+        {
+
+            SpritePokemon2.ClientSize = new Size(100, 100);
+            SpritePokemon2.Location = new Point(310, 80);
+            Bitmap image = new Bitmap(directorio + "\\Sprites\\" + poke.Nombre + ".gif");
+            SpritePokemon2.Image = (Image)image;
+            int h = 100 - image.Height;
+            int l = (100 - image.Width) / 2;
+            SpritePokemon2.Padding = new Padding(l, h, 0, 0);
+            PokemonP2.Font = new Font(pfc.Families[0], 12, FontStyle.Regular);
+            PokemonP2.Text = poke.Nombre;
+            SpritePokemon2.BackColor = Color.Transparent;
+            panel1.Controls.Add(SpritePokemon2);
+            WindowsMediaPlayer pokemon = new WindowsMediaPlayer();
+            pokemon.URL = directorio + "\\Sounds\\" + poke.Nombre + ".wav";
+            pokemon.controls.play();
+            PokemonP2.Visible = true;
+            HealthBar1.Image = (Image)HealthBar;
+            Notif.Text = Jugador2 + " saca a " + poke.Nombre;
+            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+        }
+
+        public void ChangePokemon(string Player, int PokemonActual, int PokemonCambio)
+        {
+            if (Player == this.Jugador1)
+            {
+                EquipoJugador1.Pokemons[PokemonActual].PSactuales = PokemonLuchando1.PSactuales;
+                PokemonLuchando1 = EquipoJugador1.GetPokemon(PokemonCambio);
+                SpawnPokemon1(PokemonLuchando1);
+                ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
+            }
+            if (Player == this.Jugador2)
+            {
+                EquipoJugador2.Pokemons[PokemonActual].PSactuales = PokemonLuchando2.PSactuales;
+                PokemonLuchando2 = EquipoJugador2.GetPokemon(PokemonCambio);
+                SpawnPokemon2(PokemonLuchando2);
+                ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+            }
+        }
+
         public void PokemonDebilitado(string contenido)
         {
             string[] ordenes = contenido.Split(';');
@@ -415,154 +415,8 @@ namespace ProyectoSO2
             timer.Start();
             Jug1.Text = Jugador1;
             Jug2.Text = Jugador2;
-
-
         }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            contador = contador + 1;
-            counter.Text = Convert.ToString(contador);
-            bool Recibido = bt.OrdenesRecibidas();
-            if (contador == 1)
-                PreMatch(EquipoJugador1,Jugador1,EquipoJugador2,Jugador2);
-            if (contador == 10) 
-            {
-                panel1.Controls.Clear();
-                Bitmap campo = new Bitmap(directorio + "\\UI\\campo.png");
-                panel1.BackgroundImage = campo; 
-                Player1.PlayLooping();
-            }
-            if (contador == 14)
-                SpawnPokemon2(PokemonLuchando2);
-            if (contador == 18)
-            {
-                SpawnPokemon1(PokemonLuchando1);
-                bt.InicioTurno();
-            }
-            if (Recibido == true)
-            {
-                string[] ordenes = new string[8];
-                ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
-                if (ordenes[0] == "Cambio" && !Orden1Done)
-                {
-                    ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
-                    numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
-                    Orden1Done = true;
-                    cambiandopoke = 0;
-                    timer1.Start();
-
-                }
-                if ((ordenes[1] == "Cambio") && (cambiandopoke > 0) && !Orden2Done)
-                {
-                    ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
-                    numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
-                    Orden2Done = true;
-                    timer1.Stop();
-                    cambiandopoke = 0;
-                }
-                if ((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque"))
-                {
-                    string AtacaPrimero = ordenes[2];
-                    if (AtacaPrimero == Jugador1)
-                    {
-                        if (!Orden1Done)
-                        {
-                            Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5];
-                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
-                            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-                            cambiandopoke = 0;
-                            Orden1Done = true;
-                            timer1.Start();
-                        }
-                    }
-                    if ((cambiandopoke > 0) && !Orden2Done && (AtacaPrimero == Jugador1))
-                    {
-                        if (ordenes[4] != "0")
-                        {
-                            Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6];
-                            PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
-                            ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-                        }
-                        Orden2Done = true;
-                        timer1.Stop();
-                        cambiandopoke = 0;
-                    }
-                    if (AtacaPrimero == Jugador2)
-                    {
-                        if (!Orden2Done)
-                        { 
-                        Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6];
-                        PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
-                        ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-                        cambiandopoke = 0;
-                        timer1.Start();
-                        Orden2Done = true;
-                        }
-                    }
-                    if ((cambiandopoke > 0) && !Orden1Done && AtacaPrimero == Jugador2)
-                    {
-                        if (ordenes[3] != "0")
-                        {
-                            Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5];
-                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
-                            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-                        }
-                        Orden1Done = true;
-                        timer1.Stop();
-                        cambiandopoke = 0;
-                    }
-                }
-            }
-            if (Orden1Done && Orden2Done)
-            {
-                bt.IncreaseTurno();
-                bt.ResetOrders();
-                Orden1Done = false;
-                Orden2Done = false;
-                if (PokemonLuchando1.PSactuales <= 0)
-                {
-                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro";
-                    debilitado = true;
-                    if (numPokemonLuchandoPlayer1 == 0)
-                    {
-                        pokeball1.Image = (Image)pokeballdebilitado;
-                    }
-                    if (numPokemonLuchandoPlayer1 == 1)
-                    {
-                        pokeball2.Image = (Image)pokeballdebilitado;
-                    }
-                    if (numPokemonLuchandoPlayer1 == 2)
-                    {
-                        pokeball3.Image = (Image)pokeballdebilitado;
-                    }
-                }
-                if (PokemonLuchando2.PSactuales <= 0)
-                {
-                    if (numPokemonLuchandoPlayer2 == 0)
-                    {
-                        pokeball4.Image = (Image)pokeballdebilitado;
-                    }
-                    if (numPokemonLuchandoPlayer2 == 1)
-                    {
-                        pokeball5.Image = (Image)pokeballdebilitado;
-                    }
-                    if (numPokemonLuchandoPlayer2 == 2)
-                    {
-                        pokeball6.Image = (Image)pokeballdebilitado;
-                    }
-                }
-                if (EquipoJugador1.PokemonsRestantes() == 0)
-                {
-                    Notif.Text = "Has perdido, finalizando partida";
-                }
-                if (EquipoJugador2.PokemonsRestantes() == 0)
-                {
-                    Notif.Text = "Has ganado, finalizando partida";
-                }
-                label1.Text = Convert.ToString(bt.GetTurnos());
-            }
-        }
         private void CambiarPokemon_Click(object sender, EventArgs e)
         {
             if (bt.GetAllowAttack() == true)
@@ -644,14 +498,9 @@ namespace ProyectoSO2
         private void Abandonar_Click(object sender, EventArgs e)
         {
             string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);       //Chorlo cambia el 11/ por tu codigo
             Server.Send(msg);
             this.Close();
-        }
-
-        private void Batalla_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Player1.Stop();
         }
 
         private void Mov1_Click(object sender, EventArgs e)
@@ -713,6 +562,273 @@ namespace ProyectoSO2
         private void timer1_Tick(object sender, EventArgs e)
         {
             cambiandopoke = cambiandopoke + 1;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            contador = contador + 1;
+            counter.Text = Convert.ToString(contador);
+            bool Recibido = bt.OrdenesRecibidas();
+            if (contador == 1)
+                PreMatch(EquipoJugador1, Jugador1, EquipoJugador2, Jugador2);
+            if (contador == 10)
+            {
+                panel1.Controls.Clear();
+                Bitmap campo = new Bitmap(directorio + "\\UI\\campo.png");
+                panel1.BackgroundImage = campo;
+                Player1.PlayLooping();
+            }
+            if (contador == 14)
+                SpawnPokemon2(PokemonLuchando2);
+            if (contador == 18)
+            {
+                SpawnPokemon1(PokemonLuchando1);
+                bt.InicioTurno();
+            }
+            if (Recibido == true)
+            {
+                string[] ordenes = new string[8];
+                ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))
+                {
+                    if (ordenes[0] == "Cambio" && !Orden1Done)
+                    {
+                        ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
+                        numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
+                        Orden1Done = true;
+                        cambiandopoke = 0;
+                        timer1.Start();
+
+                    }
+                    if ((ordenes[1] == "Cambio") && (cambiandopoke > 0) && !Orden2Done)
+                    {
+                        ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
+                        numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
+                        Orden2Done = true;
+                        timer1.Stop();
+                        cambiandopoke = 0;
+                    }
+                }
+                if ((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque"))
+                {
+                    string AtacaPrimero = ordenes[2];
+                    if (AtacaPrimero == Jugador1)
+                    {
+                        if (!Orden1Done)
+                        {
+                            double eficacia = bt.CalcularDebilidad(PokemonLuchando1.moveSet.BuscarMovimiento(ordenes[5]).Tipo, PokemonLuchando2.Tipo1, PokemonLuchando2.Tipo2);
+                            string add = " ";
+                            if (eficacia == 0)
+                                add = "No ha tenido ningún efecto";
+                            else if (eficacia == 0.5)
+                                add = "No es muy eficaz";
+                            else if (eficacia == 1)
+                                add = " ";
+                            else if (eficacia == 2)
+                                add = "Es muy eficaz!";
+                            else if (eficacia == 4)
+                                add = "Es super eficaz!";
+                            Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5] + " " + add;
+                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
+                            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+                            cambiandopoke = 0;
+                            Orden1Done = true;
+                            timer1.Start();
+                        }
+                    }
+                    if ((cambiandopoke > 0) && !Orden2Done && (AtacaPrimero == Jugador1))
+                    {
+                        if (ordenes[4] != "debilitado")
+                        {
+                            double eficacia = bt.CalcularDebilidad(PokemonLuchando2.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando1.Tipo1, PokemonLuchando1.Tipo2);
+                            string add = " ";
+                            if (eficacia == 0)
+                                add = "No ha tenido ningún efecto";
+                            else if (eficacia == 0.5)
+                                add = "No es muy eficaz";
+                            else if (eficacia == 1)
+                                add = " ";
+                            else if (eficacia == 2)
+                                add = "Es muy eficaz!";
+                            else if (eficacia == 4)
+                                add = "Es super eficaz!";
+                            Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6] + " " + add;
+                            PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
+                            ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
+                        }
+                        Orden2Done = true;
+                        timer1.Stop();
+                        cambiandopoke = 0;
+                    }
+                    if (AtacaPrimero == Jugador2)
+                    {
+                        if (!Orden2Done)
+                        {
+                            double eficacia = bt.CalcularDebilidad(PokemonLuchando2.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando1.Tipo1, PokemonLuchando1.Tipo2);
+                            string add = " ";
+                            if (eficacia == 0)
+                                add = "No ha tenido ningún efecto";
+                            else if (eficacia == 0.5)
+                                add = "No es muy eficaz";
+                            else if (eficacia == 1)
+                                add = " ";
+                            else if (eficacia == 2)
+                                add = "Es muy eficaz!";
+                            else if (eficacia == 4)
+                                add = "Es super eficaz!";
+                            Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6] + " " + add;
+                            PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
+                            ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
+                            cambiandopoke = 0;
+                            timer1.Start();
+                            Orden2Done = true;
+                        }
+                    }
+                    if ((cambiandopoke > 0) && !Orden1Done && AtacaPrimero == Jugador2)
+                    {
+                        if (ordenes[3] != "debilitado")
+                        {
+                            double eficacia = bt.CalcularDebilidad(PokemonLuchando1.moveSet.BuscarMovimiento(ordenes[5]).Tipo, PokemonLuchando2.Tipo1, PokemonLuchando2.Tipo2);
+                            string add = " ";
+                            if (eficacia == 0)
+                                add = "No ha tenido ningún efecto";
+                            else if (eficacia == 0.5)
+                                add = "No es muy eficaz";
+                            else if (eficacia == 1)
+                                add = " ";
+                            else if (eficacia == 2)
+                                add = "Es muy eficaz!";
+                            else if (eficacia == 4)
+                                add = "Es super eficaz!";
+                            Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5] + " " + add;
+                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
+                            ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+                        }
+                        Orden1Done = true;
+                        timer1.Stop();
+                        cambiandopoke = 0;
+                    }
+                }
+                if (!((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque")) && !((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio")))
+                {
+                    if (ordenes[7] == Jugador1)
+                    {
+                        if (ordenes[0] == "Cambio" && !Orden1Done)
+                        {
+                            ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
+                            numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
+                            Orden1Done = true;
+                            cambiandopoke = 0;
+                            timer1.Start();
+                        }
+                    }
+
+                    else if (ordenes[7] == Jugador2 && !Orden2Done)
+                    {
+                        ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
+                        numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
+                        Orden2Done = true;
+                        timer1.Start();
+                        cambiandopoke = 0;
+                    }
+
+                    if ((cambiandopoke > 0) && !Orden2Done)
+                    {
+                        double eficacia = bt.CalcularDebilidad(PokemonLuchando2.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando1.Tipo1, PokemonLuchando1.Tipo2);
+                        string add = " ";
+                        if (eficacia == 0)
+                            add = "No ha tenido ningún efecto";
+                        else if (eficacia == 0.5)
+                            add = "No es muy eficaz";
+                        else if (eficacia == 1)
+                            add = " ";
+                        else if (eficacia == 2)
+                            add = "Es muy eficaz!";
+                        else if (eficacia == 4)
+                            add = "Es super eficaz!";
+                        Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6] + " " + add;
+                        PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
+                        ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
+                        cambiandopoke = 0;
+                        timer1.Stop();
+                        Orden2Done = true;
+                    }
+                    if ((cambiandopoke > 0) && !Orden1Done)
+                    {
+                        double eficacia = bt.CalcularDebilidad(PokemonLuchando1.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando2.Tipo1, PokemonLuchando2.Tipo2);
+                        string add = " ";
+                        if (eficacia == 0)
+                            add = "No ha tenido ningún efecto";
+                        else if (eficacia == 0.5)
+                            add = "No es muy eficaz";
+                        else if (eficacia == 1)
+                            add = " ";
+                        else if (eficacia == 2)
+                            add = "Es muy eficaz!";
+                        else if (eficacia == 4)
+                            add = "Es super eficaz!";
+                        Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[6] + " " + add;
+                        PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
+                        ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
+                        cambiandopoke = 0;
+                        timer1.Stop();
+                        Orden1Done = true;
+                    }    
+                }
+            }
+            if (Orden1Done && Orden2Done)
+            {
+                bt.IncreaseTurno();
+                bt.ResetOrders();
+                Orden1Done = false;
+                Orden2Done = false;
+                if (PokemonLuchando1.PSactuales <= 0)
+                {
+                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro";
+                    debilitado = true;
+                    if (numPokemonLuchandoPlayer1 == 0)
+                    {
+                        pokeball1.Image = (Image)pokeballdebilitado;
+                    }
+                    if (numPokemonLuchandoPlayer1 == 1)
+                    {
+                        pokeball2.Image = (Image)pokeballdebilitado;
+                    }
+                    if (numPokemonLuchandoPlayer1 == 2)
+                    {
+                        pokeball3.Image = (Image)pokeballdebilitado;
+                    }
+                }
+                if (PokemonLuchando2.PSactuales <= 0)
+                {
+                    if (numPokemonLuchandoPlayer2 == 0)
+                    {
+                        pokeball4.Image = (Image)pokeballdebilitado;
+                    }
+                    if (numPokemonLuchandoPlayer2 == 1)
+                    {
+                        pokeball5.Image = (Image)pokeballdebilitado;
+                    }
+                    if (numPokemonLuchandoPlayer2 == 2)
+                    {
+                        pokeball6.Image = (Image)pokeballdebilitado;
+                    }
+                }
+                if (EquipoJugador1.PokemonsRestantes() == 0)
+                {
+                    Notif.Text = "Has perdido, finalizando partida";
+                }
+                if (EquipoJugador2.PokemonsRestantes() == 0)
+                {
+                    Notif.Text = "Has ganado, finalizando partida";
+                }
+                label1.Text = Convert.ToString(bt.GetTurnos());
+            }
+        }
+
+        private void Batalla_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Player1.Stop();
         }
     }
 }

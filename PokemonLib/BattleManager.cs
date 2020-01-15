@@ -322,7 +322,7 @@ namespace PokemonLib
                 }
                 if (!Jug1Ataca1 && debilitado)
                 {
-                    salida[3] = "0";
+                    salida[3] = "debilitado";
                 }
                 else
                 {
@@ -331,7 +331,7 @@ namespace PokemonLib
                 }
                 if (!Jug2Ataca1 && debilitado)
                 {
-                    salida[4] = "0";
+                    salida[4] = "debilitado";
                 }
                 else
                 {
@@ -339,6 +339,26 @@ namespace PokemonLib
                     salida[6] = MovUsado2.Nombre;
                 }
             }
+
+            if (!((salida[0] == "Ataque") && (salida[1] == "Ataque")) && !((salida[0] == "Cambio") && (salida[1] == "Cambio")))
+            {
+                if (salida[0] == "Cambio")
+                {
+                    salida[4] = Convert.ToString(dmg2);
+                    salida[6] = MovUsado2.Nombre;
+                    salida[7] = Jugador1;
+                }
+                else if (salida[1] == "Cambio")
+                {
+                    salida[3] = Convert.ToString(dmg1);
+                    salida[6] = MovUsado1.Nombre;
+                    salida[7] = Jugador2;
+                }
+
+
+
+            }
+
             return salida;
         }
         public void ResetOrders()
