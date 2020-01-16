@@ -159,6 +159,50 @@ namespace PokemonLib
             return dmgfinal;
         }
 
+        public string MovEstado(Movimiento mov)
+        {
+            if (mov.Nombre == "Toxico")
+            {
+                return "Envenenar";
+            }
+            else if (mov.Nombre == "Sintesis")
+            {
+                return "Curar";
+            }
+            else if (mov.Nombre == "Dia Soleado")
+            {
+                this.clima = "Sol";
+                return "Sol";
+            }
+            else if (mov.Nombre == "Descanso")
+            {
+                return "Curar todo";
+            }
+            else if (mov.Nombre == "Proteccion")
+            {
+                return "Protegido";
+            }
+            else if (mov.Nombre == "Danza Dragon")
+            {
+                return "Subir Ataque";
+            }
+            else if (mov.Nombre == "Danza Espada")
+            {
+                return "Subir Ataque";
+            }
+            else if (mov.Nombre == "Maquinacion")
+            {
+                return "Subir Ataque Esp";
+            }
+            else if (mov.Nombre == "Danza Lluvia")
+            {
+                this.clima = "Lluvia";
+                return "Lluvia";
+            }
+            else
+                return "";
+        }
+
         public void RecibirOrden(string mensaje)
         {
             if (this.Orden1 == null)
@@ -184,6 +228,8 @@ namespace PokemonLib
             bool debilitado = false;
             bool Jug1Ataca1 = false;
             bool Jug2Ataca1 = false;
+            bool Jug1Estado = false;
+            bool Jug2Estado = false;
             if (Order1[1] == "Cambiar")
             {
                 if (Jugador1 == Order1[0])
@@ -226,7 +272,8 @@ namespace PokemonLib
                     MovUsado1 = Poke1.moveSet.BuscarMovimiento(Order1[2]);
                     if (MovUsado1.Categoria == "Estado")
                     {
-
+                        Jug1Estado = true;
+                        dmg1 = 0;
                     }
                     else
                     {
@@ -239,7 +286,8 @@ namespace PokemonLib
                     MovUsado2 = Poke2.moveSet.BuscarMovimiento(Order1[2]);
                     if (MovUsado2.Categoria == "Estado")
                     {
-
+                        Jug2Estado = true;
+                        dmg2 = 0;
                     }
                     else
                     {
@@ -255,7 +303,8 @@ namespace PokemonLib
                     MovUsado1 = Poke1.moveSet.BuscarMovimiento(Order2[2]);
                     if (MovUsado1.Categoria == "Estado")
                     {
-
+                        Jug1Estado = true;
+                        dmg1 = 0;
                     }
                     else
                     {
@@ -268,7 +317,8 @@ namespace PokemonLib
                     MovUsado2 = Poke2.moveSet.BuscarMovimiento(Order2[2]);
                     if (MovUsado2.Categoria == "Estado")
                     {
-
+                        Jug2Estado = true;
+                        dmg2 = 0;
                     }
                     else
                     {
@@ -324,6 +374,7 @@ namespace PokemonLib
                 {
                     salida[3] = "debilitado";
                 }
+
                 else
                 {
                     salida[3] = Convert.ToString(dmg1);
@@ -354,11 +405,7 @@ namespace PokemonLib
                     salida[6] = MovUsado1.Nombre;
                     salida[7] = Jugador2;
                 }
-
-
-
             }
-
             return salida;
         }
         public void ResetOrders()

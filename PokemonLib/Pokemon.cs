@@ -18,6 +18,7 @@ namespace PokemonLib
         public int Defensa_Especial;
         public int Velocidad;
         public MoveSet moveSet = new MoveSet();
+        public bool Envenenado = false;
 
 
         public Pokemon()
@@ -43,6 +44,10 @@ namespace PokemonLib
             this.moveSet.AddMovimiento(mov2);
             this.moveSet.AddMovimiento(mov3);
             this.moveSet.AddMovimiento(mov4);
+        }
+        public void Envenenar()
+        {
+            this.Envenenado = true;
         }
     }
 

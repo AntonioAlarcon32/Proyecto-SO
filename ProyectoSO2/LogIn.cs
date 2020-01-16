@@ -22,7 +22,7 @@ namespace ProyectoSO2
         Socket server;
         Thread Atender;
         string ip = "192.168.56.110";
-        int puerto = 50058;
+        int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -71,6 +71,7 @@ namespace ProyectoSO2
 
         private void SetEquipo(string poke1, string poke2, string poke3)
         {
+            EquipoBatallaPropio.DeleteEquipo();
             EquipoBatallaPropio.AddPokemon(SearchPokemon(poke1));
             EquipoBatallaPropio.AddPokemon(SearchPokemon(poke2));
             EquipoBatallaPropio.AddPokemon(SearchPokemon(poke3));
@@ -416,6 +417,7 @@ namespace ProyectoSO2
                         string mensaje3 = "13/" + IDChat + "," + User.Text + "," + EquipoBatallaPropio.GetPokemon(0).Nombre + "," + EquipoBatallaPropio.GetPokemon(1).Nombre + "," + EquipoBatallaPropio.GetPokemon(2).Nombre;
                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje3);
                         server.Send(msg);
+
                         break;
                     case 11:
                         int ID = Convert.ToInt32(contenido.Split('-')[0]);
@@ -444,6 +446,7 @@ namespace ProyectoSO2
                         bool OponenteRecibido = false;
                         if (content[0] != User.Text)
                         {
+                            EquipoBatallaOponente.DeleteEquipo();
                             EquipoBatallaOponente.AddPokemon(SearchPokemon(content[1]));
                             EquipoBatallaOponente.AddPokemon(SearchPokemon(content[2]));
                             EquipoBatallaOponente.AddPokemon(SearchPokemon(content[3]));

@@ -1,5 +1,5 @@
 Toxico/Estado/10/Veneno/0/0/Uno/Provoca un grave envenenamiento que se agrava con el paso de los turnos.
-Sintesis/Estado/5/Planta/0/25/Propio/Hace que el usuario recupere PS. La cantidad depende del momento del día y del clima
+Sintesis/Estado/5/Planta/0/0/Propio/Hace que el usuario recupere PS. La cantidad depende del momento del día y del clima
 Hierba Lazo/Especial/20/Planta/0/100/Uno/Causa daño y no tiene ningún efecto secundario.
 Terremoto/Fisico/10/Tierra/0/100/Todos/Causa daño a todos los Pokemon en el campo de batalla.
 Lanzallamas/Especial/15/Fuego/0/90/Uno/Causa daño y puede quemar al objetivo.
@@ -25,7 +25,7 @@ Superdiente/Fisico/10/Normal/0/100/Uno/Causa daño sin efectos secundarios.
 Pajaro Osado/Fisico/15/Volador/0/120/Uno/Causa daño sin efectos secundarios.
 Surf/Especial/15/Agua/0/90/Todos/Causa daño a todos los oponentes.
 Cometa Draco/Especial/5/Dragon/0/120/Uno/Causa daño pero reduce el Ataque Especial.
-Puño Fuego/Fisico/15/Fuego/0/75/Uno/Causa daño y puede quemar al objetivo.
+Punyo Fuego/Fisico/15/Fuego/0/75/Uno/Causa daño y puede quemar al objetivo.
 Persecucion/Fisico/15/Siniestro/0/90/Uno/Causa daño.
 Lluevehojas/Especial/5/Planta/0/140/Uno/Causa mucho daño pero reduce el Ataque Especial.
 Pulso Dragon/Especial/15/Dragon/0/90/Uno/Causa daño sin efectos secundarios.
@@ -33,12 +33,12 @@ Danza Espada/Estado/10/Normal/0/0/Propio/Sube el Ataque del Usuario mucho.
 Envite Igneo/Fisico/15/Fuego/0/120/Uno/Hace daño y puede quemar.
 Patada Salto Alta/Fisico/10/Lucha/0/130/Uno/Hace daño sin efectos secundarios.
 Cascada/Fisico/15/Agua/0/95/Uno/Causa daño.
-Puño Hielo/Fisico/15/Hielo/0/75/Uno/Causa daño y puede congelar al objetivo.
+Punyo Hielo/Fisico/15/Hielo/0/75/Uno/Causa daño y puede congelar al objetivo.
 MismoDestino/Estado/5/Fantasma/0/0/Propio/Cuando el usuario se debilite, el Pokemon que lo debilito tambien se debilitara.
 Doble Filo/Fisico/10/Normal/0/90/Uno/Causa daño pero tambien daña al usuario.
 Colmillo Hielo/Fisico/15/Hielo/0/90/Uno/Causa daño y puede congelar al objetivo.
 Garra Dragon/Fisico/15/Dragon/0/100/Uno/Causa daño.
-Puño Meteoro/Fisico/15/Acero/0/90/Uno/Causa daño y puede subir el ataque del usuario.
+Punyo Meteoro/Fisico/15/Acero/0/90/Uno/Causa daño y puede subir el ataque del usuario.
 A Bocajarro/Fisico/5/Lucha/0/120/Uno/Causa daño pero reduce el ataque.
 Tajo Umbrio/Fisico/15/Siniestro/0/90/Uno/Causa daño, además es mas probable que sea crítico.
 Imagen/Fisico/20/Normal/0/70/Uno/Causa daño, si tu estado ha cambiado, causa el doble de daño.
@@ -51,7 +51,7 @@ Megacuerno/Fisico/10/Bicho/0/120/Uno/Causa daño.
 Rayo/Especial/5/Electrico/0/90/Uno/Causa daño y puede paralizar.
 Escaldar/Especial/15/Agua/0/85/Uno/Causa daño y puede quemar.
 Recuperacion/Estado/5/Normal/0/50/Propio/Hace que el usuario recupere PS.
-Puño Bala/Fisico/5/Acero/1/70/Uno/Causa daño y ataca primero.
+Punyo Bala/Fisico/5/Acero/1/70/Uno/Causa daño y ataca primero.
 Danza Lluvia/Estado/5/Agua/0/0/Propio/Provoca una intensa lluvia durante 5 turnos.
 GigaDrenado/Especial/5/Planta/0/75/Uno/Cura parte del daño causado.
 -/-----------------------------------------------------------------
