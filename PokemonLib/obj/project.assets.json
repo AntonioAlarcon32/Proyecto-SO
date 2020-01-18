@@ -180,19 +180,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Marc\\.nuget\\packages\\": {}
+    "C:\\Users\\anton\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Marc\\Documents\\Proyecto-SO\\PokemonLib\\PokemonLib.csproj",
+      "projectUniqueName": "C:\\Users\\anton\\Desktop\\ProyectoSO2\\PokemonLib\\PokemonLib.csproj",
       "projectName": "PokemonLib",
-      "projectPath": "C:\\Users\\Marc\\Documents\\Proyecto-SO\\PokemonLib\\PokemonLib.csproj",
-      "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Marc\\Documents\\Proyecto-SO\\PokemonLib\\obj\\",
+      "projectPath": "C:\\Users\\anton\\Desktop\\ProyectoSO2\\PokemonLib\\PokemonLib.csproj",
+      "packagesPath": "C:\\Users\\anton\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\anton\\Desktop\\ProyectoSO2\\PokemonLib\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Marc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\anton\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

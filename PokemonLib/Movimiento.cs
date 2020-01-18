@@ -24,11 +24,6 @@ namespace PokemonLib
             
         }
 
-        public void CambiarNombre(string nombre)
-        {
-            this.Nombre = nombre;
-        }
-
         public Movimiento(string nombre,string Categoria, int PP, string tipo, int prioridad, int potencia, string alcance, string descripcion)
         {
             this.Nombre = nombre;
@@ -41,6 +36,29 @@ namespace PokemonLib
             this.Alcance = alcance;
             this.Descripcion = descripcion;
 
+        }
+
+        public void CambiarNombre(string nombre)
+        {
+            this.Nombre = nombre;
+        }
+
+        public void CopiarMov(Movimiento MovOriginal)
+        {
+            this.Nombre = MovOriginal.Nombre;
+            this.Categoria = MovOriginal.Categoria;
+            this.PPMax = MovOriginal.PPMax;
+            this.PPAct = MovOriginal.PPAct;
+            this.Tipo = MovOriginal.Tipo;
+            this.prioridad = MovOriginal.prioridad;
+            this.Potencia = MovOriginal.Potencia;
+            this.Alcance = MovOriginal.Alcance;
+            this.Descripcion = MovOriginal.Descripcion;
+        }
+
+        public void RestarPP()
+        {
+            this.PPAct = this.PPAct - 1;
         }
 
     }
