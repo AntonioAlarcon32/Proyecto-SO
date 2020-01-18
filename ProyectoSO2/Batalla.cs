@@ -815,6 +815,7 @@ namespace ProyectoSO2
                 bt.IncreaseTurno();
                 bt.ResetOrders();
                 bt.InicioTurno();
+                Notif.Text = "Elige una accion";
                 Orden1Done = false;
                 Orden2Done = false;
                 if (PokemonLuchando1.PSactuales <= 0)
