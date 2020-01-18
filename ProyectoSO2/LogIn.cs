@@ -21,7 +21,7 @@ namespace ProyectoSO2
 
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.110";
+        string ip = "147.83.117.22";
         int puerto = 50057;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
@@ -69,34 +69,13 @@ namespace ProyectoSO2
         }
 
 
-        private void SetEquipoPropio(string poke1, string poke2, string poke3)
+        private void SetEquipo(string poke1, string poke2, string poke3)
         {
             EquipoBatallaPropio.DeleteEquipo();
-            Pokemon Copia1 = new Pokemon();
-            Pokemon Copia2 = new Pokemon();
-            Pokemon Copia3 = new Pokemon();
-            Copia1.CopiarPokemon(SearchPokemon(poke1));
-            Copia2.CopiarPokemon(SearchPokemon(poke2));
-            Copia3.CopiarPokemon(SearchPokemon(poke3));
-            EquipoBatallaPropio.AddPokemon(Copia1);
-            EquipoBatallaPropio.AddPokemon(Copia2);
-            EquipoBatallaPropio.AddPokemon(Copia3);
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke1));
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke2));
+            EquipoBatallaPropio.AddPokemon(SearchPokemon(poke3));
         }
-
-        private void SetEquipoOponente(string poke1, string poke2, string poke3)
-        {
-            EquipoBatallaOponente.DeleteEquipo();
-            Pokemon Copia1 = new Pokemon();
-            Pokemon Copia2 = new Pokemon();
-            Pokemon Copia3 = new Pokemon();
-            Copia1.CopiarPokemon(SearchPokemon(poke1));
-            Copia2.CopiarPokemon(SearchPokemon(poke2));
-            Copia3.CopiarPokemon(SearchPokemon(poke3));
-            EquipoBatallaOponente.AddPokemon(Copia1);
-            EquipoBatallaOponente.AddPokemon(Copia2);
-            EquipoBatallaOponente.AddPokemon(Copia3);
-        }
-
 
         private void GetPokemons()
         {
@@ -455,7 +434,7 @@ namespace ProyectoSO2
                         break;
                     case 13:
                         string[] TuEquipo = contenido.Split(',');
-                        SetEquipoPropio(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
+                        SetEquipo(TuEquipo[0], TuEquipo[1], TuEquipo[2]);
                         DelegadoActivarInvitacion delegadoInvite = new DelegadoActivarInvitacion(DelegarActivarInvitacion);
                         Invite.Invoke(delegadoInvite);
                         break;
@@ -467,7 +446,10 @@ namespace ProyectoSO2
                         bool OponenteRecibido = false;
                         if (content[0] != User.Text)
                         {
-                            SetEquipoOponente(content[1], content[2], content[3]);
+                            EquipoBatallaOponente.DeleteEquipo();
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[1]));
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[2]));
+                            EquipoBatallaOponente.AddPokemon(SearchPokemon(content[3]));
                             Oponente = content[0];
                             OponenteRecibido = true;
                         }

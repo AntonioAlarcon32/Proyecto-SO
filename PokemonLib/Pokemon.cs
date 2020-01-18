@@ -18,10 +18,11 @@ namespace PokemonLib
         public int Defensa_Especial;
         public int Velocidad;
         public MoveSet moveSet = new MoveSet();
+        public bool Envenenado = false;
+
 
         public Pokemon()
         {
-
         }
         public Pokemon(string name, string Type1, string Type2, int HP, int Attack, int Defense, int EspAttack, int EspDef, int Speed)
         {
@@ -44,25 +45,9 @@ namespace PokemonLib
             this.moveSet.AddMovimiento(mov3);
             this.moveSet.AddMovimiento(mov4);
         }
-    
-        public void CopiarPokemon(Pokemon PokemonOriginal)
+        public void Envenenar()
         {
-            this.Nombre = PokemonOriginal.Nombre;
-            this.Tipo1 = PokemonOriginal.Tipo1;
-            this.Tipo2 = PokemonOriginal.Tipo2; 
-            this.PS = PokemonOriginal.PS;
-            this.PSactuales = PokemonOriginal.PSactuales;
-            this.Ataque = PokemonOriginal.Ataque;
-            this.Defensa = PokemonOriginal.Defensa;
-            this.Ataque_Especial = PokemonOriginal.Ataque_Especial;
-            this.Defensa_Especial = PokemonOriginal.Defensa_Especial;
-            this.Velocidad = PokemonOriginal.Velocidad;
-            this.moveSet.CopiarMoveset(PokemonOriginal.moveSet);
-        }
-
-        public void RestarPS(int dmg)
-        {
-            this.PSactuales = this.PSactuales - dmg;
+            this.Envenenado = true;
         }
     }
 

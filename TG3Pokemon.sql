@@ -31,16 +31,16 @@ CREATE TABLE Relacion (
 					   )ENGINE = InnoDB;
 
 INSERT INTO Players VALUES ('Alarcn32','proyectoso', 0001, 1, 1);
-INSERT INTO Players VALUES ('SirXape','proyectoso',0002,1,2);
+INSERT INTO Players VALUES ('SirXape','proyectoso',0002,2,2);
 INSERT INTO Players VALUES ('StoodYapper','proyectoso',0003,1,2);
 INSERT INTO Players VALUES ('Julia','proyectoso',0004,1,1);
 INSERT INTO Players VALUES ('Poison','proyectoso',0005,1,1);
 
 
-INSERT INTO Partidas VALUES (0001,'04.10.2019',16,'Alarcn32','-');
-INSERT INTO Partidas VALUES (0002,'04.10.2019',23,'SirXape','StoodYapper');
-INSERT INTO Partidas VALUES (0003,'05.10.2019',14,'Julia','SirXape');
-INSERT INTO Partidas VALUES (0004,'06.10.2019',29,'Poison','StoodYapper');
+INSERT INTO Partidas VALUES (0001,'04/10/2019',16,'Alarcn32','-');
+INSERT INTO Partidas VALUES (0002,'04/10/2019',23,'SirXape','StoodYapper');
+INSERT INTO Partidas VALUES (0003,'05/10/2019',14,'Julia','SirXape');
+INSERT INTO Partidas VALUES (0004,'06/10/2019',29,'Poison','StoodYapper');
 
 INSERT INTO Relacion VALUES (0001,0001,3);
 INSERT INTO Relacion VALUES (0002,0001,0);

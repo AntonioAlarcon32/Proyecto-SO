@@ -14,11 +14,10 @@ namespace PokemonLib
 
         }
 
+
         public void AddMovimiento(Movimiento mov)
         {
-            Movimiento copia = new Movimiento();
-            copia.CopiarMov(mov);
-            this.Movimientos.Add(copia);
+            this.Movimientos.Add(mov);
             this.num = num + 1;
         }
 
@@ -36,18 +35,6 @@ namespace PokemonLib
                     i = i + 1;
             }
             return this.Movimientos[i];
-        }
-
-        public void CopiarMoveset(MoveSet Original)
-        {
-            this.num = Original.num;
-            int i = 0;
-            foreach (Movimiento mov in Original.Movimientos)
-            {
-                this.AddMovimiento(Original.Movimientos[i]);
-                i += 1;
-            }
-            
         }
     }
 }
