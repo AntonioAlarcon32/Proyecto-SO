@@ -383,6 +383,7 @@
             // 
             // Abandonar
             // 
+            this.Abandonar.Enabled = false;
             this.Abandonar.Location = new System.Drawing.Point(1113, 758);
             this.Abandonar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Abandonar.Name = "Abandonar";

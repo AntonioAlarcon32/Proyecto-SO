@@ -1,4 +1,5 @@
 #include <string.h>
+#include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -9,31 +10,32 @@
 #include <pthread.h>
 #include <my_global.h>
 
-typedef struct
+//En este apartado realizamos la definicion de las estructuras y las variables del servidor
+typedef struct //Estructura que contiene el nombre y el socket de un usuario.
 {
 	char nickname[20];
 	int socket;
 }Usuario;				//Estructura Usuario
 
-typedef struct
+typedef struct //Estructura que contiene una lista de usuarios
 {
 	Usuario Usuarios[10];
 	int num;
 }ListaUsuarios;		//Estructura lista de conectados
 
-typedef struct
+typedef struct //Estructura que contiene los usuarios que hay en el id de una partida. (Usuarios que hay en una partida)
 {
 	int ID;
 	ListaUsuarios Usuarios;
 }Partida;	
 
-typedef struct
+typedef struct //Estructura que contiene una lista de partidas
 {
 	Partida Partidas[5];
 	int num;
 }ListaPartidas;
 
-MYSQL *conn;
+MYSQL *conn;                                               
 ListaUsuarios ListaConectados;							//Definimos las variables globales (Lista de conectados y la conexion SQL)
 ListaPartidas Listapartidas;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;		// Estructura para la exclusion mutua
@@ -41,9 +43,11 @@ int i;
 int sockets[10];
 int MaxID=0;
 
+//En este apartado tenemos la definici?n de las funciones empleadas por el servidor
 
 
-int GetMAXID()
+
+int GetMAXID() //Esta funci?n retorna el ID mas grande de todas las partidas registradas en la base de datos
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -75,7 +79,7 @@ void InicializarLista( ListaUsuarios *lista)			//Funcion para borrar la lista
 	lista->num = 0;					
 }
 
-int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para aÃ±adir un usuario a la lista
+int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para a?adir un usuario a la lista. Retorna un 1 si la lista est? llena o un 0 si se ha a?adido correctamente
 {
 	if (lista->num == 10)
 	{
@@ -90,7 +94,7 @@ int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para 
 	}
 }
 
-int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para eliminar un usuario de la lista
+int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para eliminar un usuario de la lista. Retorna un 0 si lo ha eliminado, o un 1 si el usuario no estaba en la lista
 {
 	int encontrado = 0;
 	int i = 0;
@@ -123,7 +127,7 @@ int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para elimin
 		return 1;
 }
 
-int SocketJugador(ListaUsuarios *lista, char nick[20])		//Funcion que devuelve el socket del usuario que le das
+int SocketJugador(ListaUsuarios *lista, char nick[20])		//Funcion que devuelve el socket del usuario que le das.
 {
 	int encontrado = 0;
 	int i = 0;
@@ -141,7 +145,7 @@ int SocketJugador(ListaUsuarios *lista, char nick[20])		//Funcion que devuelve e
 }
 
 
-int DarListaUsuarios(ListaUsuarios *lista, char respuesta[200])	//Escribe la lista de conectados en la respuestas
+int DarListaUsuarios(ListaUsuarios *lista, char respuesta[200])	//Escribe la lista de conectados en la respuesta y devuelve un 0 si se ha ejecutado correctamente.
 {
 	char buffer[200];
 	sprintf(buffer,"%s",lista->Usuarios[0].nickname);
@@ -181,7 +185,7 @@ MYSQL *ConexionBaseDatos() 			//Funcion para abrir la conexion de la base de dat
 	return conn;
 }
 
-int ConexionSocket(int puerto)		//Funcion para abrir el socket
+int ConexionSocket(int puerto)		//Funcion para abrir el socket y devuelve el socket escuchado
 {
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;
@@ -209,7 +213,7 @@ int ConexionSocket(int puerto)		//Funcion para abrir el socket
 	
 	return sock_listen;
 };
-int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un usuario en la base de datos
+int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un usuario en la base de datos. Devuelve un 0 si el registro se ha completado o un 1 si ha ocurrido algo.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -257,7 +261,7 @@ int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario e
 	
 	return found;  
 }
-int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
+int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion. Devuelve un 0 si se ha realizado correctamente o un 1 si ha ocurrido algo.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -267,7 +271,7 @@ int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
 	char *p = strtok(mensaje, ",");
 	strcpy(nick,p);
 	strcpy(nickname,nick);
-	//Primero comprobamos que el usuario no haya iniciado sesión previamente.
+	//Primero comprobamos que el usuario no haya iniciado sesi??n previamente.
 	int SesionIniciada = 0;
 	SesionIniciada = BuscarUsuario( &ListaConectados , nick );
 	p = strtok(NULL,",");	
@@ -301,7 +305,7 @@ int Acceso(char mensaje[120],char nickname[20])			//Funcion para iniciar sesion
 }
 
 
-int Consulta1(char mensaje[120], char respuesta[12])	//Consulta de partida mas larga de un jugador
+int Consulta1(char mensaje[120], char respuesta[12])	//Consulta de partida mas larga de un jugador. Devuelve un 0 si se ha realizado correctamente o un 1 si ha habido algun error.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -330,7 +334,7 @@ int Consulta1(char mensaje[120], char respuesta[12])	//Consulta de partida mas l
 
 
 
-int Consulta2(char mensaje[120], char respuesta[64])	//Usuarios que han jugado una partida
+int Consulta2(char mensaje[120], char respuesta[64])	//Usuarios que han jugado una partida a partir del id de la partida. Devuelve un 0 si se ha realizado correctamente o un 1 si no.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -365,7 +369,7 @@ int Consulta2(char mensaje[120], char respuesta[64])	//Usuarios que han jugado u
 		return 0;
 	}
 }
-int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste tres pokemons
+int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que no perdiste ning?n pokemon. Devuelve un 0 si se ha realizado correctamente la consulta o un 1 si no.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -399,7 +403,7 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que tuviste
 
 
 
-void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200])
+void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funci?n que permite invitar un usuario a otra partida
 {
 	char *p = strtok(invitacion, ":");
 	int NumeroJugadores =  atoi (p);
@@ -422,7 +426,7 @@ void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200])
 		write (SocketInvitacion,notificacion, strlen(notificacion));
 	}
 }
-void InicializarListaPartidas(ListaPartidas *listaPart)
+void InicializarListaPartidas(ListaPartidas *listaPart) //Funci?n que sirve para inicializar la lista de partidas
 {
 	listaPart->num = 0;
 	listaPart->Partidas[0].ID = 0;
@@ -433,7 +437,7 @@ void InicializarListaPartidas(ListaPartidas *listaPart)
 	}
 }
 
-void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitacion[200])
+void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitacion[200]) //Funci?n que permmite comenzar una partida
 {
 	char Jugador[20];
 	char *p = strtok(invitacion, ",");
@@ -454,7 +458,7 @@ void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitaci
 	listaPart->num += 1;
 	MaxID = IDPartida;
 }
-int EliminarPartida(ListaPartidas *lista, int ID)			//Funcion para eliminar una partida de la lista
+int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una partida de la lista. Devuelve un 0 si la ha eliminado o un 1 en caso de que no estuviera en la lista de partidas.
 {
 	int encontrado = 0;
 	int i = 0;
@@ -531,7 +535,7 @@ void BroadCast(ListaUsuarios *lista,char notificacion[200])
 		c = c + 1;
 	}
 }
-void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID)
+void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID)//Funcion para salir de una partida
 {
 	int i = 0;
 	int found = 0;
@@ -564,7 +568,7 @@ void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, c
 		c = c + 1;
 	}
 }
-int BorrarUsuario(char mensaje[120])	//Elimina usuario de la base de datos
+int BorrarUsuario(char mensaje[120])	//Elimina usuario de la base de datos. Devuelve un 0 si lo ha hecho correctamente
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -580,6 +584,331 @@ int BorrarUsuario(char mensaje[120])	//Elimina usuario de la base de datos
 	else
 		return 0;
 }
+int ObtenerIdJugador (char mensaje[120], char respuesta[64]) //Funcion que obtiene el id de un jugador a partir de su nombre.
+{
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[200];
+	sprintf(consulta,"SELECT id FROM Players WHERE nombre ='%s'", mensaje);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al consultar datos de la base %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		return 1;
+	}
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado);
+	if (row[0] == NULL)
+	{
+		printf ("No se han obtenido datos en la consulta\n");
+		return 1;
+	}
+	else
+	{
+		strcpy(respuesta,row[0]);
+		return 0;
+	}
+}
+int ObtenerPartidasGanadas (char mensaje[120], char respuesta[64]) //Funcion que retorna las partidas ganadas de un jugador a partir de su nombre.
+{
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[200];
+	sprintf(consulta,"SELECT PartidasGanadas FROM Players WHERE nombre ='%s'", mensaje);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al consultar datos de la base %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		return 1;
+	}
+	resultado = mysql_store_result (conn);
+	row = mysql_fetch_row (resultado);
+	if (row[0] == NULL)
+	{
+		printf ("No se han obtenido datos en la consulta\n");
+		return 1;
+	}
+	else
+	{
+		strcpy(respuesta,row[0]);
+		return 0;
+	}
+	
+}
+int RegistrarPartida4(char mensaje[500], int IDPartida) //Funci?n que registra una partida de 4 jugadores. Devuelve un 0 si no ha habido ning?n error y un 1 en caso contrario
+{
+	//Para hacerlo se debe de tener en cuenta lo siguiente: IDPartida,fecha,turnos,Ganador1,Ganador2,Perdedor1,Perdedor2,PokemonsRestantes1,PokemonsRestantes2.
+	int conterror = 0;
+	char respuesta[200];
+	//Primero sacamos el IDPartida
+	char *p;
+	//Fecha ,dd/mm/yyyy,
+	char fecha [20];
+	p = strtok(mensaje, ",");
+	p = strtok(mensaje, ",");
+	strcpy(fecha,mensaje);
+	//Turnos
+	p = strtok(mensaje, ",");
+	int turnos = atoi(p);	
+	//Ganador 1
+	char Ganador1 [20];
+	p = strtok(mensaje, ",");
+	strcpy(Ganador1,mensaje);
+	//Ganador 2
+	char Ganador2 [20];
+	p = strtok(mensaje, ",");
+	strcpy(Ganador2,mensaje);
+	//Perdedor 1
+	char Perdedor1 [20];
+	p = strtok(mensaje, ",");
+	strcpy(Perdedor1,mensaje);
+	//Perdedor 2
+	char Perdedor2 [20];
+	p = strtok(mensaje, ",");
+	strcpy(Perdedor2,mensaje);
+	//PokemonRestantes1
+	p = strtok(mensaje, ",");
+	int PokemonsRestantes1 = atoi(p);		
+	//PokemonRestantes2
+	p = strtok(mensaje, ",");
+	int PokemonsRestantes2 = atoi(p);	
+	
+	//Una vez tenemos los datos recopilados, procedemos a introducirlos en la base de datos
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[200];
+	
+	//Tabla de Partidas *************************************************************************************
+	
+	sprintf(consulta, "INSERT INTO Partidas VALUES ('%d','%s',%d,%s,%s)",IDPartida,fecha,turnos,Ganador1,Ganador2);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Tabla de Relaci???n ****************************************************************************************
+	
+	//Ganador1
+	int error;
+	int IdJugador;
+	error = ObtenerIdJugador (Ganador1,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,PokemonsRestantes1);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Ganador2
+	error = ObtenerIdJugador (Ganador2,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,PokemonsRestantes2);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Perdedor1
+	error = ObtenerIdJugador (Perdedor1,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,0);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Perdedor2
+	error = ObtenerIdJugador (Perdedor2,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,0);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Tabla de Players solo para el Ganador1****************************************************************************************
+	error = ObtenerIdJugador (Ganador1,respuesta);
+	IdJugador = atoi(respuesta);
+	int PartidasGanadas = 0;
+	int errPartidasGanadas;
+	//Ahora obtenemos el numero de partidas ganadas.
+	errPartidasGanadas = ObtenerPartidasGanadas (Ganador1,respuesta);
+	PartidasGanadas = atoi(respuesta);
+	PartidasGanadas = PartidasGanadas+1;
+	//Ahora actualizamos el n???mero de partidas ganadas al Ganador
+	sprintf(consulta, "UPDATE Players SET PartidasGanadas = %d WHERE Players.id = %d",PartidasGanadas,IdJugador);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Tabla de Players solo para el Ganador2 ****************************************************************************************
+	error = ObtenerIdJugador (Ganador2,respuesta);
+	IdJugador = atoi(respuesta);
+	//Ahora obtenemos el numero de partidas ganadas.
+	errPartidasGanadas = ObtenerPartidasGanadas (Ganador2,respuesta);
+	PartidasGanadas = atoi(respuesta);
+	PartidasGanadas = PartidasGanadas+1;
+	//Ahora actualizamos el n???mero de partidas ganadas al Ganador
+	sprintf(consulta, "UPDATE Players SET PartidasGanadas = %d WHERE Players.id = %d",PartidasGanadas,IdJugador);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	if (conterror != 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+	
+	
+}
+int RegistrarPartida2(char mensaje[500], int IDPartida) //Funci?n que registra una partida de 2 jugadores. Devuelve un 0 si no ha habido ning?n error o un 1 en caso contrario.
+{
+	//Para hacerlo se debe de tener en cuenta lo siguiente: IDPartida,fecha,turnos,Ganador,Perdedor,PokemonRestantes
+	int conterror = 0;
+	char respuesta [200];
+	//Fecha ,dd/mm/yyyy,
+	char fecha [20];
+	char *p= strtok(mensaje, ",");
+	strcpy(fecha,mensaje);
+	//Turnos
+	p = strtok(NULL, ",");
+	int turnos = atoi(p);	
+	//Ganador
+	char Ganador [20];
+	p = strtok(NULL,",");
+	strcpy(Ganador,p);
+	//Perdedor
+	char Perdedor [20];
+	p = strtok(NULL, ",");
+	strcpy(Perdedor,p);
+	//PokemonRestantes
+	p = strtok(NULL, ",");
+	int PokemonsRestantes = atoi(p);
+	
+	//Una vez tenemos los datos recopilados, procedemos a introducirlos en la base de datos
+	int err;
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	char consulta[200];
+	
+	//Tabla de Partidas *************************************************************************************
+	
+	sprintf(consulta, "INSERT INTO Partidas VALUES (%d,'%s',%d,'%s','-')",IDPartida,fecha,turnos,Ganador);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	
+	//Tabla de Relaci???n ****************************************************************************************
+	
+	//Ganador
+	int error;
+	int IdJugador;
+	error = ObtenerIdJugador (Ganador,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,PokemonsRestantes);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	//Perdedor
+	error = ObtenerIdJugador (Perdedor,respuesta);
+	IdJugador = atoi(respuesta);
+	
+	sprintf(consulta, "INSERT INTO Relacion VALUES (%d,%d,%d)",IdJugador,IDPartida,0);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	
+	
+	
+	//Tabla de Players solo para el Ganador ****************************************************************************************
+	error = ObtenerIdJugador (Ganador,respuesta);
+	IdJugador = atoi(respuesta);
+	int PartidasGanadas = 0;
+	int errPartidasGanadas;
+	//Ahora obtenemos el numero de partidas ganadas.
+	errPartidasGanadas = ObtenerPartidasGanadas (Ganador,respuesta);
+	PartidasGanadas = atoi(respuesta);
+	PartidasGanadas = PartidasGanadas+1;
+	int nivel = floor(PartidasGanadas/3) + 1;
+	
+	//Ahora actualizamos el n???mero de partidas ganadas al Ganador
+	sprintf(consulta, "UPDATE Players SET PartidasGanadas = %d , nivel= %d WHERE Players.id = %d",PartidasGanadas,nivel,IdJugador);
+	err=mysql_query (conn,consulta);
+	if (err!=0) {
+		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+		conterror++;
+	}
+	else
+		printf("Registro de datos de partida completo\n");
+	
+	if(conterror != 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (codigo principal)
 {
 	int sock_conn = * (int *) socket;
@@ -600,6 +929,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		p = strtok( NULL, "/");
 		char mensaje[200];
 		strcpy (mensaje, p);
+		
 		printf ("Codigo: %d, Variables: %s\n", codigo, mensaje);
 		char nick[20];
 		
@@ -721,7 +1051,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			BroadCastMensaje(&Listapartidas,11,mensaje,IDPartida);
 		}
 		
-		if (codigo == 11) //Jugador sale de Partida
+		if (codigo == 11) //Jugador sale de Partida y se registran los datos de la partida
 		{
 			p = strtok(mensaje, ",");
 			int IDPartida = atoi(p);
@@ -733,6 +1063,25 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 			int error = EliminarPartida(&Listapartidas,IDPartida);
 			pthread_mutex_unlock(&mutex);
 			printf("Partida borrada\n");
+			
+			p = strtok(NULL, ",");
+			int Jugadores = atoi(p);
+			p = strtok( NULL, "/");
+			char mensaje2 [200];
+			strcpy(mensaje2,p);
+			int RegistroCheck = 1;
+			if (Jugadores == 2)
+			{
+				RegistroCheck = RegistrarPartida2(mensaje2,IDPartida);
+			}
+			if (Jugadores == 4)
+			{
+				RegistroCheck = RegistrarPartida4(mensaje,IDPartida);
+			}
+			if (RegistroCheck == 0)
+			{
+				printf("Partida registrada correctamente\n");
+			}
 		}
 		if (codigo == 12) //Confirmar equipo
 		{
@@ -801,7 +1150,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 	}
 	close(sock_conn);
 }
-int main(int argc, char *argv[])
+int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento al servidor
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
@@ -820,4 +1169,5 @@ int main(int argc, char *argv[])
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 	}
 }
+
 

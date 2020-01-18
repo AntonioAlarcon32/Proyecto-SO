@@ -21,14 +21,18 @@ namespace ProyectoSO2
         public BattleManager bt = new BattleManager();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         PrivateFontCollection pfc = new PrivateFontCollection();
+
         Equipo EquipoJugador1 = new Equipo();
         Equipo EquipoJugador2 = new Equipo();
+
         Bitmap pokeball = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeball.png");
         Bitmap pokeballdebilitado = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeballblanco.png");
         Bitmap HealthBar = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\healthbar.png");
+        Bitmap FondoNotif = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\Dialog.png");
+
+
         static Random rand = new Random();
         SoundPlayer Player1 = new SoundPlayer(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Music\\batalla" + Convert.ToString(rand.Next(1, 9)) + ".wav");
-        Bitmap FondoNotif = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\Dialog.png");
 
         Pokemon PokemonLuchando1 = new Pokemon();
         int numPokemonLuchandoPlayer1 = 0;
@@ -36,11 +40,16 @@ namespace ProyectoSO2
         int numPokemonLuchandoPlayer2 = 0;
 
         bool CambiandoPoke = false;
+        bool debilitado = false;
+        bool Orden1Done = false;
+        bool Orden2Done = false;
+        bool PartidaGanada = false;
 
         int ID;
-        bool debilitado = false;
+
         string Jugador1;
         string Jugador2;
+
         Socket Server;
 
         delegate void EscribirChat(string MensajeChat);
@@ -54,10 +63,7 @@ namespace ProyectoSO2
         PictureBox SpritePokemon1 = new PictureBox();
         PictureBox SpritePokemon2 = new PictureBox();
 
-        bool Orden1Done = false;
-        bool Orden2Done = false;
-
-        int contador, cambiandopoke;
+        int contador, TimerUltimaOrden;
         public void GetEquipoPropio(Equipo team)
         {
             EquipoJugador1 = team;
@@ -443,7 +449,7 @@ namespace ProyectoSO2
                 Server.Send(msg);
                 CambiandoPoke = false;
                 Notif.Text = "Esperando al rival";
-
+                bt.FinTurno();
             }
         }
 
@@ -464,7 +470,7 @@ namespace ProyectoSO2
                 Server.Send(msg);
                 CambiandoPoke = false;
                 Notif.Text = "Esperando al rival";
-
+                bt.FinTurno();
             }
         }
 
@@ -484,6 +490,7 @@ namespace ProyectoSO2
                 Server.Send(msg);
                 CambiandoPoke = false;
                 Notif.Text = "Esperando al rival";
+                bt.FinTurno();
             }
         }
 
@@ -497,8 +504,31 @@ namespace ProyectoSO2
 
         private void Abandonar_Click(object sender, EventArgs e)
         {
-            string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);       //Chorlo cambia el 11/ por tu codigo
+            string Ganador;
+            string Perdedor;
+            int PokemonsRestantes;
+            DateTime thisDay = DateTime.Today;
+            string date = thisDay.ToString("d");
+            string[] fecha = date.Split('/');
+            string dia = fecha[0];
+            string mes = fecha[1];
+            string año = fecha[2];
+            string date2 = dia + "." + mes + "." + año;
+            if (EquipoJugador1.PokemonsRestantes() == 0)
+            {
+                Ganador = Jugador2;
+                Perdedor = Jugador1;
+                PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
+            }
+            else
+            {
+                Ganador = Jugador1;
+                Perdedor = Jugador2;
+                PokemonsRestantes = EquipoJugador1.PokemonsRestantes();
+            }
+
+            string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje); 
             Server.Send(msg);
             this.Close();
         }
@@ -514,6 +544,7 @@ namespace ProyectoSO2
                 CambiandoPoke = false;
                 PokemonLuchando1.moveSet.Movimientos[0].PPAct -= 1;
                 PPMov1.Text = Convert.ToString(PokemonLuchando1.moveSet.Movimientos[0].PPAct) + "/" + Convert.ToString(PokemonLuchando1.moveSet.Movimientos[0].PPMax);
+                bt.FinTurno();
             }
         }
 
@@ -528,6 +559,7 @@ namespace ProyectoSO2
                 CambiandoPoke = false;
                 PokemonLuchando1.moveSet.Movimientos[1].PPAct -= 1;
                 PPMov2.Text = Convert.ToString(PokemonLuchando1.moveSet.Movimientos[1].PPAct) + "/" + Convert.ToString(PokemonLuchando1.moveSet.Movimientos[1].PPMax);
+                bt.FinTurno();
             }
         }
 
@@ -542,6 +574,7 @@ namespace ProyectoSO2
                 CambiandoPoke = false;
                 PokemonLuchando1.moveSet.Movimientos[2].PPAct -= 1;
                 PPMov3.Text = Convert.ToString(PokemonLuchando1.moveSet.Movimientos[2].PPAct) + "/" + Convert.ToString(PokemonLuchando1.moveSet.Movimientos[2].PPMax);
+                bt.FinTurno();
             }
         }
 
@@ -556,12 +589,13 @@ namespace ProyectoSO2
                 CambiandoPoke = false;
                 PokemonLuchando1.moveSet.Movimientos[3].PPAct -= 1;
                 PPMov4.Text = Convert.ToString(PokemonLuchando1.moveSet.Movimientos[3].PPAct) + "/" + Convert.ToString(PokemonLuchando1.moveSet.Movimientos[3].PPMax);
+                bt.FinTurno();
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            cambiandopoke = cambiandopoke + 1;
+            TimerUltimaOrden = TimerUltimaOrden + 1;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -596,17 +630,17 @@ namespace ProyectoSO2
                         ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
                         numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
                         Orden1Done = true;
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                         timer1.Start();
 
                     }
-                    if ((ordenes[1] == "Cambio") && (cambiandopoke > 0) && !Orden2Done)
+                    if ((ordenes[1] == "Cambio") && (TimerUltimaOrden > 0) && !Orden2Done)
                     {
                         ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
                         numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
                         Orden2Done = true;
                         timer1.Stop();
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                     }
                 }
                 if ((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque"))
@@ -631,12 +665,12 @@ namespace ProyectoSO2
                             Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5] + " " + add;
                             PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
                             ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-                            cambiandopoke = 0;
+                            TimerUltimaOrden = 0;
                             Orden1Done = true;
                             timer1.Start();
                         }
                     }
-                    if ((cambiandopoke > 0) && !Orden2Done && (AtacaPrimero == Jugador1))
+                    if ((TimerUltimaOrden > 0) && (!Orden2Done) && ((AtacaPrimero == Jugador1)))
                     {
                         if (ordenes[4] != "debilitado")
                         {
@@ -658,7 +692,7 @@ namespace ProyectoSO2
                         }
                         Orden2Done = true;
                         timer1.Stop();
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                     }
                     if (AtacaPrimero == Jugador2)
                     {
@@ -679,12 +713,12 @@ namespace ProyectoSO2
                             Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6] + " " + add;
                             PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
                             ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-                            cambiandopoke = 0;
+                            TimerUltimaOrden = 0;
                             timer1.Start();
                             Orden2Done = true;
                         }
                     }
-                    if ((cambiandopoke > 0) && !Orden1Done && AtacaPrimero == Jugador2)
+                    if ((TimerUltimaOrden > 0) && (!Orden1Done) && (AtacaPrimero == Jugador2))
                     {
                         if (ordenes[3] != "debilitado")
                         {
@@ -706,7 +740,7 @@ namespace ProyectoSO2
                         }
                         Orden1Done = true;
                         timer1.Stop();
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                     }
                 }
                 if (!((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque")) && !((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio")))
@@ -718,7 +752,7 @@ namespace ProyectoSO2
                             ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
                             numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
                             Orden1Done = true;
-                            cambiandopoke = 0;
+                            TimerUltimaOrden = 0;
                             timer1.Start();
                         }
                     }
@@ -729,10 +763,10 @@ namespace ProyectoSO2
                         numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
                         Orden2Done = true;
                         timer1.Start();
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                     }
 
-                    if ((cambiandopoke > 0) && !Orden2Done)
+                    if ((TimerUltimaOrden > 0) && !Orden2Done)
                     {
                         double eficacia = bt.CalcularDebilidad(PokemonLuchando2.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando1.Tipo1, PokemonLuchando1.Tipo2);
                         string add = " ";
@@ -749,11 +783,11 @@ namespace ProyectoSO2
                         Notif.Text = PokemonLuchando2.Nombre + " ha usado " + ordenes[6] + " " + add;
                         PokemonLuchando1.PSactuales -= Convert.ToInt32(ordenes[4]);
                         ActualizarBarraSalud1(PokemonLuchando1, barrasalud1);
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                         timer1.Stop();
                         Orden2Done = true;
                     }
-                    if ((cambiandopoke > 0) && !Orden1Done)
+                    if ((TimerUltimaOrden > 0) && !Orden1Done)
                     {
                         double eficacia = bt.CalcularDebilidad(PokemonLuchando1.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando2.Tipo1, PokemonLuchando2.Tipo2);
                         string add = " ";
@@ -770,7 +804,7 @@ namespace ProyectoSO2
                         Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[6] + " " + add;
                         PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
                         ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
-                        cambiandopoke = 0;
+                        TimerUltimaOrden = 0;
                         timer1.Stop();
                         Orden1Done = true;
                     }    
@@ -780,6 +814,7 @@ namespace ProyectoSO2
             {
                 bt.IncreaseTurno();
                 bt.ResetOrders();
+                bt.InicioTurno();
                 Orden1Done = false;
                 Orden2Done = false;
                 if (PokemonLuchando1.PSactuales <= 0)
@@ -817,10 +852,12 @@ namespace ProyectoSO2
                 if (EquipoJugador1.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has perdido, finalizando partida";
+                    Abandonar.Enabled = true;
                 }
                 if (EquipoJugador2.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has ganado, finalizando partida";
+                    Abandonar.Enabled = true;
                 }
                 label1.Text = Convert.ToString(bt.GetTurnos());
             }
