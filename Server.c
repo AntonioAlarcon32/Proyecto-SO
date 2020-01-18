@@ -30,7 +30,7 @@ typedef struct //Estructura que contiene los usuarios que hay en el id de una pa
 
 typedef struct //Estructura que contiene una lista de partidas
 {
-	Partida Partidas[5];
+	Partida Partidas[20];
 	int num;
 }ListaPartidas;
 
