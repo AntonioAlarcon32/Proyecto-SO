@@ -45,7 +45,7 @@ namespace PokemonLib
             }
             else
             {
-                this.Pokemons.Remove(this.Pokemons[Pokemons_Iniciales-1]);
+                this.Pokemons.Remove(this.Pokemons[Pokemons_Iniciales - 1]);
                 this.Pokemons_Iniciales -= 1;
             }
         }
@@ -54,6 +54,21 @@ namespace PokemonLib
             this.Pokemons.Clear();
             this.Pokemons_Restantes = 0;
             this.Pokemons_Iniciales = 0;
+        }
+
+        public void CopiarEquipo(Equipo Original)
+        {
+            Pokemon copia1 = new Pokemon();
+            Pokemon copia2 = new Pokemon();
+            Pokemon copia3 = new Pokemon();
+
+            copia1.CopiarPokemon(Original.GetPokemon(0));
+            copia2.CopiarPokemon(Original.GetPokemon(1));
+            copia3.CopiarPokemon(Original.GetPokemon(2));
+
+            this.AddPokemon(copia1);
+            this.AddPokemon(copia2);
+            this.AddPokemon(copia3);
         }
     }
 

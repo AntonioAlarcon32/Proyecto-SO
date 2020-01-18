@@ -76,8 +76,8 @@ namespace ProyectoSO2
             pfc.AddFontFile(directorio + "\\UI\\fuente.ttf");
             this.Jugador1 = Play1;
             this.Jugador2 = Play2;
-            this.EquipoJugador1 = EqJugador1;
-            this.EquipoJugador2 = EqJugador2;
+            this.EquipoJugador1.CopiarEquipo(EqJugador1);
+            this.EquipoJugador2.CopiarEquipo(EqJugador2);
             this.ID = ID;
             this.Server = Server;
             this.bt.SetPlayers(Play1, Play2);
