@@ -211,7 +211,7 @@ int ConexionSocket(int puerto)		//Funcion para abrir el socket y devuelve el soc
 		printf("Error al escuchar");
 	
 	return sock_listen;
-};
+}
 int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un usuario en la base de datos. Devuelve un 0 si el registro se ha completado o un 1 si ha ocurrido algo.
 {
 	int err;
@@ -240,7 +240,7 @@ int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un u
 	return 0;
 }
 
-int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario en la lista de conectados y si lo encu7entra devuelve un 1 si no devuelve un 0.
+int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario en la lista de conectados y si lo encuentra devuelve un 1 si no devuelve un 0.
 {
 	int i = 0;
 	int found = 0;
@@ -402,7 +402,7 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que no perd
 
 
 
-void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funci?n que permite invitar un usuario a otra partida
+void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funcion que permite invitar un usuario a otra partida
 {
 	char *p = strtok(invitacion, ":");
 	int NumeroJugadores =  atoi (p);
@@ -425,7 +425,7 @@ void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funci?n que p
 		write (SocketInvitacion,notificacion, strlen(notificacion));
 	}
 }
-void InicializarListaPartidas(ListaPartidas *listaPart) //Funci?n que sirve para inicializar la lista de partidas
+void InicializarListaPartidas(ListaPartidas *listaPart) //Funcion que sirve para inicializar la lista de partidas
 {
 	listaPart->num = 0;
 	listaPart->Partidas[0].ID = 0;
@@ -461,7 +461,6 @@ int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una par
 {
 	int encontrado = 0;
 	int i = 0;
-	printf("%d",ID);
 	while ((!encontrado) & (i < lista->num))
 	{
 		if (lista->Partidas[i].ID == ID)
@@ -473,22 +472,23 @@ int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una par
 			i = i + 1;
 	}
 	if (encontrado == 1)
-	{   int j=0;
-	lista->Partidas[i].ID =0;
-	while (j<lista->Partidas[i].Usuarios.num)
-	{
-		int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
-	}
-	lista->Partidas[i].Usuarios.num=0;
-	lista->num = lista->num - 1;
-	j =0;
-	printf("%d",lista->num);
-	while (j<=lista->num)
-	{
-		printf("%d",lista->Partidas[j].ID);
-		j=j+1;
-	}
-	return 0;
+	{   
+		int j=0;
+		lista->Partidas[i].ID =0;
+		while (j<lista->Partidas[i].Usuarios.num)
+		{
+			int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
+		}
+		lista->Partidas[i].Usuarios.num=0;
+		lista->num = lista->num - 1;
+		j =0;
+		printf("%d\n",lista->num);
+		while (j<lista->num)
+		{
+			printf("%d\n",lista->Partidas[j].ID);
+			j=j+1;
+		}
+		return 0;
 	}
 	else
 		return 1;
@@ -1153,7 +1153,7 @@ int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento 
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9051);
+	int sock_listen = ConexionSocket(9052);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
@@ -1168,5 +1168,12 @@ int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento 
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 	}
 }
+
+
+
+
+
+
+
 
 

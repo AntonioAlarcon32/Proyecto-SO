@@ -26,8 +26,7 @@ CREATE TABLE Relacion (
 					   idJugador INT NOT NULL,
 					   idPartida INT NOT NULL,
 					   PokemonsRestantes INT NOT NULL,
-					   FOREIGN KEY (idJugador) REFERENCES Players(id),
-					   FOREIGN KEY (idPartida) REFERENCES Partidas(id)
+					   					   FOREIGN KEY (idPartida) REFERENCES Partidas(id)
 					   )ENGINE = InnoDB;
 
 INSERT INTO Players VALUES ('Alarcn32','proyectoso', 0001, 1, 1);
