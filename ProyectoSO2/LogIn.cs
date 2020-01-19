@@ -17,8 +17,8 @@ namespace ProyectoSO2
         //Declaración de variables
         Socket server;
         Thread Atender;
-        string ip = "192.168.56.104";
-        int puerto = 9051;
+        string ip = "192.168.56.110";
+        int puerto = 9052;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;

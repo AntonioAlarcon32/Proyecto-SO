@@ -26,7 +26,7 @@ namespace ProyectoSO2
 
 
         static Random rand = new Random();
-        SoundPlayer Player1 = new SoundPlayer(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Music\\batalla" + Convert.ToString(rand.Next(1, 9)) + ".wav");
+        SoundPlayer Player1 = new SoundPlayer(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Music\\batalla" + Convert.ToString(rand.Next(1, 10)) + ".wav");
 
         Pokemon PokemonLuchando1 = new Pokemon();
         int numPokemonLuchandoPlayer1 = 0;

@@ -1,4 +1,4 @@
-Toxico/Estado/10/Veneno/0/0/Uno/Provoca un grave envenenamiento que se agrava con el paso de los turnos.
+Bomba Lodo/Especial/10/Veneno/0/90/Uno/Causa daño y puede envenenar.
 Sintesis/Estado/5/Planta/0/0/Propio/Hace que el usuario recupere PS. La cantidad depende del momento del día y del clima
 Hierba Lazo/Especial/20/Planta/0/100/Uno/Causa daño y no tiene ningún efecto secundario.
 Terremoto/Fisico/10/Tierra/0/100/Todos/Causa daño a todos los Pokemon en el campo de batalla.
@@ -54,4 +54,10 @@ Recuperacion/Estado/5/Normal/0/50/Propio/Hace que el usuario recupere PS.
 Punyo Bala/Fisico/5/Acero/1/70/Uno/Causa daño y ataca primero.
 Danza Lluvia/Estado/5/Agua/0/0/Propio/Provoca una intensa lluvia durante 5 turnos.
 GigaDrenado/Especial/5/Planta/0/75/Uno/Cura parte del daño causado.
+Cola Ferrea/Fisico/15/Acero/0/100/Uno/Causa mucho daño y puede hacer retroceder.
+Colmillo Igneo/Fisico/15/Fuego/0/80/Uno/Causa daño y puede quemar al objetivo.
+Triturar/Fisico/15/Siniestro/0/80/Uno/Causa daño y puede hacer retroceder.
+Frio Polar/Especial/1/Hielo/0/9999/Uno/Si golpea, acaba con el oponente de un golpe.
+Fuerza Bruta/Fisico/5/Lucha/0/120/Uno/Causa mucho daño sin efectos secundarios.
+Disparo Espejo/Especial/15/Acero/0/100/Uno/Causa daño y puede bajar la precision.
 -/-----------------------------------------------------------------
