@@ -40,6 +40,7 @@ namespace ProyectoSO2
         bool Orden1Done = false;
         bool Orden2Done = false;
         bool PartidaGanada = false;
+        bool Procesado = false;
 
         int ID;
 
@@ -610,7 +611,11 @@ namespace ProyectoSO2
             if (Recibido == true)
             {
                 string[] ordenes = new string[8];
-                ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                if (Procesado == false)
+                {
+                    ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                    Procesado = true;
+                }
                 if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))
                 {
                     if (ordenes[0] == "Cambio" && !Orden1Done)
@@ -803,6 +808,7 @@ namespace ProyectoSO2
                 bt.IncreaseTurno();
                 bt.ResetOrders();
                 bt.InicioTurno();
+                Procesado = false;
                 Notif.Text = "Elige una accion";
                 Orden1Done = false;
                 Orden2Done = false;
