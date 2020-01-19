@@ -29,26 +29,43 @@
         private void InitializeComponent()
         {
             this.Start = new System.Windows.Forms.Button();
+            this.credits = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(102, 124);
+            this.Start.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Start.Location = new System.Drawing.Point(377, 389);
             this.Start.Name = "Start";
-            this.Start.Size = new System.Drawing.Size(497, 149);
+            this.Start.Size = new System.Drawing.Size(347, 66);
             this.Start.TabIndex = 1;
             this.Start.Text = "Inicio";
-            this.Start.UseVisualStyleBackColor = true;
+            this.Start.UseVisualStyleBackColor = false;
             this.Start.Click += new System.EventHandler(this.Start_Click);
+            // 
+            // credits
+            // 
+            this.credits.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.credits.Location = new System.Drawing.Point(377, 461);
+            this.credits.Name = "credits";
+            this.credits.Size = new System.Drawing.Size(347, 66);
+            this.credits.TabIndex = 2;
+            this.credits.Text = "Créditos";
+            this.credits.UseVisualStyleBackColor = false;
+            this.credits.Click += new System.EventHandler(this.credits_Click);
             // 
             // Inicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 398);
+            this.BackgroundImage = global::PokemonBattle.Properties.Resources.portada_pokemon__1_;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1116, 647);
+            this.Controls.Add(this.credits);
             this.Controls.Add(this.Start);
+            this.DoubleBuffered = true;
             this.Name = "Inicio";
-            this.Text = "Form1";
+            this.Text = "Pokémon SO";
             this.ResumeLayout(false);
 
         }
@@ -56,5 +73,6 @@
         #endregion
 
         private System.Windows.Forms.Button Start;
+        private System.Windows.Forms.Button credits;
     }
 }

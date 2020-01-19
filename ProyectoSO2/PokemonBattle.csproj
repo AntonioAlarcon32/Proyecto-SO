@@ -68,6 +68,12 @@
     <Compile Include="Batalla.designer.cs">
       <DependentUpon>Batalla.cs</DependentUpon>
     </Compile>
+    <Compile Include="Creditos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Creditos.Designer.cs">
+      <DependentUpon>Creditos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     </Compile>
     <EmbeddedResource Include="Batalla.resx">
       <DependentUpon>Batalla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Creditos.resx">
+      <DependentUpon>Creditos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
@@ -151,6 +160,9 @@
       <Project>{68dd92b2-dffa-41bc-8254-2d9782592b79}</Project>
       <Name>PokemonLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\portada pokemon %281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

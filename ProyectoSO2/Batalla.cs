@@ -12,6 +12,8 @@ namespace ProyectoSO2
 {
     public partial class Batalla : Form
     {
+        Icon iconopokeball = new Icon(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\icono.ico");
+
         public BattleManager bt = new BattleManager();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         PrivateFontCollection pfc = new PrivateFontCollection();
@@ -77,6 +79,8 @@ namespace ProyectoSO2
             this.bt.SetPlayers(Play1, Play2);
             InitializeComponent();
             Fondo.Image = (Image)FondoNotif;
+            this.Icon = iconopokeball;
+            this.Text = "Batalla " + Convert.ToString(ID);
         }
         public void EscribirMensaje(string contenido)
         {
@@ -870,7 +874,7 @@ namespace ProyectoSO2
                         Perdedor = Jugador2;
                         PokemonsRestantes = EquipoJugador1.PokemonsRestantes();
                     }
-
+                    
                     string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     Server.Send(msg);

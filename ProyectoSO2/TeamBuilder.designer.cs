@@ -296,7 +296,7 @@
             this.Controls.Add(this.PokemonSeleccionado);
             this.Name = "TeamBuilder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Team Builder";
             ((System.ComponentModel.ISupportInitialize)(this.PokemonSeleccionado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Stats)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pokemon1)).EndInit();

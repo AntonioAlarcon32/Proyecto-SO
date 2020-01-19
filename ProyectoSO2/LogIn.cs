@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,16 +28,20 @@ namespace ProyectoSO2
         List<Batalla> Chats = new List<Batalla>();
         List<int> IDs = new List<int>();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+
         Equipo Disponibles = new Equipo();
         Equipo EquipoBatallaPropio = new Equipo();
         Equipo EquipoBatallaOponente = new Equipo();
         MoveSet MovDisponibles = new MoveSet();
         string Oponente;
 
+        Icon iconopokeball = new Icon(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\icono.ico");
+
         public LogIn()
         {
             InitializeComponent();
             GetPokemons();
+            this.Icon = iconopokeball;
         }
         //Declaramos los delegados
         delegate void DelegadoInvitacionRecibida(string mensaje);

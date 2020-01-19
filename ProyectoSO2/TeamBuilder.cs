@@ -18,10 +18,12 @@ namespace ProyectoSO2
         MoveSet MovDisponibles = new MoveSet();
         string directorio = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         Socket Server;
+        Icon iconopokeball = new Icon(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\icono.ico");
 
-       
+
         public TeamBuilder(Socket Server)
         {
+            this.Icon = iconopokeball;
             this.Server = Server;
             r = new StreamReader(directorio+ "\\Pokemons.txt");
             r2 = new StreamReader(directorio + "\\Movements.txt");
