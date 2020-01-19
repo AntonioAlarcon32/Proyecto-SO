@@ -1,16 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Media;
 using System.Drawing.Text;
 using WMPLib;
-using System.Runtime.InteropServices;
 using System.Net.Sockets;
 using PokemonLib;
 
@@ -43,7 +37,6 @@ namespace ProyectoSO2
         bool debilitado = false;
         bool Orden1Done = false;
         bool Orden2Done = false;
-        bool PartidaGanada = false;
 
         int ID;
 
