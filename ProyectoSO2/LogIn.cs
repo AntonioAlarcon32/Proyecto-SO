@@ -14,7 +14,7 @@ namespace ProyectoSO2
 {
     public partial class LogIn : Form
     {
-
+        //Declaración de variables
         Socket server;
         Thread Atender;
         string ip = "192.168.56.104";
@@ -38,7 +38,7 @@ namespace ProyectoSO2
             InitializeComponent();
             GetPokemons();
         }
-
+        //Declaramos los delegados
         delegate void DelegadoInvitacionRecibida(string mensaje);
         delegate void DelegadoInicioSesion();
         delegate void DelegadoListaConectados(string ListaConectados);
@@ -158,7 +158,7 @@ namespace ProyectoSO2
             }
         }
 
-        public int BuscarID(int num)
+        public int BuscarID(int num)//Función que busca la ID del Form
         {
             int i = 0;
             bool found = false;
@@ -534,7 +534,7 @@ namespace ProyectoSO2
             }
         }
 
-        private void InicioSesion_Click(object sender, EventArgs e)
+        private void InicioSesion_Click(object sender, EventArgs e)//Boton para inicar sesión
         {
             if ((User.Text == "") || (Password.Text == ""))
             {
@@ -567,7 +567,7 @@ namespace ProyectoSO2
             }
         }
 
-        private void Enviar_Click(object sender, EventArgs e)
+        private void Enviar_Click(object sender, EventArgs e)//Boton para hacer consultas a la base de datos
         {
             if ((Consulta1.Checked == false) && (Consulta2.Checked == false) && (Consulta3.Checked == false))
                 MessageBox.Show("Marca una consulta");
@@ -580,7 +580,7 @@ namespace ProyectoSO2
                 else
                 {
                     try
-                    {
+                    {   //Operaciones a realizar para cada una de las comsultas
                         if (Consulta1.Checked)
                         {
                             string mensaje = "3/" + Mensaje.Text;
@@ -626,7 +626,7 @@ namespace ProyectoSO2
             }
         }
 
-        private void Desconexion_Click(object sender, EventArgs e)
+        private void Desconexion_Click(object sender, EventArgs e)// Boton para desconectarte
         {
             Atender.Abort();
             string mensaje = "0/" + User.Text;
@@ -649,7 +649,7 @@ namespace ProyectoSO2
 
         }
 
-        private void Invite_Click(object sender, EventArgs e)
+        private void Invite_Click(object sender, EventArgs e)//Boton para invitar a un usuario a una partida
         {
             
             string UsuariosInvitados = "";
@@ -660,7 +660,7 @@ namespace ProyectoSO2
             {
                 foreach (DataGridViewRow row in dataGridView1.SelectedRows)
                 {
-                    if (Convert.ToString(row.Cells[0].Value) == User.Text)
+                    if (Convert.ToString(row.Cells[0].Value) == User.Text)//Condicion que evita invitarte a ti mismo
                     {
                         MessageBox.Show("No puedes invitarte a ti mismo");
                         PermitirInvitacion = false;
@@ -686,28 +686,31 @@ namespace ProyectoSO2
                 }
             }
             else
-                MessageBox.Show("Solo puedes invitar a 1 o a 3 personas");
+                MessageBox.Show("Solo puedes invitar a 1 persona");
         }
 
-        private void AceptarInvitacion_Click(object sender, EventArgs e)
+        private void AceptarInvitacion_Click(object sender, EventArgs e)//Boton para aceptar invitacion
         {
             timer1.Stop();
             EquipoBatallaOponente.DeleteEquipo();
             string mensaje = "7/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            //Una vez aceptada la partida desactivamos los botones para aceptar y rechazar invitacion
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             Invite.Enabled = false;
-           
+            Invitacion.Text = "No tienes invitaciones pendientes";
+
         }
 
-        private void RechazarInvitacion_Click(object sender, EventArgs e)
+        private void RechazarInvitacion_Click(object sender, EventArgs e)// Boton para rechazar invitacion
         {
             timer1.Stop();
             string mensaje = "8/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            //Una vez rechazada la partida desactivamos los botones para aceptar y rechazar invitacion
             AceptarInvitacion.Enabled = false;
             RechazarInvitacion.Enabled = false;
             if (EquipoBatallaPropio.Pokemons_Iniciales == 3)
@@ -717,14 +720,14 @@ namespace ProyectoSO2
             Invitacion.Text = "No tienes invitaciones pendientes";
         }
 
-        private void Cerrar_Click(object sender, EventArgs e)
+        private void Cerrar_Click(object sender, EventArgs e)// Boton para cerrar el Form principal.
         {
             
             this.Close();
             Application.Exit();
         }
 
-        private void TeamBuilder_Click(object sender, EventArgs e)
+        private void TeamBuilder_Click(object sender, EventArgs e)// Boton que abre el Form para seleccionar equipo.
         {
             EquipoBatallaPropio.DeleteEquipo();
             ThreadStart ts3 = delegate { AbrirTeamBuilder(); };
@@ -732,14 +735,14 @@ namespace ProyectoSO2
             build.Start();
         }
 
-        private void BorrarUsuario_Click(object sender, EventArgs e)
+        private void BorrarUsuario_Click(object sender, EventArgs e)//Boton para eliminar usuario de la base de datos.
         {
                     string mensaje = "14/" + User.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg); 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)// Timer que rechaza la invitación automaticamente cuando han pasado 20 segundos.
         {
             string mensaje = "8/" + UsuarioInvita + "," + User.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
