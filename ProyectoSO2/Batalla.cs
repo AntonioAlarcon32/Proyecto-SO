@@ -37,6 +37,7 @@ namespace ProyectoSO2
         bool debilitado = false;
         bool Orden1Done = false;
         bool Orden2Done = false;
+        bool PartidaGanada = false;
 
         int ID;
 
@@ -104,7 +105,7 @@ namespace ProyectoSO2
         public void AbandonarPartida()
         {
             CerrarChat delegado = new CerrarChat(CerrarPartida);
-            Abandonar.Invoke(delegado);
+            label1.Invoke(delegado);
 
         }
 
@@ -507,19 +508,9 @@ namespace ProyectoSO2
             string mes = fecha[1];
             string año = fecha[2];
             string date2 = dia + "." + mes + "." + año;
-            if (EquipoJugador1.PokemonsRestantes() == 0)
-            {
-                Ganador = Jugador2;
-                Perdedor = Jugador1;
-                PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
-            }
-            else
-            {
-                Ganador = Jugador1;
-                Perdedor = Jugador2;
-                PokemonsRestantes = EquipoJugador1.PokemonsRestantes();
-            }
-
+            Ganador = Jugador2;
+            Perdedor = Jugador1;
+            PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
             string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje); 
             Server.Send(msg);
@@ -846,14 +837,46 @@ namespace ProyectoSO2
                 if (EquipoJugador1.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has perdido, finalizando partida";
-                    Abandonar.Enabled = true;
+                    Abandonar.Enabled = false;
                 }
                 if (EquipoJugador2.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has ganado, finalizando partida";
-                    Abandonar.Enabled = true;
+                    PartidaGanada = true;
+                    Abandonar.Enabled = false;
                 }
                 label1.Text = Convert.ToString(bt.GetTurnos());
+                if (PartidaGanada == true)
+                {
+                    string Ganador;
+                    string Perdedor;
+                    int PokemonsRestantes;
+                    DateTime thisDay = DateTime.Today;
+                    string date = thisDay.ToString("d");
+                    string[] fecha = date.Split('/');
+                    string dia = fecha[0];
+                    string mes = fecha[1];
+                    string año = fecha[2];
+                    string date2 = dia + "." + mes + "." + año;
+                    if (EquipoJugador1.PokemonsRestantes() == 0)
+                    {
+                        Ganador = Jugador2;
+                        Perdedor = Jugador1;
+                        PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
+                    }
+                    else
+                    {
+                        Ganador = Jugador1;
+                        Perdedor = Jugador2;
+                        PokemonsRestantes = EquipoJugador1.PokemonsRestantes();
+                    }
+
+                    string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    Server.Send(msg);
+                    this.Close();
+                    PartidaGanada = false;
+                }
             }
         }
 

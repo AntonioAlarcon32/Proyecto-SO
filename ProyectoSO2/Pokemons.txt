@@ -9,31 +9,31 @@ Crobat/374/306/284/262/264/394/Veneno/Volador/Doble Filo/Superdiente/Pajaro Osad
 Kingdra/354/317/317/317/317/295/Agua/Dragon/Hidrobomba/Surf/Cometa Draco/Rayo Hielo
 Tyranitar/404/403/350/317/328/243/Roca/Siniestro/Roca Afilada/Terremoto/Punyo Fuego/Persecucion
 Sceptile/344/350/273/427/295/427/Planta/-/Lluevehojas/Pulso Dragon/Trueno/GigaDrenado
-Blaziken/364/460/284/394/284/328/Fuego/Lucha/Pajaro Osado/Envite Igneo/Roca Afilada/Patada Salto Alta
+Blaziken/364/460/284/394/284/329/Fuego/Lucha/Pajaro Osado/Envite Igneo/Roca Afilada/Patada Salto Alta
 Swampert/404/438/350/317/350/262/Agua/Tierra/Cascada/Terremoto/Punyo Hielo/Roca Afilada
-Gardevoir/340/251/251/383/361/284/Psiquico/-/Psiquico/Onda Certera/Bola Sombra/Hiperrayo
-Aggron/344/350/504/240/240/218/Acero/Roca/Roca Afilada/Doble Filo/Terremoto/Cola Ferrea
-Glalie/364/372/284/372/284/329/Hielo/-/Doble Filo/Terremoto/Explosion/Colmillo Hielo
-Salamence/394/405/284/350/284/328/Dragon/Volador/Triturar/Doble Filo/Colmillo Igneo/Garra Dragon
-Metagross/364/405/394/317/306/262/Acero/Psiquico/Punyo Meteoro/Punyo Hielo/Roca Afilada/Terremoto
+Gardevoir/340/251/251/383/361/286/Psiquico/-/Psiquico/Onda Certera/Bola Sombra/Hiperrayo
+Aggron/344/350/504/240/240/222/Acero/Roca/Roca Afilada/Doble Filo/Terremoto/Cola Ferrea
+Glalie/364/372/284/372/284/335/Hielo/-/Doble Filo/Terremoto/Explosion/Colmillo Hielo
+Salamence/394/405/284/350/284/330/Dragon/Volador/Triturar/Doble Filo/Colmillo Igneo/Garra Dragon
+Metagross/364/405/394/317/306/263/Acero/Psiquico/Punyo Meteoro/Punyo Hielo/Roca Afilada/Terremoto
 Garchomp/420/394/317/284/295/333/Dragon/Tierra/Roca Afilada/Terremoto/Triturar/Garra Dragon
 Lucario/344/427/302/416/262/355/Acero/Lucha/Pulso Dragon/Punyo Meteoro/A Bocajarro/Esfera Aural
 Weavile/344/372/251/207/295/383/Siniestro/Hielo/Tajo Umbrio/Golpe Aereo/Imagen/Garra Metal
-Pikachu/324/306/229/306/284/350/Electrico/-/Trueno/Hierba Lazo/Velocidad Extrema/Onda Certera
+Pikachu/324/306/229/306/284/352/Electrico/-/Trueno/Hierba Lazo/Velocidad Extrema/Onda Certera
 Gallade/340/471/317/251/361/351/Psiquico/Lucha/PsicoCorte/A Bocajarro/Roca Afilada/Punyo Hielo
 Walrein/424/284/306/317/306/251/Agua/Hielo/Frio Polar/Roca Afilada/Surf/Rayo Hielo
-Dusknoir/294/328/405/241/405/207/Fantasma/-/Terremoto/Sombra Vil/Punyo Hielo/Tajo Umbrio
+Dusknoir/294/328/405/241/405/208/Fantasma/-/Terremoto/Sombra Vil/Punyo Hielo/Tajo Umbrio
 Rhyperior/434/416/394/229/229/196/Roca/Tierra/Roca Afilada/Terremoto/Megacuerno/Doble Filo
 Electivire/354/379/256/317/295/317/Electrico/-/Rayo/Lanzallamas/Terremoto/Punyo Hielo/
 Arcanine/384/350/284/328/284/318/Fuego/-/Triturar/Velocidad Extrema/Envite Igneo/Doble Filo
 Milotic/394/240/282/328/383/287/Agua/-/Escaldar/Pulso Dragon/Bomba Lodo/Rayo Hielo
 Machamp/384/394/284/251/295/229/Lucha/-/Imagen/Punyo Bala/Tajo Umbrio/A Bocajarro
-Ludicolo/364/262/262/306/328/262/Planta/Agua/A Bocajarro/Hidrobomba/GigaDrenado/Rayo Hielo
-Jolteon/334/251/240/350/317/394/Electrico/-/Rayo Hielo/Trueno/Velocidad Extrema/Imagen
-Vaporeon/464/251/240/350/317/251/Agua/-/Rayo Hielo/Hidrobomba/Velocidad Extrema/Pulso Umbrio
-Flareon/334/394/240/317/350/251/Fuego/-/Colmillo Igneo/Doble Filo/Tajo Umbrio/Envite Igneo
+Ludicolo/364/262/262/306/328/264/Planta/Agua/A Bocajarro/Hidrobomba/GigaDrenado/Rayo Hielo
+Jolteon/334/251/240/350/317/395/Electrico/-/Rayo Hielo/Trueno/Velocidad Extrema/Imagen
+Vaporeon/464/251/240/350/317/252/Agua/-/Rayo Hielo/Hidrobomba/Velocidad Extrema/Pulso Umbrio
+Flareon/334/394/240/317/350/253/Fuego/-/Colmillo Igneo/Doble Filo/Tajo Umbrio/Envite Igneo
 Magnezone/344/262/361/394/306/240/Electrico/Acero/Trueno/Disparo Espejo/Hiperrayo/Bola Sombra
 Regirock/364/328/548/218/328/218/Roca/-/Fuerza Bruta/Roca Afilada/Terremoto/Doble Filo
-Regice/364/218/328/328/548/218/Hielo/-/Rayo Hielo/Hiperrayo/Fuerza Bruta/Frio Polar
-Registeel/364/273/438/273/438/218/Acero/-/Garra Metal/Fuerza Bruta/Roca Afilada/Terremoto
+Regice/364/218/328/328/548/219/Hielo/-/Rayo Hielo/Hiperrayo/Fuerza Bruta/Frio Polar
+Registeel/364/273/438/273/438/220/Acero/-/Garra Metal/Fuerza Bruta/Roca Afilada/Terremoto
 -/------------------------------------------------------

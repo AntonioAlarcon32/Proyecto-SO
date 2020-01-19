@@ -383,13 +383,12 @@
             // 
             // Abandonar
             // 
-            this.Abandonar.Enabled = false;
-            this.Abandonar.Location = new System.Drawing.Point(1113, 758);
+            this.Abandonar.Location = new System.Drawing.Point(1173, 554);
             this.Abandonar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Abandonar.Name = "Abandonar";
             this.Abandonar.Size = new System.Drawing.Size(207, 62);
             this.Abandonar.TabIndex = 50;
-            this.Abandonar.Text = "Abandonar Partida";
+            this.Abandonar.Text = "Rendirse";
             this.Abandonar.UseVisualStyleBackColor = true;
             this.Abandonar.Click += new System.EventHandler(this.Abandonar_Click);
             // 
