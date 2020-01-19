@@ -90,11 +90,6 @@ int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para 
 		lista->Usuarios[lista->num].socket = socket;
 		lista->num = lista ->num + 1;
 		int j=0;
-		//while (j <= lista->num)
-		//{   
-		//printf("%s %d\n",lista->Usuarios[j].nickname,lista->Usuarios[j].socket);
-		//j = j + 1;
-		//}
 		return 0;
 	}
 }
@@ -132,13 +127,6 @@ int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para elimin
 			j = j + 1;
 		}
 		lista->num = lista->num - 1;
-		j=0;
-		//while (j <= lista->num)
-		//{   
-		//printf("%s %d\n",lista->Usuarios[j].nickname,lista->Usuarios[j].socket);
-		//j = j + 1;
-		//}
-		//return 0;
 	}
 	else
 		return 1;
@@ -473,12 +461,6 @@ void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitaci
 	}
 	listaPart->Partidas[SlotPartida].ID = IDPartida;
 	listaPart->num += 1;
-	int j=0;
-	while (j<=listaPart->num)
-	{
-		printf("%d\n",listaPart->Partidas[j].ID);
-		j=j+1;
-	}
 	MaxID = IDPartida;
 }
 int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una partida de la lista. Devuelve un 0 si la ha eliminado o un 1 en caso de que no estuviera en la lista de partidas.
@@ -501,16 +483,10 @@ int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una par
 		while (j<=lista->Partidas[i].Usuarios.num)
 		{
 			int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
+			j=j+1;
 		}
 		lista->Partidas[i].Usuarios.num=0;
 		lista->num = lista->num - 1;
-		j =0;
-		printf("%d\n",lista->num);
-		while (j<=lista->num)
-		{
-			printf("%d\n",lista->Partidas[j].ID);
-			j=j+1;
-		}
 		return 0;
 	}
 	else
@@ -1191,8 +1167,6 @@ int main(int argc, char *argv[]) //Funcion que ejecuta y pone en funcionamiento 
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 	}
 }
-
-
 
 
 
