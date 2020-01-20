@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <my_global.h>
 
+
 //En este apartado realizamos la definicion de las estructuras y las variables del servidor
 typedef struct //Estructura que contiene el nombre y el socket de un usuario.
 {
@@ -19,7 +20,7 @@ typedef struct //Estructura que contiene el nombre y el socket de un usuario.
 
 typedef struct //Estructura que contiene una lista de usuarios
 {
-	Usuario Usuarios[10];
+	Usuario Usuarios[50];
 	int num;
 }ListaUsuarios;		//Estructura lista de conectados
 
@@ -31,7 +32,7 @@ typedef struct //Estructura que contiene los usuarios que hay en el id de una pa
 
 typedef struct //Estructura que contiene una lista de partidas
 {
-	Partida Partidas[20];
+	Partida Partidas[50];
 	int num;
 }ListaPartidas;
 
@@ -40,7 +41,7 @@ ListaUsuarios ListaConectados;							//Definimos las variables globales (Lista d
 ListaPartidas Listapartidas;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;		// Estructura para la exclusion mutua
 int i;
-int sockets[10];
+int sockets[50];
 int MaxID=0;
 
 //En este apartado tenemos la definici?n de las funciones empleadas por el servidor
@@ -90,6 +91,7 @@ int AddUsuario( ListaUsuarios *lista, char nick[20], int socket)	//Funcion para 
 		strcpy(lista->Usuarios[lista->num].nickname,nick);
 		lista->Usuarios[lista->num].socket = socket;
 		lista->num = lista ->num + 1;
+		int j=0;
 		return 0;
 	}
 }
@@ -99,7 +101,7 @@ int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para elimin
 	int encontrado = 0;
 	int i = 0;
 	int sock = 0;
-	while ((!encontrado) & (i < lista->num))
+	while ((!encontrado) & (i <= lista->num))
 	{
 		if (strcmp(lista->Usuarios[i].nickname,nick) == 0)
 		{
@@ -113,15 +115,20 @@ int EliminarUsuario(ListaUsuarios *lista, char nick[20])			//Funcion para elimin
 	if (encontrado == 1)
 	{
 		int j = i+1;
-		while (j < lista->num)
+		while (j <= lista->num)
 		{   
 			strcpy(lista->Usuarios[i].nickname,lista->Usuarios[j].nickname);
 			lista->Usuarios[i].socket = lista->Usuarios[j].socket;
+			if (j==lista->num)
+			{
+				lista->Usuarios[j].socket = 0;
+				strcpy(lista->Usuarios[j].nickname,"");
+			}
+			
 			i = i + 1;
 			j = j + 1;
 		}
 		lista->num = lista->num - 1;
-		return 0;
 	}
 	else
 		return 1;
@@ -207,12 +214,12 @@ int ConexionSocket(int puerto)		//Funcion para abrir el socket y devuelve el soc
 		printf ("Error al bind\n");
 		
 	}
-	//La cola de peticiones pendientes no podr? ser superior a 4
+	//La cola de peticiones pendientes no podra ser superior a 4
 	if (listen(sock_listen, 2) < 0)
 		printf("Error al escuchar");
 	
 	return sock_listen;
-};
+}
 int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un usuario en la base de datos. Devuelve un 0 si el registro se ha completado o un 1 si ha ocurrido algo.
 {
 	int err;
@@ -241,7 +248,7 @@ int Registro(char mensaje[120],char nickname[20])		//Funcion para registrar un u
 	return 0;
 }
 
-int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario en la lista de conectados y si lo encu7entra devuelve un 1 si no devuelve un 0.
+int BuscarUsuario(ListaUsuarios *lista, char nickname[20] ) //Busca un usuario en la lista de conectados y si lo encuentra devuelve un 1 si no devuelve un 0.
 {
 	int i = 0;
 	int found = 0;
@@ -369,7 +376,7 @@ int Consulta2(char mensaje[120], char respuesta[64])	//Usuarios que han jugado u
 		return 0;
 	}
 }
-int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que no perdiste ning?n pokemon. Devuelve un 0 si se ha realizado correctamente la consulta o un 1 si no.
+int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que no perdiste ningun pokemon. Devuelve un 0 si se ha realizado correctamente la consulta o un 1 si no.
 {
 	int err;
 	MYSQL_RES *resultado;
@@ -403,7 +410,7 @@ int Consulta3(char mensaje[120], char numeropartidas[64])	//Partidas que no perd
 
 
 
-void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funci?n que permite invitar un usuario a otra partida
+void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funcion que permite invitar un usuario a otra partida
 {
 	char *p = strtok(invitacion, ":");
 	int NumeroJugadores =  atoi (p);
@@ -426,7 +433,7 @@ void EnviarInvitacion(ListaUsuarios *lista,char invitacion[200]) //Funci?n que p
 		write (SocketInvitacion,notificacion, strlen(notificacion));
 	}
 }
-void InicializarListaPartidas(ListaPartidas *listaPart) //Funci?n que sirve para inicializar la lista de partidas
+void InicializarListaPartidas(ListaPartidas *listaPart) //Funcion que sirve para inicializar la lista de partidas
 {
 	listaPart->num = 0;
 	listaPart->Partidas[0].ID = 0;
@@ -437,7 +444,7 @@ void InicializarListaPartidas(ListaPartidas *listaPart) //Funci?n que sirve para
 	}
 }
 
-void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitacion[200]) //Funci?n que permmite comenzar una partida
+void EmpezarPartida(ListaUsuarios *lista, ListaPartidas *listaPart,char invitacion[200]) //Funcion que permmite comenzar una partida
 {
 	char Jugador[20];
 	char *p = strtok(invitacion, ",");
@@ -462,34 +469,27 @@ int EliminarPartida(ListaPartidas *lista, int ID)//Funcion para eliminar una par
 {
 	int encontrado = 0;
 	int i = 0;
-	printf("%d",ID);
-	while ((!encontrado) & (i < lista->num))
+	while ((!encontrado) & (i <= lista->num))
 	{
 		if (lista->Partidas[i].ID == ID)
 		{
 			encontrado = 1;
-			
 		}
 		else
 			i = i + 1;
 	}
 	if (encontrado == 1)
-	{   int j=0;
-	lista->Partidas[i].ID =0;
-	while (j<lista->Partidas[i].Usuarios.num)
-	{
-		int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
-	}
-	lista->Partidas[i].Usuarios.num=0;
-	lista->num = lista->num - 1;
-	j =0;
-	printf("%d",lista->num);
-	while (j<=lista->num)
-	{
-		printf("%d",lista->Partidas[j].ID);
-		j=j+1;
-	}
-	return 0;
+	{   
+		int j=0;
+		lista->Partidas[i].ID =0;
+		while (j<=lista->Partidas[i].Usuarios.num)
+		{
+			int c= EliminarUsuario(&(lista->Partidas[i].Usuarios),lista->Partidas[i].Usuarios.Usuarios[j].nickname);
+			j=j+1;
+		}
+		lista->Partidas[i].Usuarios.num=0;
+		lista->num = lista->num - 1;
+		return 0;
 	}
 	else
 		return 1;
@@ -637,7 +637,7 @@ int ObtenerPartidasGanadas (char mensaje[120], char respuesta[64]) //Funcion que
 	}
 	
 }
-int RegistrarPartida4(char mensaje[500], int IDPartida) //Funci?n que registra una partida de 4 jugadores. Devuelve un 0 si no ha habido ning?n error y un 1 en caso contrario
+int RegistrarPartida4(char mensaje[500], int IDPartida) //Funcion que registra una partida de 4 jugadores. Devuelve un 0 si no ha habido ning?n error y un 1 en caso contrario
 {
 	//Para hacerlo se debe de tener en cuenta lo siguiente: IDPartida,fecha,turnos,Ganador1,Ganador2,Perdedor1,Perdedor2,PokemonsRestantes1,PokemonsRestantes2.
 	int conterror = 0;
@@ -801,7 +801,7 @@ int RegistrarPartida4(char mensaje[500], int IDPartida) //Funci?n que registra u
 	
 	
 }
-int RegistrarPartida2(char mensaje[500], int IDPartida) //Funci?n que registra una partida de 2 jugadores. Devuelve un 0 si no ha habido ning?n error o un 1 en caso contrario.
+int RegistrarPartida2(char mensaje[500], int IDPartida) //Funcion que registra una partida de 2 jugadores. Devuelve un 0 si no ha habido ning?n error o un 1 en caso contrario.
 {
 	//Para hacerlo se debe de tener en cuenta lo siguiente: IDPartida,fecha,turnos,Ganador,Perdedor,PokemonRestantes
 	int conterror = 0;
@@ -1150,7 +1150,7 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 	}
 	close(sock_conn);
 }
-int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento al servidor
+int main(int argc, char *argv[]) //Funcion que ejecuta y pone en funcionamiento al servidor
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
@@ -1158,7 +1158,7 @@ int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento 
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
-	pthread_t thread[10];
+	pthread_t thread[50];
 	MaxID = GetMAXID();
 	
 	for(i = 0;;i++){
@@ -1169,5 +1169,14 @@ int main(int argc, char *argv[]) //Funci?n que ejecuta y pone en funcionamiento 
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 	}
 }
+
+
+
+
+
+
+
+
+
 
 

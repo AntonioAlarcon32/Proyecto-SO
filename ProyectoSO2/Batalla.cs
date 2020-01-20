@@ -20,13 +20,13 @@ namespace ProyectoSO2
 
         Equipo EquipoJugador1 = new Equipo();
         Equipo EquipoJugador2 = new Equipo();
-
+        //Todos los bitmaps 
         Bitmap pokeball = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeball.png");
-        Bitmap pokeballdebilitado = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeballblanco.png");
+        Bitmap pokeballdebilitado = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeballblanco.png"); 
         Bitmap HealthBar = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\healthbar.png");
         Bitmap FondoNotif = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\Dialog.png");
 
-
+        //Elegimos cancion aleatoriamente
         static Random rand = new Random();
         SoundPlayer Player1 = new SoundPlayer(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Music\\batalla" + Convert.ToString(rand.Next(1, 10)) + ".wav");
 
@@ -37,7 +37,7 @@ namespace ProyectoSO2
 
         bool CambiandoPoke = false;
         bool debilitado = false;
-        bool Orden1Done = false;
+        bool Orden1Done = false;        //Booleans para procesar los turnos
         bool Orden2Done = false;
         bool PartidaGanada = false;
         bool Procesado = false;
@@ -51,7 +51,7 @@ namespace ProyectoSO2
         Socket Server;
 
         delegate void EscribirChat(string MensajeChat);
-        delegate void CerrarChat();
+        delegate void CerrarChat();                                 //Delegados para los mensajes entrantes
         delegate void CambiarPokemonDebilitado(string contenido);
 
 
@@ -76,7 +76,7 @@ namespace ProyectoSO2
             this.Jugador2 = Play2;
             this.EquipoJugador1.CopiarEquipo(EqJugador1);
             this.EquipoJugador2.CopiarEquipo(EqJugador2);
-            this.ID = ID;
+            this.ID = ID;                                       //Constructor del form
             this.Server = Server;
             this.bt.SetPlayers(Play1, Play2);
             InitializeComponent();
@@ -85,30 +85,30 @@ namespace ProyectoSO2
             this.Text = "Batalla " + Convert.ToString(ID);
         }
         public void EscribirMensaje(string contenido)
-        {
+        {   //Funcion que escribe el mensaje que le entra en el chat
             EscribirChat delegadoChat = new EscribirChat(EscribirMensajeDelegado);
-            ChatData.Invoke(delegadoChat, new object[] { contenido });
+            ChatData.Invoke(delegadoChat, new object[] { contenido });             
             string[] Message = contenido.Split(';');
         }
 
         public void PokemonDebilitadoDelegado(string contenido)
-        {
+        {   //Funcion que permite al thread cambiar al pokemon en batalla cuando se debilita
             CambiarPokemonDebilitado delegadoPoke = new CambiarPokemonDebilitado(PokemonDebilitado);
             panel1.Invoke(delegadoPoke, new object[] { contenido });
         }
 
-        public void SetOrders(string mensaje)
+        public void SetOrders(string mensaje)   //Funcion para darle los mensajes al BattleManager
         {
-            this.bt.RecibirOrden(mensaje);
+            this.bt.RecibirOrden(mensaje);      
         }
 
-        public void EscribirMensajeDelegado(string contenido)
+        public void EscribirMensajeDelegado(string contenido)   //Funcion para escribir el mensaje en el chat
         {
             string[] Message = contenido.Split(';');
             ChatData.Rows.Add(Message);
         }
 
-        public void AbandonarPartida()
+        public void AbandonarPartida() 
         {
             CerrarChat delegado = new CerrarChat(CerrarPartida);
             label1.Invoke(delegado);
@@ -121,7 +121,7 @@ namespace ProyectoSO2
         }
 
         private void PreMatch(Equipo Player1, string Juga1, Equipo Player2, string Juga2)
-        {
+        {   //Funcion que muestra en el panel los pokemons de los dos equipos los primeros 10 segundos
             PictureBox Pokemon1 = new PictureBox();
             PictureBox Pokemon2 = new PictureBox();
             PictureBox Pokemon3 = new PictureBox();
@@ -175,13 +175,13 @@ namespace ProyectoSO2
         }
 
         private int ProporcionPS(int PSActuales, int PSMax)
-        {
+        {   //Normaliza los PS respecto a la longitud de la barra de vida
             float pend = (float)85 / (float)PSMax;
             float x = PSActuales * pend;
             return (int) x;
         }
         private void ActualizarBarraSalud1(Pokemon pokemon, PictureBox barra)
-        {
+        {   //Cambia la longitud de la barra de vida segun los PS del jugador 1
             if ((double)PokemonLuchando1.PSactuales / (double)PokemonLuchando1.PS > 0.6)
             {
                 Bitmap color = new Bitmap(directorio + "\\UI\\"  + "verde.png");
@@ -218,7 +218,7 @@ namespace ProyectoSO2
             }
         }
         private void ActualizarBarraSalud2(Pokemon pokemon, PictureBox barra)
-        {
+        {   //Cambia la longitud de la barra de vida segun los PS del jugador 2
             if ((double)PokemonLuchando2.PSactuales / (double)PokemonLuchando2.PS > 0.6)
             {
                 Bitmap color = new Bitmap(directorio + "\\UI\\" + "verde.png");
@@ -256,7 +256,7 @@ namespace ProyectoSO2
         }
 
         private void SpawnPokemon1(Pokemon Poke)
-        {
+        {   //Hace que aparezca el pokemon en el hueco del jugador 1, ademas hace aparecer los botones
             panel1.Controls.Remove(SpritePokemon1);
             SpritePokemon1.ClientSize = new Size(140, 140);
             SpritePokemon1.Location = new Point(50,140);
@@ -329,7 +329,7 @@ namespace ProyectoSO2
             Mov4Text.Location = new Point(Mov4.Width / 2 - Mov4Text.Width / 2, 15);
             Mov4Text.BringToFront();
             Mov4Text.Visible = true;
-            PPMov4.Text = Convert.ToString(Poke.moveSet.Movimientos[2].PPAct) + "/" + Convert.ToString(Poke.moveSet.Movimientos[2].PPMax);
+            PPMov4.Text = Convert.ToString(Poke.moveSet.Movimientos[3].PPAct) + "/" + Convert.ToString(Poke.moveSet.Movimientos[3].PPMax);
             PPMov4.Parent = Mov4;
             PPMov4.Font = new Font(pfc.Families[0], 10, FontStyle.Regular);
             PPMov4.Location = new Point(72, 29);
@@ -341,7 +341,7 @@ namespace ProyectoSO2
         }
 
         private void SpawnPokemon2(Pokemon poke)
-        {
+        {   //Hace que aparezcan los pokemons en el hueco del jugador 2
 
             SpritePokemon2.ClientSize = new Size(100, 100);
             SpritePokemon2.Location = new Point(310, 80);
@@ -364,7 +364,7 @@ namespace ProyectoSO2
         }
 
         public void ChangePokemon(string Player, int PokemonActual, int PokemonCambio)
-        {
+        {   //Cambia el pokemon en memoria y guarda los PS
             if (Player == this.Jugador1)
             {
                 EquipoJugador1.Pokemons[PokemonActual].PSactuales = PokemonLuchando1.PSactuales;
@@ -382,7 +382,7 @@ namespace ProyectoSO2
         }
 
         public void PokemonDebilitado(string contenido)
-        {
+        {   //Cambia a un pokemon cuando se ha debilitado
             string[] ordenes = contenido.Split(';');
             if (ordenes[0] == Jugador1)
             {
@@ -410,7 +410,7 @@ namespace ProyectoSO2
             timer1.Tick += new EventHandler(timer1_Tick);
             pokeball1.Image = (Image)pokeball;
             pokeball2.Image = (Image)pokeball;
-            pokeball3.Image = (Image)pokeball;
+            pokeball3.Image = (Image)pokeball;      //Pokeballs que aparecen en la barra de abajo
             pokeball4.Image = (Image)pokeball;
             pokeball5.Image = (Image)pokeball;
             pokeball6.Image = (Image)pokeball;
@@ -423,7 +423,7 @@ namespace ProyectoSO2
             Jug2.Text = Jugador2;
         }
 
-        private void CambiarPokemon_Click(object sender, EventArgs e)
+        private void CambiarPokemon_Click(object sender, EventArgs e)  
         {
             if (bt.GetAllowAttack() == true)
             {
@@ -509,7 +509,7 @@ namespace ProyectoSO2
             int PokemonsRestantes;
             DateTime thisDay = DateTime.Today;
             string date = thisDay.ToString("d");
-            string[] fecha = date.Split('/');
+            string[] fecha = date.Split('/');       //Datos necesarios para la base de datos
             string dia = fecha[0];
             string mes = fecha[1];
             string año = fecha[2];
@@ -530,7 +530,7 @@ namespace ProyectoSO2
                 string mensaje = "15/" + Convert.ToString(ID) + "," + Jugador1 + ";" + "Atacar;" + PokemonLuchando1.moveSet.Movimientos[0].Nombre + ";" + PokemonLuchando2.Nombre;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 Server.Send(msg);
-                Notif.Text = "Esperando al Rival";
+                Notif.Text = "Esperando al Rival";  //Manda el mensaje al servidor
                 CambiandoPoke = false;
                 PokemonLuchando1.moveSet.Movimientos[0].PPAct -= 1;
                 PPMov1.Text = Convert.ToString(PokemonLuchando1.moveSet.Movimientos[0].PPAct) + "/" + Convert.ToString(PokemonLuchando1.moveSet.Movimientos[0].PPMax);
@@ -589,16 +589,16 @@ namespace ProyectoSO2
         }
 
         private void timer_Tick(object sender, EventArgs e)
-        {
+        {       //Timer que controla los turnos y ejecuta las ordenes
             contador = contador + 1;
             counter.Text = Convert.ToString(contador);
             bool Recibido = bt.OrdenesRecibidas();
             if (contador == 1)
-                PreMatch(EquipoJugador1, Jugador1, EquipoJugador2, Jugador2);
+                PreMatch(EquipoJugador1, Jugador1, EquipoJugador2, Jugador2);       
             if (contador == 10)
             {
                 panel1.Controls.Clear();
-                Bitmap campo = new Bitmap(directorio + "\\UI\\campo.png");
+                Bitmap campo = new Bitmap(directorio + "\\UI\\campo.png");  //Carga el campo y los pokemons y permite empezar a luchar
                 panel1.BackgroundImage = campo;
                 Player1.PlayLooping();
             }
@@ -615,12 +615,12 @@ namespace ProyectoSO2
                 {
                     ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
                 }
-                if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))
+                if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))       //Se ejecuta si los dos cambian
                 {
                     if (ordenes[0] == "Cambio" && !Orden1Done)
                     {
                         ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
-                        numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
+                        numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);        //Cambia el primer pokemon
                         Orden1Done = true;
                         TimerUltimaOrden = 0;
                         timer1.Start();
@@ -628,7 +628,7 @@ namespace ProyectoSO2
                     }
                     if ((ordenes[1] == "Cambio") && (TimerUltimaOrden > 0) && !Orden2Done)
                     {
-                        ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));
+                        ChangePokemon(Jugador2, Convert.ToInt32(ordenes[4]), Convert.ToInt32(ordenes[5]));  //Cambia el segundo pokemon
                         numPokemonLuchandoPlayer2 = Convert.ToInt32(ordenes[5]);
                         Orden2Done = true;
                         timer1.Stop();
@@ -636,8 +636,8 @@ namespace ProyectoSO2
                     }
                 }
                 if ((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque"))
-                {
-                    string AtacaPrimero = ordenes[2];
+                {       //Se ejecuta si los dos atacan
+                    string AtacaPrimero = ordenes[2];       
                     if (AtacaPrimero == Jugador1)
                     {
                         if (!Orden1Done)
@@ -649,22 +649,22 @@ namespace ProyectoSO2
                             else if (eficacia == 0.5)
                                 add = "No es muy eficaz";
                             else if (eficacia == 1)
-                                add = " ";
+                                add = " ";                  //Muestra la eficacia del movimiento
                             else if (eficacia == 2)
                                 add = "Es muy eficaz!";
                             else if (eficacia == 4)
                                 add = "Es super eficaz!";
                             Notif.Text = PokemonLuchando1.Nombre + " ha usado " + ordenes[5] + " " + add;
-                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]);
+                            PokemonLuchando2.PSactuales -= Convert.ToInt32(ordenes[3]); //Restamos a los PS el daño
                             ActualizarBarraSalud2(PokemonLuchando2, barrasalud2);
                             TimerUltimaOrden = 0;
                             Orden1Done = true;
-                            timer1.Start();
+                            timer1.Start();             //Empezamos el timer para ejecutar la segunda orden
                         }
                     }
                     if ((TimerUltimaOrden > 0) && (!Orden2Done) && ((AtacaPrimero == Jugador1)))
                     {
-                        if (ordenes[4] != "debilitado")
+                        if (ordenes[4] != "debilitado")     //Ejecutamos la segunda orden si no se ha debilitado
                         {
                             double eficacia = bt.CalcularDebilidad(PokemonLuchando2.moveSet.BuscarMovimiento(ordenes[6]).Tipo, PokemonLuchando1.Tipo1, PokemonLuchando1.Tipo2);
                             string add = " ";
@@ -736,14 +736,14 @@ namespace ProyectoSO2
                     }
                 }
                 if (!((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque")) && !((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio")))
-                {
+                {       //Se ejecuta si uno de los dos cambia y el otro ataca
                     if (ordenes[7] == Jugador1)
                     {
                         if (ordenes[0] == "Cambio" && !Orden1Done)
                         {
                             ChangePokemon(Jugador1, Convert.ToInt32(ordenes[2]), Convert.ToInt32(ordenes[3]));
                             numPokemonLuchandoPlayer1 = Convert.ToInt32(ordenes[3]);
-                            Orden1Done = true;
+                            Orden1Done = true;              //Primero cambiamos al pokemon
                             TimerUltimaOrden = 0;
                             timer1.Start();
                         }
@@ -766,7 +766,7 @@ namespace ProyectoSO2
                             add = "No ha tenido ningún efecto";
                         else if (eficacia == 0.5)
                             add = "No es muy eficaz";
-                        else if (eficacia == 1)
+                        else if (eficacia == 1)             //Por ultimo hacemos el ataque
                             add = " ";
                         else if (eficacia == 2)
                             add = "Es muy eficaz!";
@@ -804,8 +804,8 @@ namespace ProyectoSO2
             }
             if (Orden1Done && Orden2Done)
             {
-                Procesado = false;
-                bt.IncreaseTurno();
+                Procesado = false;          //Cuando los dos han hecho su orden, aumentamo en 1 el turno y reseteamos el Battle manager 
+                bt.IncreaseTurno();             //para recibir ordenes otra vez
                 bt.ResetOrders();
                 bt.InicioTurno();
                 Notif.Text = "Elige una accion";
@@ -813,7 +813,7 @@ namespace ProyectoSO2
                 Orden2Done = false;
                 if (PokemonLuchando1.PSactuales <= 0)
                 {
-                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro";
+                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro";//Si uno se debilita obliga a cambiar al otro
                     debilitado = true;
                     if (numPokemonLuchandoPlayer1 == 0)
                     {
@@ -854,7 +854,7 @@ namespace ProyectoSO2
                     PartidaGanada = true;
                     Abandonar.Enabled = false;
                 }
-                label1.Text = Convert.ToString(bt.GetTurnos());
+                label1.Text = Convert.ToString(bt.GetTurnos());     //El que gana envia los datos al servidor para guardar la partida
                 if (PartidaGanada == true)
                 {
                     string Ganador;
