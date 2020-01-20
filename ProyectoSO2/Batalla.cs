@@ -40,11 +40,13 @@ namespace ProyectoSO2
         bool Orden1Done = false;
         bool Orden2Done = false;
         bool PartidaGanada = false;
+        bool Procesado = false;
 
         int ID;
 
         string Jugador1;
         string Jugador2;
+        string[] ordenes = new string[8];
 
         Socket Server;
 
@@ -609,8 +611,10 @@ namespace ProyectoSO2
             }
             if (Recibido == true)
             {
-                string[] ordenes = new string[8];
-                ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                if (Procesado == false)
+                {
+                    ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                }
                 if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))
                 {
                     if (ordenes[0] == "Cambio" && !Orden1Done)
@@ -800,6 +804,7 @@ namespace ProyectoSO2
             }
             if (Orden1Done && Orden2Done)
             {
+                Procesado = false;
                 bt.IncreaseTurno();
                 bt.ResetOrders();
                 bt.InicioTurno();

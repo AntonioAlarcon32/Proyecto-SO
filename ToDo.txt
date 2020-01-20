@@ -1,5 +1,0 @@
-2. Que al acabar la partida se guarde quien ha ganado en la base de datos
-6. Arreglar que no se pueda atacar cuando ya has atacado.
-7. Hacer el 2vs2
-8. Fallos cuando hay dos partidas a la vez
-
