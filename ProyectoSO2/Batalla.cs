@@ -632,6 +632,7 @@ namespace ProyectoSO2
                         Orden2Done = true;
                         timer1.Stop();
                         TimerUltimaOrden = 0;
+                        timer1.Start();
                     }
                 }
                 if ((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque"))
@@ -684,6 +685,7 @@ namespace ProyectoSO2
                         Orden2Done = true;
                         timer1.Stop();
                         TimerUltimaOrden = 0;
+                        timer1.Start();
                     }
                     if (AtacaPrimero == Jugador2)
                     {
@@ -732,6 +734,7 @@ namespace ProyectoSO2
                         Orden1Done = true;
                         timer1.Stop();
                         TimerUltimaOrden = 0;
+                        timer1.Start();
                     }
                 }
                 if (!((ordenes[0] == "Ataque") && (ordenes[1] == "Ataque")) && !((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio")))
@@ -777,6 +780,7 @@ namespace ProyectoSO2
                         TimerUltimaOrden = 0;
                         timer1.Stop();
                         Orden2Done = true;
+                        timer1.Start();
                     }
                     if ((TimerUltimaOrden > 0) && !Orden1Done)
                     {
@@ -798,11 +802,14 @@ namespace ProyectoSO2
                         TimerUltimaOrden = 0;
                         timer1.Stop();
                         Orden1Done = true;
+                        timer1.Start();
                     }    
                 }
             }
-            if (Orden1Done && Orden2Done)
+            if (Orden1Done && Orden2Done && TimerUltimaOrden > 0)
             {
+                timer1.Stop();
+                TimerUltimaOrden = 0;
                 Procesado = false;          //Cuando los dos han hecho su orden, aumentamo en 1 el turno y reseteamos el Battle manager 
                 bt.IncreaseTurno();             //para recibir ordenes otra vez
                 bt.ResetOrders();
@@ -854,6 +861,7 @@ namespace ProyectoSO2
                     Notif.Text = "Has ganado, finalizando partida";
                     PartidaGanada = true;
                     Abandonar.Enabled = false;
+                    MessageBox.Show("Has ganado, finalizando partida");
                 }
                 label1.Text = Convert.ToString(bt.GetTurnos());     //El que gana envia los datos al servidor para guardar la partida
                 if (PartidaGanada == true)
