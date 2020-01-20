@@ -9,7 +9,7 @@ using System.Net.Sockets;
 namespace ProyectoSO2
 {
     public partial class TeamBuilder : Form
-    {
+    {   //Declaramos las variables globales
         StreamReader r = null;
         StreamReader r2 = null;
         public int PokemonsSeleccionados;
@@ -25,6 +25,7 @@ namespace ProyectoSO2
         {
             this.Icon = iconopokeball;
             this.Server = Server;
+            //Abrimos el archivo con la información sobre Pokemons y movimientos
             r = new StreamReader(directorio+ "\\Pokemons.txt");
             r2 = new StreamReader(directorio + "\\Movements.txt");
             string linea;
@@ -38,7 +39,7 @@ namespace ProyectoSO2
                     break;
                 }
                 else
-                {
+                {   //Guardamos toda la informacion en variables
                     string nombre = Partes[0];
                     string categoria = Partes[1];
                     int PP = Convert.ToInt32(Partes[2]);
@@ -98,7 +99,7 @@ namespace ProyectoSO2
         }
 
         private void PokemonsDisponibles_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        {   //Boton para mostrar la informacion de un Pokemon al usuario
             Bitmap image = new Bitmap(directorio + "\\Sprites\\" + PokemonsDisponibles.CurrentCell.Value + ".gif");                               
             PokemonSeleccionado.Image = (Image)image;
             PokemonSeleccionado.BackColor = Color.Transparent;
@@ -133,17 +134,22 @@ namespace ProyectoSO2
             Mov2.Text = Disponibles.Pokemons[PokemonsDisponibles.CurrentCell.RowIndex].moveSet.Movimientos[1].Nombre;
             Mov3.Text = Disponibles.Pokemons[PokemonsDisponibles.CurrentCell.RowIndex].moveSet.Movimientos[2].Nombre;
             Mov4.Text = Disponibles.Pokemons[PokemonsDisponibles.CurrentCell.RowIndex].moveSet.Movimientos[3].Nombre;
+            Mov1.Visible = true;
+            Mov2.Visible = true;
+            Mov3.Visible = true;
+            Mov4.Visible = true;
             WindowsMediaPlayer pokemon = new WindowsMediaPlayer();
             pokemon.URL = directorio + "\\Sounds\\" + PokemonsDisponibles.CurrentCell.Value + ".wav";
             pokemon.controls.play();
         }
 
-        private void Añadir_Click(object sender, EventArgs e)
+        private void Añadir_Click(object sender, EventArgs e)//Boton para añadir un Pokemon al equipo
         {
             int numPokes = EquipoBatalla.Pokemons_Iniciales;
             if (numPokes == 0)
-            {
+            {  
                 label1.Text = Convert.ToString(PokemonsDisponibles.CurrentCell.Value);
+                label1.Visible = true;
                 Bitmap image = new Bitmap(directorio + "\\SmallSprites\\" + PokemonsDisponibles.CurrentCell.Value + ".png"); 
                 Pokemon1.Image = (Image)image;
                 Pokemon1.BackColor = Color.Transparent;
@@ -152,6 +158,7 @@ namespace ProyectoSO2
             else if (numPokes == 1)
             {
                 label2.Text = Convert.ToString(PokemonsDisponibles.CurrentCell.Value);
+                label2.Visible = true;
                 Bitmap image = new Bitmap(directorio + "\\SmallSprites\\" + PokemonsDisponibles.CurrentCell.Value + ".png");
                 Pokemon2.Image = (Image)image;
                 Pokemon2.BackColor = Color.Transparent;
@@ -160,6 +167,7 @@ namespace ProyectoSO2
             else if (numPokes == 2)
             {
                 label3.Text = Convert.ToString(PokemonsDisponibles.CurrentCell.Value);
+                label3.Visible = true;
                 Bitmap image = new Bitmap(directorio + "\\SmallSprites\\" + PokemonsDisponibles.CurrentCell.Value + ".png");
                 Pokemon3.Image = (Image)image;
                 Pokemon3.BackColor = Color.Transparent;
@@ -171,7 +179,7 @@ namespace ProyectoSO2
             }
         }
 
-        private void Eliminar_Click(object sender, EventArgs e)
+        private void Eliminar_Click(object sender, EventArgs e)//Boton para eliminar a un Pokemon del equipo
         {
             int numPokes = EquipoBatalla.Pokemons_Iniciales;
             if (numPokes == 0)
@@ -208,7 +216,7 @@ namespace ProyectoSO2
 
         }
 
-        private void Confirm_Click(object sender, EventArgs e)
+        private void Confirm_Click(object sender, EventArgs e)//Boton para confirmar la seleccion de un Pokemon
         {
             if (EquipoBatalla.Pokemons_Iniciales == 3)
             {
@@ -220,6 +228,21 @@ namespace ProyectoSO2
             else
                 MessageBox.Show("No hay 3 Pokemons en el equipo");
             
+        }
+
+        private void TeamBuilder_Load(object sender, EventArgs e)
+        {
+            //Carga las imagenes al cargar el Form
+            Bitmap image = new Bitmap(directorio + "\\SmallSprites\\" + "questionmark.png");
+            Pokemon1.Image = (Image)image;
+            Pokemon1.BackColor = Color.Transparent;
+            Pokemon1.SizeMode = PictureBoxSizeMode.StretchImage;
+            Pokemon2.Image = (Image)image;
+            Pokemon2.BackColor = Color.Transparent;
+            Pokemon2.SizeMode = PictureBoxSizeMode.StretchImage;
+            Pokemon3.Image = (Image)image;
+            Pokemon3.BackColor = Color.Transparent;
+            Pokemon3.SizeMode = PictureBoxSizeMode.StretchImage;
         }
     }
 }

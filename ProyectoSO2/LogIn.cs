@@ -18,8 +18,10 @@ namespace ProyectoSO2
         //Declaración de variables
         Socket server;
         Thread Atender;
-        string ip = "147.83.117.22";
-        int puerto = 50057;
+        //string ip = "147.83.117.22";
+        //int puerto = 50057;
+        string ip = "192.168.56.104";
+        int puerto = 9052;
         List<string> Aceptados = new List<string>();
         List<string> Respuestas = new List<string>();
         int Invitaciones;
@@ -70,7 +72,7 @@ namespace ProyectoSO2
         }
 
 
-        private void SetEquipoPropio(string poke1, string poke2, string poke3)
+        private void SetEquipoPropio(string poke1, string poke2, string poke3)//Funcion para pasar el equipo Pokemon a la batalla
         {
             EquipoBatallaPropio.DeleteEquipo();
             Pokemon Copia1 = new Pokemon();
@@ -84,7 +86,7 @@ namespace ProyectoSO2
             EquipoBatallaPropio.AddPokemon(Copia3);
         }
 
-        private void SetEquipoOponente(string poke1, string poke2, string poke3)
+        private void SetEquipoOponente(string poke1, string poke2, string poke3)//Funcion para pasar el equipo Pokemon del rival a la batalla
         {
             EquipoBatallaOponente.DeleteEquipo();
             Pokemon Copia1 = new Pokemon();
@@ -100,7 +102,7 @@ namespace ProyectoSO2
 
 
         private void GetPokemons()
-        {
+        {   //Obtenemos la informacion del archivo
             StreamReader r = new StreamReader(directorio + "\\Pokemons.txt");
             StreamReader r2 = new StreamReader(directorio + "\\Movements.txt");
             string linea;
@@ -177,7 +179,7 @@ namespace ProyectoSO2
             return i;
         }
 
-        private void AbrirChat()
+        private void AbrirChat()//Funcion para abrir el Chat
         {
             Batalla Ch = new Batalla(User.Text, Oponente, EquipoBatallaPropio, EquipoBatallaOponente, IDChat, server);
             Chats.Add(Ch);
@@ -186,7 +188,7 @@ namespace ProyectoSO2
 
         }
 
-        private void AbrirTeamBuilder()
+        private void AbrirTeamBuilder()//Funcion para abrir el Form de seleccion de equipo
         {
             TeamBuilder tb = new TeamBuilder(server);
             tb.ShowDialog();
@@ -209,6 +211,7 @@ namespace ProyectoSO2
 
         public void DelegarInicioSesion()
         {
+            //Al iniciar sesión se activan y desactivan los botones correspondientes
             Mensaje.Enabled = true;
             Enviar.Enabled = true;
             Desconexion.Enabled = true;
@@ -222,7 +225,7 @@ namespace ProyectoSO2
             TeamBuilder.Enabled = true;
         }
         public void DelegarInvitacionRecibida(string UsuarioInvitacion)
-        {
+        {           
             Invitacion.Text = UsuarioInvitacion + " te ha invitado a jugar";
 
             if (EquipoBatallaPropio.Pokemons_Iniciales == 3)
@@ -286,7 +289,7 @@ namespace ProyectoSO2
             Invite.Enabled = true;
         }
 
-        private void AtenderServidor()
+        private void AtenderServidor()//Funcion que atiende al servidor. Dependiendo del codigo que reciba hara unas acciones.
         {
             while (true)
             {
@@ -346,7 +349,6 @@ namespace ProyectoSO2
                         }
                         break;
                     case 3:
-
                         if (contenido == "NoEncontrado")
                         {
                             MessageBox.Show("No se ha encontrado el jugador");
@@ -439,7 +441,6 @@ namespace ProyectoSO2
                         string mensaje3 = "13/" + IDChat + "," + User.Text + "," + EquipoBatallaPropio.GetPokemon(0).Nombre + "," + EquipoBatallaPropio.GetPokemon(1).Nombre + "," + EquipoBatallaPropio.GetPokemon(2).Nombre;
                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje3);
                         server.Send(msg);
-
                         break;
                     case 11:
                         int ID = Convert.ToInt32(contenido.Split('-')[0]);
@@ -450,8 +451,16 @@ namespace ProyectoSO2
                     case 12:
                         ID = Convert.ToInt32(contenido.Split('-')[0]);
                         string usuario = contenido.Split('-')[1];
+                        int salida = Convert.ToInt32(contenido.Split('-')[2]);
                         IDindex = BuscarID(ID);
-                        MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
+                        if (salida==1)
+                        {
+                            MessageBox.Show("Partida finalizada");
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario " + usuario + " ha abandonado la partida");
+                        }         
                         Chats[IDindex].AbandonarPartida();
                         break;
                     case 13:
@@ -518,6 +527,7 @@ namespace ProyectoSO2
             {
                 try
                 {
+                    //Conectamos con el servidor
                     Invite.Enabled = true;
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
@@ -550,7 +560,7 @@ namespace ProyectoSO2
             {
                 try
                 {
-
+                    //Conectamos con el servidor
                     IPAddress direc = IPAddress.Parse(ip);
                     IPEndPoint ipep = new IPEndPoint(direc, puerto);
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -640,6 +650,7 @@ namespace ProyectoSO2
             server.Shutdown(SocketShutdown.Both);
             server.Close();
             MessageBox.Show("Te has desconectado");
+            //Desactivacion y activacion de los botones correspondientes
             Mensaje.Enabled = false;
             Enviar.Enabled = false;
             Desconexion.Enabled = false;

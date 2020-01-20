@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-#include <my_global.h>
+//#include <my_global.h>
 
 
 //En este apartado realizamos la definicion de las estructuras y las variables del servidor
@@ -183,7 +183,8 @@ MYSQL *ConexionBaseDatos() 			//Funcion para abrir la conexion de la base de dat
 				mysql_errno(conn), mysql_error(conn));
 		exit (1);
 	}
-	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "TG3Pokemon",0, NULL, 0);
+	conn = mysql_real_connect (conn, "localhost","root", "mysql", "TG3Pokemon",0, NULL, 0);
+	//conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "TG3Pokemon",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n", 
 				mysql_errno(conn), mysql_error(conn));
@@ -535,7 +536,7 @@ void BroadCast(ListaUsuarios *lista,char notificacion[200])
 		c = c + 1;
 	}
 }
-void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID)//Funcion para salir de una partida
+void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, char usuario[20], int ID, int salida)//Funcion para salir de una partida
 {
 	int i = 0;
 	int found = 0;
@@ -561,7 +562,7 @@ void SalirPartida(ListaPartidas *listapartida, ListaUsuarios *listaconectados, c
 		if (socketpropio != socketreceptor)
 		{
 			strcpy(receptor, listapartida->Partidas[index].Usuarios.Usuarios[c].nickname);
-			sprintf(buffer,"12:%d-%s",ID,usuario);
+			sprintf(buffer,"12:%d-%s-%d",ID,usuario,salida);
 			write(socketreceptor,buffer, strlen(buffer));
 			
 		}
@@ -839,9 +840,6 @@ int RegistrarPartida2(char mensaje[500], int IDPartida) //Funcion que registra u
 		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
 		conterror++;;
 	}
-	else
-		printf("Registro de datos de partida completo\n");
-	
 	
 	
 	//Tabla de Relaci???n ****************************************************************************************
@@ -858,8 +856,6 @@ int RegistrarPartida2(char mensaje[500], int IDPartida) //Funcion que registra u
 		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
 		conterror++;
 	}
-	else
-		printf("Registro de datos de partida completo\n");
 	
 	
 	//Perdedor
@@ -872,11 +868,6 @@ int RegistrarPartida2(char mensaje[500], int IDPartida) //Funcion que registra u
 		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
 		conterror++;
 	}
-	else
-		printf("Registro de datos de partida completo\n");
-	
-	
-	
 	
 	//Tabla de Players solo para el Ganador ****************************************************************************************
 	error = ObtenerIdJugador (Ganador,respuesta);
@@ -896,15 +887,13 @@ int RegistrarPartida2(char mensaje[500], int IDPartida) //Funcion que registra u
 		printf ("Error al introducir datos la base %u %s\n", mysql_errno(conn), mysql_error(conn));
 		conterror++;
 	}
-	else
-		printf("Registro de datos de partida completo\n");
-	
 	if(conterror != 0)
 	{
 		return 1;
 	}
 	else
 	{
+		printf("Registro de datos de partida completo\n");
 		return 0;
 	}
 }
@@ -1054,11 +1043,13 @@ void *AtenderCliente( void *socket)			//Funcion que tiene que hacer el thread (c
 		if (codigo == 11) //Jugador sale de Partida y se registran los datos de la partida
 		{
 			p = strtok(mensaje, ",");
+			int salida=atoi(p);
+			p = strtok(NULL,",");
 			int IDPartida = atoi(p);
 			p = strtok(NULL,",");
 			char mensaje[200];
 			strcpy(mensaje,p);
-			SalirPartida(&Listapartidas,&ListaConectados,mensaje,IDPartida);
+			SalirPartida(&Listapartidas,&ListaConectados,mensaje,IDPartida,salida);
 			pthread_mutex_lock(&mutex);
 			int error = EliminarPartida(&Listapartidas,IDPartida);
 			pthread_mutex_unlock(&mutex);
@@ -1154,7 +1145,7 @@ int main(int argc, char *argv[]) //Funcion que ejecuta y pone en funcionamiento 
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(50057);
+	int sock_listen = ConexionSocket(9053);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];
@@ -1169,6 +1160,8 @@ int main(int argc, char *argv[]) //Funcion que ejecuta y pone en funcionamiento 
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 	}
 }
+
+
 
 
 

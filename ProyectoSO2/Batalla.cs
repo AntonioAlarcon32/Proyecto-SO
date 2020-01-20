@@ -257,9 +257,9 @@ namespace ProyectoSO2
 
         private void SpawnPokemon1(Pokemon Poke)
         {   //Hace que aparezca el pokemon en el hueco del jugador 1, ademas hace aparecer los botones
-            panel1.Controls.Remove(SpritePokemon1);
             SpritePokemon1.ClientSize = new Size(140, 140);
             SpritePokemon1.Location = new Point(50,140);
+            SpritePokemon1.Visible = true;
 
             Bitmap image4 = new Bitmap(directorio + "\\Sprites\\" + Poke.Nombre + "Back.gif");                             //Cogemos el icono
             SpritePokemon1.Image = (Image)image4;
@@ -345,6 +345,7 @@ namespace ProyectoSO2
 
             SpritePokemon2.ClientSize = new Size(100, 100);
             SpritePokemon2.Location = new Point(310, 80);
+            SpritePokemon2.Visible = true;
             Bitmap image = new Bitmap(directorio + "\\Sprites\\" + poke.Nombre + ".gif");
             SpritePokemon2.Image = (Image)image;
             int h = 100 - image.Height;
@@ -400,7 +401,6 @@ namespace ProyectoSO2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            IDLabel.Text = Convert.ToString(ID);
             ChatData.ColumnCount = 2;
             PokemonLuchando1 = EquipoJugador1.GetPokemon(0);
             PokemonLuchando2 = EquipoJugador2.GetPokemon(0);
@@ -517,7 +517,7 @@ namespace ProyectoSO2
             Ganador = Jugador2;
             Perdedor = Jugador1;
             PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
-            string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
+            string mensaje = "11/" + "2" + "," + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje); 
             Server.Send(msg);
             this.Close();
@@ -590,8 +590,7 @@ namespace ProyectoSO2
 
         private void timer_Tick(object sender, EventArgs e)
         {       //Timer que controla los turnos y ejecuta las ordenes
-            contador = contador + 1;
-            counter.Text = Convert.ToString(contador);
+            contador = contador + 1;           
             bool Recibido = bt.OrdenesRecibidas();
             if (contador == 1)
                 PreMatch(EquipoJugador1, Jugador1, EquipoJugador2, Jugador2);       
@@ -813,7 +812,8 @@ namespace ProyectoSO2
                 Orden2Done = false;
                 if (PokemonLuchando1.PSactuales <= 0)
                 {
-                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro";//Si uno se debilita obliga a cambiar al otro
+                    SpritePokemon1.Visible = false;
+                    Notif.Text = "Tu Pokemon se ha debilitado, selecciona otro"; //Si uno se debilita obliga a cambiar al otro
                     debilitado = true;
                     if (numPokemonLuchandoPlayer1 == 0)
                     {
@@ -830,6 +830,7 @@ namespace ProyectoSO2
                 }
                 if (PokemonLuchando2.PSactuales <= 0)
                 {
+                    SpritePokemon2.Visible = false;
                     if (numPokemonLuchandoPlayer2 == 0)
                     {
                         pokeball4.Image = (Image)pokeballdebilitado;
@@ -860,7 +861,7 @@ namespace ProyectoSO2
                     string Ganador;
                     string Perdedor;
                     int PokemonsRestantes;
-                    DateTime thisDay = DateTime.Today;
+                    DateTime thisDay = DateTime.Today; //Fecha de hoy obtenida del programa
                     string date = thisDay.ToString("d");
                     string[] fecha = date.Split('/');
                     string dia = fecha[0];
@@ -880,7 +881,7 @@ namespace ProyectoSO2
                         PokemonsRestantes = EquipoJugador1.PokemonsRestantes();
                     }
                     
-                    string mensaje = "11/" + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
+                    string mensaje = "11/" + "1" + "," + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     Server.Send(msg);
                     this.Close();

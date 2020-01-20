@@ -33,3 +33,4 @@ C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\PokemonBattle.csproj.C
 C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\PokemonBattle.exe
 C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\PokemonBattle.pdb
 C:\Users\anton\Desktop\ProyectoSO2\ProyectoSO2\obj\Debug\PokemonBattle.Creditos.resources
+C:\Users\Marc\Documents\Proyecto-SO\ProyectoSO2\obj\Debug\PokemonBattle.Creditos.resources
