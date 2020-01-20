@@ -25,6 +25,8 @@ namespace ProyectoSO2
         Bitmap pokeballdebilitado = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\pokeballblanco.png"); 
         Bitmap HealthBar = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\healthbar.png");
         Bitmap FondoNotif = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\Dialog.png");
+        Bitmap BotonCambiar = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\cambio.png");
+        Bitmap BotonHuir = new Bitmap(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\UI\\run.png");
 
         //Elegimos cancion aleatoriamente
         static Random rand = new Random();
@@ -83,6 +85,8 @@ namespace ProyectoSO2
             Fondo.Image = (Image)FondoNotif;
             this.Icon = iconopokeball;
             this.Text = "Batalla " + Convert.ToString(ID);
+            Huir.Image = (Image)BotonHuir;
+            CambiarPokemons.Image = (Image)BotonCambiar;
         }
         public void EscribirMensaje(string contenido)
         {   //Funcion que escribe el mensaje que le entra en el chat
@@ -422,16 +426,6 @@ namespace ProyectoSO2
             Jug1.Text = Jugador1;
             Jug2.Text = Jugador2;
         }
-
-        private void CambiarPokemon_Click(object sender, EventArgs e)  
-        {
-            if (bt.GetAllowAttack() == true)
-            {
-                CambiandoPoke = true;
-                Notif.Text = "Selecciona el Pokemon al que cambiar";
-            }
-        }
-
         private void pokeball1_Click(object sender, EventArgs e)
         {
             if (debilitado == true)
@@ -500,27 +494,6 @@ namespace ProyectoSO2
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             Server.Send(msg);
             MensajeChat.Clear();
-        }
-
-        private void Abandonar_Click(object sender, EventArgs e)
-        {
-            string Ganador;
-            string Perdedor;
-            int PokemonsRestantes;
-            DateTime thisDay = DateTime.Today;
-            string date = thisDay.ToString("d");
-            string[] fecha = date.Split('/');       //Datos necesarios para la base de datos
-            string dia = fecha[0];
-            string mes = fecha[1];
-            string año = fecha[2];
-            string date2 = dia + "." + mes + "." + año;
-            Ganador = Jugador2;
-            Perdedor = Jugador1;
-            PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
-            string mensaje = "11/" + "2" + "," + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje); 
-            Server.Send(msg);
-            this.Close();
         }
 
         private void Mov1_Click(object sender, EventArgs e)
@@ -854,13 +827,11 @@ namespace ProyectoSO2
                 if (EquipoJugador1.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has perdido, finalizando partida";
-                    Abandonar.Enabled = false;
                 }
                 if (EquipoJugador2.PokemonsRestantes() == 0)
                 {
                     Notif.Text = "Has ganado, finalizando partida";
                     PartidaGanada = true;
-                    Abandonar.Enabled = false;
                     MessageBox.Show("Has ganado, finalizando partida");
                 }
                 label1.Text = Convert.ToString(bt.GetTurnos());     //El que gana envia los datos al servidor para guardar la partida
@@ -896,6 +867,36 @@ namespace ProyectoSO2
                     PartidaGanada = false;
                 }
             }
+        }
+
+        private void CambiarPokemons_Click(object sender, EventArgs e)
+        {
+            if (bt.GetAllowAttack() == true)
+            {
+                CambiandoPoke = true;
+                Notif.Text = "Selecciona el Pokemon al que cambiar";
+            }
+        }
+
+        private void Huir_Click(object sender, EventArgs e)
+        {
+            string Ganador;
+            string Perdedor;
+            int PokemonsRestantes;
+            DateTime thisDay = DateTime.Today;
+            string date = thisDay.ToString("d");
+            string[] fecha = date.Split('/');       //Datos necesarios para la base de datos
+            string dia = fecha[0];
+            string mes = fecha[1];
+            string año = fecha[2];
+            string date2 = dia + "." + mes + "." + año;
+            Ganador = Jugador2;
+            Perdedor = Jugador1;
+            PokemonsRestantes = EquipoJugador2.PokemonsRestantes();
+            string mensaje = "11/" + "2" + "," + Convert.ToString(ID) + "," + Jugador1 + "," + "2" + "," + date2 + "," + Convert.ToString(bt.GetTurnos()) + "," + Ganador + "," + Perdedor + "," + Convert.ToString(PokemonsRestantes);
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            Server.Send(msg);
+            this.Close();
         }
 
         private void Batalla_FormClosing(object sender, FormClosingEventArgs e)
