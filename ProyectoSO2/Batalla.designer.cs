@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.Jug1 = new System.Windows.Forms.Label();
             this.Jug2 = new System.Windows.Forms.Label();
@@ -66,6 +66,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CambiarPokemons = new System.Windows.Forms.PictureBox();
             this.Huir = new System.Windows.Forms.PictureBox();
+            this.CAMBIOTEXT = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Mov4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mov3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mov2)).BeginInit();
@@ -148,6 +149,7 @@
             this.Mov1Text.TabIndex = 36;
             this.Mov1Text.Text = "Mov1Text";
             this.Mov1Text.Visible = false;
+            this.Mov1Text.Click += new System.EventHandler(this.Mov1_Click);
             // 
             // Mov2Text
             // 
@@ -159,6 +161,7 @@
             this.Mov2Text.TabIndex = 37;
             this.Mov2Text.Text = "Mov2Text";
             this.Mov2Text.Visible = false;
+            this.Mov2Text.Click += new System.EventHandler(this.Mov2_Click);
             // 
             // Mov3Text
             // 
@@ -170,6 +173,7 @@
             this.Mov3Text.TabIndex = 38;
             this.Mov3Text.Text = "Mov3Text";
             this.Mov3Text.Visible = false;
+            this.Mov3Text.Click += new System.EventHandler(this.Mov3_Click);
             // 
             // Mov4Text
             // 
@@ -181,6 +185,7 @@
             this.Mov4Text.TabIndex = 39;
             this.Mov4Text.Text = "Mov4Text";
             this.Mov4Text.Visible = false;
+            this.Mov4Text.Click += new System.EventHandler(this.Mov4_Click);
             // 
             // PPMov1
             // 
@@ -192,6 +197,7 @@
             this.PPMov1.TabIndex = 40;
             this.PPMov1.Text = "PPMOV1";
             this.PPMov1.Visible = false;
+            this.PPMov1.Click += new System.EventHandler(this.Mov1_Click);
             // 
             // PPMov2
             // 
@@ -203,6 +209,7 @@
             this.PPMov2.TabIndex = 41;
             this.PPMov2.Text = "PPMOV2";
             this.PPMov2.Visible = false;
+            this.PPMov2.Click += new System.EventHandler(this.Mov2_Click);
             // 
             // PPMov3
             // 
@@ -214,6 +221,7 @@
             this.PPMov3.TabIndex = 42;
             this.PPMov3.Text = "PPMOV3";
             this.PPMov3.Visible = false;
+            this.PPMov3.Click += new System.EventHandler(this.Mov3_Click);
             // 
             // PPMov4
             // 
@@ -225,6 +233,7 @@
             this.PPMov4.TabIndex = 43;
             this.PPMov4.Text = "PPMOV4";
             this.PPMov4.Visible = false;
+            this.PPMov4.Click += new System.EventHandler(this.Mov4_Click);
             // 
             // Mov4
             // 
@@ -388,8 +397,8 @@
             this.ChatData.Name = "ChatData";
             this.ChatData.RowHeadersVisible = false;
             this.ChatData.RowHeadersWidth = 82;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ChatData.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ChatData.RowTemplate.Height = 33;
             this.ChatData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ChatData.Size = new System.Drawing.Size(489, 695);
@@ -441,6 +450,18 @@
             this.Huir.TabStop = false;
             this.Huir.Click += new System.EventHandler(this.Huir_Click);
             // 
+            // CAMBIOTEXT
+            // 
+            this.CAMBIOTEXT.AutoSize = true;
+            this.CAMBIOTEXT.BackColor = System.Drawing.Color.Transparent;
+            this.CAMBIOTEXT.Location = new System.Drawing.Point(1224, 479);
+            this.CAMBIOTEXT.Name = "CAMBIOTEXT";
+            this.CAMBIOTEXT.Size = new System.Drawing.Size(148, 25);
+            this.CAMBIOTEXT.TabIndex = 55;
+            this.CAMBIOTEXT.Text = "CAMBIOTEXT";
+            this.CAMBIOTEXT.Visible = false;
+            this.CAMBIOTEXT.Click += new System.EventHandler(this.CambiarPokemons_Click);
+            // 
             // Batalla
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -448,6 +469,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1924, 912);
             this.ControlBox = false;
+            this.Controls.Add(this.CAMBIOTEXT);
             this.Controls.Add(this.Huir);
             this.Controls.Add(this.CambiarPokemons);
             this.Controls.Add(this.label2);
@@ -545,6 +567,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox CambiarPokemons;
         private System.Windows.Forms.PictureBox Huir;
+        private System.Windows.Forms.Label CAMBIOTEXT;
     }
 }
 

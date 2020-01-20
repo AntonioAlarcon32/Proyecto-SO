@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-//#include <my_global.h>
+#include <my_global.h>
 
 
 //En este apartado realizamos la definicion de las estructuras y las variables del servidor
@@ -183,7 +183,7 @@ MYSQL *ConexionBaseDatos() 			//Funcion para abrir la conexion de la base de dat
 				mysql_errno(conn), mysql_error(conn));
 		exit (1);
 	}
-	conn = mysql_real_connect (conn, "localhost","root", "mysql", "TG3Pokemon",0, NULL, 0);
+	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "TG3Pokemon",0, NULL, 0);
 	//conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "TG3Pokemon",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n", 
@@ -1145,7 +1145,7 @@ int main(int argc, char *argv[]) //Funcion que ejecuta y pone en funcionamiento 
 {
 	InicializarLista(&ListaConectados);
 	conn = ConexionBaseDatos();
-	int sock_listen = ConexionSocket(9053);
+	int sock_listen = ConexionSocket(50057);
 	int sock_conn, ret;
 	char entrada[512];
 	char salida[512];

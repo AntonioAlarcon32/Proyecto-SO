@@ -87,6 +87,13 @@ namespace ProyectoSO2
             this.Text = "Batalla " + Convert.ToString(ID);
             Huir.Image = (Image)BotonHuir;
             CambiarPokemons.Image = (Image)BotonCambiar;
+            CAMBIOTEXT.Font = new Font(pfc.Families[0], 10, FontStyle.Regular);
+            CAMBIOTEXT.ForeColor = Color.White;
+            CAMBIOTEXT.Text = "Cambiar Pokémon";
+            CAMBIOTEXT.Parent = CambiarPokemons;
+            CAMBIOTEXT.Location = new Point(CambiarPokemons.Width / 2 - CAMBIOTEXT.Width / 2, CambiarPokemons.Height / 2);
+            CAMBIOTEXT.BringToFront();
+            CAMBIOTEXT.Visible = true;
         }
         public void EscribirMensaje(string contenido)
         {   //Funcion que escribe el mensaje que le entra en el chat
