@@ -611,9 +611,17 @@ namespace ProyectoSO2
             }
             if (Recibido == true)
             {
+<<<<<<< HEAD
                 if (Procesado == false)
                 {
                     ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+=======
+                string[] ordenes = new string[8];
+                if (Procesado == false)
+                {
+                    ordenes = bt.ProcesarOrdenes(EquipoJugador1, EquipoJugador2, PokemonLuchando1, PokemonLuchando2);
+                    Procesado = true;
+>>>>>>> 0a6b6cdd9c8c74f59b6ea15075c713bf52153734
                 }
                 if ((ordenes[0] == "Cambio") && (ordenes[1] == "Cambio"))
                 {
@@ -808,6 +816,7 @@ namespace ProyectoSO2
                 bt.IncreaseTurno();
                 bt.ResetOrders();
                 bt.InicioTurno();
+                Procesado = false;
                 Notif.Text = "Elige una accion";
                 Orden1Done = false;
                 Orden2Done = false;
