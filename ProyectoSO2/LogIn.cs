@@ -53,7 +53,7 @@ namespace ProyectoSO2
         delegate void DelegadoActivarInvitacion();
 
         private Pokemon SearchPokemon(string pok)
-        {
+        {       //Retorna un pokemon con el nombre que se ll da
             bool encontrado = false;
             int i = 0;
             while (!encontrado)
